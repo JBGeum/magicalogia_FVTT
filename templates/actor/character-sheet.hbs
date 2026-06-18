@@ -1,0 +1,15 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <section class="sheet-body">
+    <div class="resource">
+      <label>{{localize "MAGICALOGIA.actor.health"}}</label>
+      <input type="number" name="system.health.value" value="{{system.health.value}}" />
+      <span>/</span>
+      <input type="number" name="system.health.max" value="{{system.health.max}}" />
+    </div>
+
+    <div class="biography">
+      <label>{{localize "MAGICALOGIA.actor.biography"}}</label>
+      {{editor enrichedBiography target="system.biography" button=true editable=editable}}
+    </div>
+  </section>
+</form>
