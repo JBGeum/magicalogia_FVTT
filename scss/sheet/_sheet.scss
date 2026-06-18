@@ -1,0 +1,14 @@
+// 시트 공통 레이아웃 골격.
+.magicalogia.sheet {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .resource {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+}
