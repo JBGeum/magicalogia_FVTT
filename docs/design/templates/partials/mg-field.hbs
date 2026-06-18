@@ -1,0 +1,8 @@
+{{!-- partial: mg-field — labelled, underlined value row
+     usage: {{> mg-field mark="❖" label="마법명" name="system.magicName" value=system.magicName}} --}}
+<label class="mg-field">
+  <span class="mg-field__mark">{{mark}}</span>
+  <span class="mg-field__label">{{label}}</span>
+  <input class="mg-field__value {{#unless value}}mg-field__value--empty{{/unless}}"
+         type="text" name="{{name}}" value="{{value}}" placeholder="—">
+</label>

@@ -1,0 +1,79 @@
+// =============================================================
+//  마기카로기아 (Magicalogia) — Foundry VTT Actor Sheet
+//  Design Tokens
+//
+//  Theming model:
+//   - Two themes are exposed as classes on the sheet root:
+//       .magicalogia.theme-dark   → 마법진 바이올렛 (Arcane Violet)
+//       .magicalogia.theme-light  → 장서 양피지     (Grimoire Parchment)
+//   - Each theme only re-declares CSS custom properties (--mg-*).
+//     Every component reads those properties, so a single class
+//     swap re-skins the whole sheet.
+// =============================================================
+
+// ---- Structural tokens (theme-independent) ----
+$mg-font-body:     'Nanum Myeongjo', serif;   // body / labels / values
+$mg-font-display:  'Gowun Batang', serif;     // numerals, masthead, headings
+$mg-font-latin:    'Cinzel', serif;           // latin small-caps accents
+
+$mg-radius:        3px;
+$mg-radius-sm:     2px;
+
+$mg-row-h:         22px;   // magic-chart data row height
+$mg-head-h:        36px;   // magic-chart column-header height
+$mg-sheet-w:       720px;  // default Foundry window width (layout C)
+$mg-pad:           16px;   // body padding (v) / 18px (h)
+
+// ---- Theme palettes (CSS custom properties) ----
+.magicalogia {
+
+  // ===== DARK — 마법진 바이올렛 (Arcane Violet) =====
+  &.theme-dark {
+    --mg-paper:      radial-gradient(120% 80% at 50% 0%, #271745 0%, #170e2c 72%);
+    --mg-panel:      #231640;
+    --mg-panel-2:    #2c1c50;
+    --mg-ink:        #f1e9ff;   // primary text
+    --mg-soft:       #c3b0ec;   // labels / secondary
+    --mg-faint:      #7d6aa8;   // placeholders / empty
+    --mg-bar:        linear-gradient(180deg, #4a2c84, #321f5e); // masthead/section bars
+    --mg-bar-ink:    #f0e3b8;   // text on bars
+    --mg-gold:       #e0c074;   // metallic accent / values / rules
+    --mg-line:       rgba(224, 192, 116, 0.26);
+    --mg-field:      #2a1b4c;   // input field background
+    --mg-field-ink:  #ece2ff;
+    --mg-hi:         rgba(224, 192, 116, 0.18); // checked-row highlight
+    --mg-check:      #e0c074;   // checkbox fill
+    --mg-dark-ink:   #a98fd0;   // 어둠(저주) column text
+
+    // Decorative background — concentric arcane seal + violet glow
+    --mg-deco:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='440' viewBox='0 0 440 440'><g fill='none' stroke='%23e0c074' stroke-opacity='0.5'><circle cx='220' cy='220' r='168' stroke-width='1.5'/><circle cx='220' cy='220' r='146'/><circle cx='220' cy='220' r='100'/><rect x='96' y='96' width='248' height='248' transform='rotate(45 220 220)'/><rect x='116' y='116' width='208' height='208'/></g></svg>")
+        no-repeat center 40px / 460px 460px,
+      radial-gradient(700px 480px at 50% 30%, rgba(74, 44, 132, 0.5), transparent 70%);
+  }
+
+  // ===== LIGHT — 장서 양피지 (Grimoire Parchment) =====
+  &.theme-light {
+    --mg-paper:      radial-gradient(130% 90% at 50% 0%, #f1e7cc 0%, #e6d8b6 75%);
+    --mg-panel:      #e8dabb;
+    --mg-panel-2:    #ddcca1;
+    --mg-ink:        #3a2c18;
+    --mg-soft:       #6e5a38;
+    --mg-faint:      #9c8a64;
+    --mg-bar:        linear-gradient(180deg, #6a4a2c, #4f3520);
+    --mg-bar-ink:    #f1e4c4;
+    --mg-gold:       #9a7430;
+    --mg-line:       rgba(90, 61, 36, 0.34);
+    --mg-field:      #f5eed9;
+    --mg-field-ink:  #3a2c18;
+    --mg-hi:         rgba(154, 116, 48, 0.20);
+    --mg-check:      #7a5524;
+    --mg-dark-ink:   #9c5a3a;
+
+    // Decorative background — aged paper grain + vignette
+    --mg-deco:
+      repeating-linear-gradient(112deg, rgba(90, 61, 36, 0.05) 0 2px, transparent 2px 8px),
+      repeating-linear-gradient(28deg,  rgba(90, 61, 36, 0.04) 0 2px, transparent 2px 9px),
+      radial-gradient(150% 130% at 50% -15%, transparent 58%, rgba(60, 40, 20, 0.20));
+  }
+}

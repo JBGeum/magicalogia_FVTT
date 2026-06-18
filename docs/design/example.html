@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마기카로기아 액터 시트 — 디자인 레퍼런스 (다크/라이트)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   COMPILED REFERENCE CSS (mirror of styles/*.scss).
+   The .scss files in /styles are the source of truth; this is
+   inlined so the file opens stand-alone. Theme = root class.
+   ============================================================ */
+*{box-sizing:border-box}
+body{margin:0;background:#e7e5df;font-family:'Nanum Myeongjo',serif}
+.canvas{width:max-content;min-width:100%;min-height:100vh;padding:48px;display:flex;gap:48px;align-items:flex-start}
+.frame{flex:none;width:720px}
+.frame__label{margin-bottom:12px}
+.frame__label b{font-family:'Gowun Batang',serif;font-size:16px;color:#2a2620}
+.frame__label span{font-size:13px;color:#3a352e;font-weight:700;margin-left:8px}
+.frame__label em{font-size:12px;color:#8a8276;font-style:normal;margin-left:8px}
+.frame__card{border-radius:2px;box-shadow:0 2px 16px rgba(0,0,0,.2);overflow:hidden}
+
+/* ---- theme palettes ---- */
+.magicalogia.theme-dark{
+  --mg-paper:radial-gradient(120% 80% at 50% 0%,#271745 0%,#170e2c 72%);--mg-panel:#231640;--mg-panel-2:#2c1c50;
+  --mg-ink:#f1e9ff;--mg-soft:#c3b0ec;--mg-faint:#7d6aa8;--mg-bar:linear-gradient(180deg,#4a2c84,#321f5e);
+  --mg-bar-ink:#f0e3b8;--mg-gold:#e0c074;--mg-line:rgba(224,192,116,.26);--mg-field:#2a1b4c;--mg-field-ink:#ece2ff;
+  --mg-hi:rgba(224,192,116,.18);--mg-check:#e0c074;--mg-dark-ink:#a98fd0;
+  --mg-deco:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='440' viewBox='0 0 440 440'><g fill='none' stroke='%23e0c074' stroke-opacity='0.5'><circle cx='220' cy='220' r='168' stroke-width='1.5'/><circle cx='220' cy='220' r='146'/><circle cx='220' cy='220' r='100'/><rect x='96' y='96' width='248' height='248' transform='rotate(45 220 220)'/><rect x='116' y='116' width='208' height='208'/></g></svg>") no-repeat center 40px/460px 460px,radial-gradient(700px 480px at 50% 30%,rgba(74,44,132,.5),transparent 70%);
+}
+.magicalogia.theme-light{
+  --mg-paper:radial-gradient(130% 90% at 50% 0%,#f1e7cc 0%,#e6d8b6 75%);--mg-panel:#e8dabb;--mg-panel-2:#ddcca1;
+  --mg-ink:#3a2c18;--mg-soft:#6e5a38;--mg-faint:#9c8a64;--mg-bar:linear-gradient(180deg,#6a4a2c,#4f3520);
+  --mg-bar-ink:#f1e4c4;--mg-gold:#9a7430;--mg-line:rgba(90,61,36,.34);--mg-field:#f5eed9;--mg-field-ink:#3a2c18;
+  --mg-hi:rgba(154,116,48,.20);--mg-check:#7a5524;--mg-dark-ink:#9c5a3a;
+  --mg-deco:repeating-linear-gradient(112deg,rgba(90,61,36,.05) 0 2px,transparent 2px 8px),repeating-linear-gradient(28deg,rgba(90,61,36,.04) 0 2px,transparent 2px 9px),radial-gradient(150% 130% at 50% -15%,transparent 58%,rgba(60,40,20,.20));
+}
+
+/* ---- shell ---- */
+.magicalogia{position:relative;overflow:hidden;width:100%;font-family:'Nanum Myeongjo',serif;line-height:1.35;color:var(--mg-ink);background:var(--mg-paper);border:1px solid var(--mg-gold)}
+.magicalogia::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:var(--mg-deco)}
+.magicalogia .mg-content{position:relative;z-index:1}
+.mg-masthead{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;background:var(--mg-bar);border-bottom:2px solid var(--mg-gold)}
+.mg-masthead__eyebrow{font-size:10px;letter-spacing:.34em;color:var(--mg-gold);margin-bottom:3px}
+.mg-masthead__title{font-family:'Gowun Batang',serif;font-size:28px;font-weight:700;letter-spacing:.07em;color:var(--mg-bar-ink)}
+.mg-masthead__latin{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.32em;color:var(--mg-gold);margin-left:11px}
+.mg-masthead__sigil{font-size:30px;line-height:1;color:var(--mg-gold);opacity:.55}
+.mg-tabs{display:flex;align-items:stretch;gap:2px;padding:0 12px;background:var(--mg-panel-2);border-bottom:1px solid var(--mg-line)}
+.mg-tab{padding:9px 15px;font-size:13px;letter-spacing:.04em;white-space:nowrap;color:var(--mg-soft);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.mg-tab.is-active{color:var(--mg-bar-ink);font-weight:700;border-bottom-color:var(--mg-gold)}
+.mg-tab.is-disabled{color:var(--mg-faint);opacity:.55;cursor:default}
+.mg-main{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+
+/* ---- layout C ---- */
+.mg-headband{display:grid;grid-template-columns:118px 1fr 132px;gap:14px;align-items:start}
+.mg-identity-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px 16px}
+.mg-identity-grid .mg-field--wide{grid-column:1/-1}
+.mg-statrail{display:flex;flex-direction:column;gap:6px}
+.mg-counter-row{display:flex;gap:6px}
+.mg-shared{display:flex;flex-direction:column;gap:14px}
+.mg-belowgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+
+/* ---- components ---- */
+.mg-field{display:flex;align-items:baseline;gap:7px;padding:3px 0;border-bottom:1px solid var(--mg-line)}
+.mg-field__mark{font-size:10px;color:var(--mg-gold);flex:none}
+.mg-field__label{font-size:11.5px;color:var(--mg-soft);white-space:nowrap}
+.mg-field__value{flex:1;min-width:0;font-size:12.5px;color:var(--mg-field-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mg-field__value--empty{color:var(--mg-faint)}
+.mg-field__value--accent{color:var(--mg-gold);font-weight:700}
+.mg-field__value--strong{color:var(--mg-ink);font-weight:700}
+.mg-field__dots{display:flex;gap:4px}
+.mg-dot{width:13px;height:13px;border-radius:50%;border:1px solid var(--mg-line)}
+.mg-stat-row{display:flex;gap:6px}
+.mg-stat{flex:1;text-align:center;padding:3px 0;background:var(--mg-field);border:1px solid var(--mg-line);border-radius:2px}
+.mg-stat__label{font-size:9.5px;color:var(--mg-soft)}
+.mg-stat__value{font-family:'Gowun Batang',serif;font-size:16px;font-weight:700;color:var(--mg-ink)}
+.mg-stat--rank .mg-stat__value{color:var(--mg-gold)}
+.mg-gauge{display:flex;align-items:center;gap:6px;padding:5px 9px;background:var(--mg-field);border:1px solid var(--mg-line);border-radius:2px}
+.mg-gauge__icon{color:var(--mg-gold);font-size:11px}
+.mg-gauge__label{font-size:11px;color:var(--mg-soft)}
+.mg-gauge__value{margin-left:auto;font-family:'Gowun Batang',serif;font-size:15px;color:var(--mg-ink)}
+.mg-gauge__sep{color:var(--mg-soft);font-size:12px}
+.mg-gauge__max{font-family:'Gowun Batang',serif;font-size:15px;color:var(--mg-gold)}
+.mg-counter{flex:1;display:flex;flex-direction:column;align-items:center;padding:4px 0;background:var(--mg-field);border:1px solid var(--mg-line);border-radius:2px}
+.mg-counter__label{font-size:9.5px;color:var(--mg-soft)}
+.mg-counter__value{font-family:'Gowun Batang',serif;font-size:15px;font-weight:700;color:var(--mg-gold)}
+.mg-status{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:6px 11px;background:var(--mg-field);border:1px solid var(--mg-line);border-radius:2px}
+.mg-status__title{font-size:11.5px;color:var(--mg-soft)}
+.mg-status__title .mark{color:var(--mg-gold);margin-right:5px}
+.mg-status__list{display:flex;flex-wrap:wrap;gap:4px 9px}
+.mg-status__chip{font-size:11.5px;color:var(--mg-faint)}
+.mg-status__chip.is-active{color:var(--mg-gold);font-weight:700}
+.mg-portrait{position:relative;width:100%;aspect-ratio:1/1.05;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--mg-panel);border:1px solid var(--mg-gold);border-radius:3px;overflow:hidden}
+.mg-portrait__glyph{font-size:32px;line-height:1;color:var(--mg-faint)}
+.mg-portrait__hint{font-size:9.5px;letter-spacing:.2em;color:var(--mg-faint)}
+.mg-corner{position:absolute;width:12px;height:12px}
+.mg-corner--tl{top:6px;left:6px;border-top:2px solid var(--mg-gold);border-left:2px solid var(--mg-gold)}
+.mg-corner--tr{top:6px;right:6px;border-top:2px solid var(--mg-gold);border-right:2px solid var(--mg-gold)}
+.mg-corner--bl{bottom:6px;left:6px;border-bottom:2px solid var(--mg-gold);border-left:2px solid var(--mg-gold)}
+.mg-corner--br{bottom:6px;right:6px;border-bottom:2px solid var(--mg-gold);border-right:2px solid var(--mg-gold)}
+.mg-memo{position:relative;min-height:120px;padding:24px 12px 12px;background:var(--mg-panel);border:1px solid var(--mg-line);border-radius:3px}
+.mg-memo__label{position:absolute;top:7px;left:11px;font-size:10.5px;letter-spacing:.24em;color:var(--mg-faint)}
+.mg-subtabs{display:flex;gap:3px;margin-bottom:-8px}
+.mg-subtab{padding:5px 16px;font-size:12.5px;letter-spacing:.06em;border-radius:2px 2px 0 0;border:1px solid var(--mg-line);border-bottom:0;background:var(--mg-panel-2);color:var(--mg-faint);cursor:pointer}
+.mg-subtab.is-active{background:var(--mg-bar);color:var(--mg-bar-ink);font-weight:700;border-color:var(--mg-gold)}
+.mg-banner{display:flex;align-items:center;gap:10px}
+.mg-banner__rule{flex:1;height:1px}
+.mg-banner__rule--l{background:linear-gradient(90deg,transparent,var(--mg-gold))}
+.mg-banner__rule--r{background:linear-gradient(90deg,var(--mg-gold),transparent)}
+.mg-banner--inline .mg-banner__label{background:none;border:0;padding:0;font-size:12.5px;letter-spacing:.1em;font-family:'Gowun Batang',serif;font-weight:700;color:var(--mg-bar-ink)}
+.mg-tables{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:5px}
+.mg-tablecard{display:flex;flex-direction:column}
+.mg-tablecard__head{padding:3px;text-align:center;font-size:10.5px;font-weight:700;color:var(--mg-bar-ink);background:var(--mg-panel-2);border:1px solid var(--mg-line)}
+.mg-tablecard__body{padding:4px 7px;text-align:center;font-size:12px;color:var(--mg-field-ink);background:var(--mg-field);border:1px solid var(--mg-line);border-top:0}
+.mg-tablecard__body--roll{font-family:'Gowun Batang',serif;font-size:13px;color:var(--mg-ink)}
+.mg-tablecard__body--btn{color:var(--mg-gold)}
+.mg-tablecard__body--select{display:flex;justify-content:space-between;align-items:center}
+.mg-tablecard .caret{color:var(--mg-gold)}
+.mg-check{width:13px;height:13px;flex:none;border-radius:2px;border:1px solid var(--mg-line);display:inline-flex;align-items:center;justify-content:center;font-size:8px}
+.mg-check.is-on{background:var(--mg-check);border-color:var(--mg-check);color:var(--mg-panel)}
+
+/* ---- magic chart ---- */
+.mg-chart{background:var(--mg-panel);border:1px solid var(--mg-gold);border-radius:3px;overflow:hidden}
+.mg-chart__grid{display:flex}
+.mg-chart__index{width:30px;flex:none;display:flex;flex-direction:column}
+.mg-chart__index .mg-chart__head{justify-content:center}
+.mg-chart__index-cell{height:22px;border-top:1px solid var(--mg-line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--mg-soft);font-variant-numeric:tabular-nums}
+.mg-chart__col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;border-left:1px solid var(--mg-gold)}
+.mg-chart__head{height:36px;display:flex;align-items:center;justify-content:center;gap:5px;background:var(--mg-panel-2);border-bottom:2px solid var(--mg-gold)}
+.mg-chart__head .num{font-size:9px;color:var(--mg-soft)}
+.mg-chart__head .title{font-size:14px;font-weight:700;letter-spacing:.05em;color:var(--mg-bar-ink)}
+.mg-chart__cell{position:relative;height:22px;display:flex;align-items:center;gap:5px;padding:0 7px;border-top:1px solid var(--mg-line)}
+.mg-chart__cell.is-on::after{content:"";position:absolute;inset:0;background:var(--mg-hi);pointer-events:none}
+.mg-chart__cell .name{position:relative;flex:1 1 0;min-width:0;font-size:12px;color:var(--mg-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mg-chart__cell .cost{position:relative;font-size:11px;min-width:13px;text-align:right;color:var(--mg-gold);font-variant-numeric:tabular-nums}
+.mg-chart__cell .mg-check{position:relative}
+.mg-chart__col--dark .mg-chart__cell .name{color:var(--mg-dark-ink);text-decoration:line-through;opacity:.82}
+.mg-chart__col--dark .mg-chart__cell .cost{color:var(--mg-dark-ink)}
+.mg-chart__footer{display:flex;align-items:center;justify-content:space-between;gap:11px;padding:6px 14px;background:var(--mg-panel-2);border-top:2px solid var(--mg-gold)}
+.mg-chart__footer .label{font-size:12.5px;letter-spacing:.06em;color:var(--mg-soft)}
+.mg-chart__footer .label .mark{color:var(--mg-gold);margin-right:6px}
+.mg-chart__footer .value{color:var(--mg-bar-ink);font-weight:700;margin-left:6px}
+.mg-chart__footer .region{display:flex;align-items:center;gap:8px}
+.mg-chart__footer .region .lbl{font-size:12px;color:var(--mg-soft)}
+.mg-chart__footer .region .name{font-size:13px;font-weight:700;color:var(--mg-bar-ink)}
+.mg-chart__footer .region .caret{color:var(--mg-gold)}
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <!-- ===================== DARK (마법진 바이올렛) ===================== -->
+  <div class="frame">
+    <div class="frame__label"><b>다크</b><span>마법진 · 바이올렛</span><em>소환진/룬 서클 — theme-dark</em></div>
+    <div class="frame__card">
+      <div class="magicalogia theme-dark" data-sheet></div>
+    </div>
+  </div>
+
+  <!-- ===================== LIGHT (장서 양피지) ===================== -->
+  <div class="frame">
+    <div class="frame__label"><b>라이트</b><span>장서 · 양피지</span><em>고서 결·빛바램 — theme-light</em></div>
+    <div class="frame__card">
+      <div class="magicalogia theme-light" data-sheet></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* Build the static reference markup for both sheets (mirrors actor-sheet.hbs). */
+const CHART_INDEX = [2,3,4,5,6,7,8,9,10,11,12];
+const CHART = [
+ {key:"star",num:"1",title:"별",dark:false,active:false,cells:[["황금",6],["대지",5,1],["숲",6],["길",7],["바다",8],["정적",9],["비",9],["폭풍",8],["태양",7],["천공",6],["이게",7]]},
+ {key:"beast",num:"2",title:"짐승",dark:false,active:false,cells:[["육체",7],["벌레",6],["꽃",5,1],["피",6],["비늘",7],["혼돈",8],["송곳니",8],["포효",7],["분노",6],["날개",5,1],["에로스",6]]},
+ {key:"force",num:"3",title:"힘",dark:false,active:false,cells:[["중력",8],["바람",7],["흐름",6],["물",7],["파동",8],["자유",9],["충격",9],["번개",8],["불꽃",7],["빛",6],["순환",7]]},
+ {key:"song",num:"4",title:"노래",dark:false,active:true,cells:[["이야기",7],["선율",7],["눈물",6],["이별",5,1],["미소",6],["마음",7],["승리",8],["사랑",9],["정열",9],["치유",8],["시간",9]]},
+ {key:"dream",num:"5",title:"꿈",dark:false,active:true,cells:[["추억",5,1],["수수께끼",6],["거짓말",7],["불안",7],["잠",8],["우연",9],["환상",10],["광기",11],["기도",11],["희망",10],["미래",11]]},
+ {key:"dark",num:"6",title:"어둠",dark:true,active:false,cells:[["심연",7],["부패",8],["배신",9],["마흑",9],["태만",10],["일그러짐",11],["불행",12],["바보",12],["악의",12],["절망",12],["죽음",12]]}
+];
+const STATUS = ["봉인","타짐","허약","병마","차단","불운","사망","소멸"];
+const field = (l,v,cls)=>`<label class="mg-field"><span class="mg-field__mark">❖</span><span class="mg-field__label">${l}</span><span class="mg-field__value ${cls||'mg-field__value--empty'}">${v}</span></label>`;
+const chk = on => `<span class="mg-check ${on?'is-on':''}">${on?'✓':''}</span>`;
+
+function chart(){
+  let idx = `<div class="mg-chart__index"><div class="mg-chart__head"><span class="num">치</span></div>${CHART_INDEX.map(n=>`<div class="mg-chart__index-cell">${n}</div>`).join('')}</div>`;
+  let cols = CHART.map(c=>`<div class="mg-chart__col ${c.dark?'mg-chart__col--dark':''}">
+     <div class="mg-chart__head">${chk(c.active)}<span class="num">${c.num}</span><span class="title">${c.title}</span></div>
+     ${c.cells.map(([n,cost,on])=>`<div class="mg-chart__cell ${on?'is-on':''}">${chk(!!on)}<span class="name">${n}</span><span class="cost">${cost}</span></div>`).join('')}
+   </div>`).join('');
+  return `<div class="mg-chart"><div class="mg-chart__grid">${idx}${cols}</div>
+   <div class="mg-chart__footer"><span class="label"><span class="mark">❖</span>혼의 특기 <span class="value">폭렬</span></span>
+   <span class="region"><span class="lbl">영역</span><span class="name">짐승</span><span class="caret">▾</span></span></div></div>`;
+}
+const tablecard = (h,b,cls)=>`<div class="mg-tablecard"><div class="mg-tablecard__head">${h}</div><div class="mg-tablecard__body ${cls||''}">${b}</div></div>`;
+
+function sheet(){
+  return `<div class="mg-content">
+   <header class="mg-masthead"><div><div class="mg-masthead__eyebrow">❧ 파토서대전 RPG ❧</div><span class="mg-masthead__title">마기카로기아</span><span class="mg-masthead__latin">CHARACTER SHEET</span></div><div class="mg-masthead__sigil">✶</div></header>
+   <nav class="mg-tabs"><a class="mg-tab is-active">캐릭터 시트</a><a class="mg-tab">장서</a><a class="mg-tab">관계</a><a class="mg-tab is-disabled">개요·정보</a><a class="mg-tab is-disabled">속성·능력</a></nav>
+   <div class="mg-main">
+     <div class="mg-headband">
+       <div class="mg-portrait"><span class="mg-corner mg-corner--tl"></span><span class="mg-corner mg-corner--tr"></span><span class="mg-corner mg-corner--bl"></span><span class="mg-corner mg-corner--br"></span><span class="mg-portrait__glyph">✶</span><span class="mg-portrait__hint">초상화</span></div>
+       <div class="mg-identity-grid">
+         ${field("임시 이름","—")}${field("경력","서경","mg-field__value")}
+         ${field("마법명","—")}${field("기관","—")}
+         ${field("플레이어","—")}${field("신분","—")}
+         ${field("성별·연령","—")}${field("진정한 모습","—")}
+         <label class="mg-field mg-field--wide"><span class="mg-field__mark">❖</span><span class="mg-field__label">효과</span><span class="mg-field__value mg-field__value--empty">—</span><span class="mg-field__dots"><span class="mg-dot"></span><span class="mg-dot"></span></span></label>
+       </div>
+       <div class="mg-statrail">
+         <div class="mg-stat-row"><div class="mg-stat"><div class="mg-stat__label">공격</div><div class="mg-stat__value">5</div></div><div class="mg-stat"><div class="mg-stat__label">방어</div><div class="mg-stat__value">5</div></div><div class="mg-stat"><div class="mg-stat__label">근원</div><div class="mg-stat__value">4</div></div></div>
+         <div class="mg-gauge"><span class="mg-gauge__icon">◈</span><span class="mg-gauge__label">마력</span><span class="mg-gauge__value">5</span><span class="mg-gauge__sep">/</span><span class="mg-gauge__max">8</span></div>
+         <div class="mg-gauge"><span class="mg-gauge__icon">◇</span><span class="mg-gauge__label">일시 마력</span><span class="mg-gauge__value">0</span></div>
+         <div class="mg-counter-row"><div class="mg-counter"><span class="mg-counter__label">공적점</span><span class="mg-counter__value">—</span></div><div class="mg-counter"><span class="mg-counter__label">마화</span><span class="mg-counter__value">—</span></div></div>
+       </div>
+     </div>
+     <div class="mg-status"><span class="mg-status__title"><span class="mark">❖</span>상태이상</span><span class="mg-status__list">${STATUS.map(s=>`<span class="mg-status__chip">${s}</span>`).join('')}</span></div>
+     <div class="mg-shared">
+       <div class="mg-subtabs"><a class="mg-subtab is-active">특기</a><a class="mg-subtab">설정</a></div>
+       ${chart()}
+       <div class="mg-belowgrid">
+         <div class="mg-memo"><span class="mg-memo__label">메 모</span></div>
+         <div>
+           <div class="mg-banner mg-banner--inline" style="margin-bottom:6px"><span class="mg-banner__rule mg-banner__rule--l"></span><span class="mg-banner__label">주사위 및 각종 표</span><span class="mg-banner__rule mg-banner__rule--r"></span></div>
+           <div class="mg-tables">
+             ${tablecard("가변특기",'가변(노래)<span class="caret">▾</span>',"mg-tablecard__body--select")}
+             ${tablecard("운명 변전","⚙","mg-tablecard__body--btn")}
+             ${tablecard("장면 표","⚙","mg-tablecard__body--btn")}
+             ${tablecard("주사위","D6","mg-tablecard__body--roll")}
+             ${tablecard("펌블 표","⚙","mg-tablecard__body--btn")}
+             ${tablecard("사건 표","⚙","mg-tablecard__body--btn")}
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+  </div>`;
+}
+document.querySelectorAll('[data-sheet]').forEach(el => el.innerHTML = sheet());
+</script>
+</body>
+</html>
