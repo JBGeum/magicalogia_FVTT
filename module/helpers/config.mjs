@@ -1,4 +1,72 @@
 /**
  * 시스템 전역 상수 단일 출처. CONFIG.MAGICALOGIA로 주입된다.
+ * 마법표는 액터마다 동일한 고정 레퍼런스 데이터 — 특기 이름·열·행만 담고
+ * 목표치(TN)는 저장하지 않는다(거리로 매번 파생).
  */
 export const MAGICALOGIA = {};
+
+// 속성 열 (가로 순서 = 배열 순서). dark=true는 어둠(저주) 열.
+MAGICALOGIA.attributes = [
+  { key: "star", num: "1", title: "별", dark: false },
+  { key: "beast", num: "2", title: "짐승", dark: false },
+  { key: "force", num: "3", title: "힘", dark: false },
+  { key: "song", num: "4", title: "노래", dark: false },
+  { key: "dream", num: "5", title: "꿈", dark: false },
+  { key: "dark", num: "6", title: "어둠", dark: true },
+];
+
+// 행(출목) — 세로 위치. 인덱스 0..10 ↔ 출목 2..12.
+MAGICALOGIA.rows = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+// 특기 이름 (열별 11개, 행 인덱스 0..10 순서).
+MAGICALOGIA.chart = {
+  star: ["황금", "대지", "숲", "길", "바다", "정적", "비", "폭풍", "태양", "천공", "이게"],
+  beast: ["육체", "벌레", "꽃", "피", "비늘", "혼돈", "송곳니", "포효", "분노", "날개", "에로스"],
+  force: ["중력", "바람", "흐름", "물", "파동", "자유", "충격", "번개", "불꽃", "빛", "순환"],
+  song: ["이야기", "선율", "눈물", "이별", "미소", "마음", "승리", "사랑", "정열", "치유", "시간"],
+  dream: [
+    "추억",
+    "수수께끼",
+    "거짓말",
+    "불안",
+    "잠",
+    "우연",
+    "환상",
+    "광기",
+    "기도",
+    "희망",
+    "미래",
+  ],
+  dark: [
+    "심연",
+    "부패",
+    "배신",
+    "마흑",
+    "태만",
+    "일그러짐",
+    "불행",
+    "바보",
+    "악의",
+    "절망",
+    "죽음",
+  ],
+};
+
+// 상태이상 8종.
+MAGICALOGIA.statuses = [
+  { key: "seal", label: "봉인" },
+  { key: "burn", label: "타짐" },
+  { key: "weak", label: "허약" },
+  { key: "plague", label: "병마" },
+  { key: "block", label: "차단" },
+  { key: "misfortune", label: "불운" },
+  { key: "death", label: "사망" },
+  { key: "vanish", label: "소멸" },
+];
+
+// 장서/관계 select 옵션.
+MAGICALOGIA.spellTypes = ["공격", "소환", "장비", "주문", "기타"];
+MAGICALOGIA.anchorAttrs = ["혈연", "연애", "흥미", "존경", "사명", "공포", "열등", "분노"];
+
+// 테마 루트 클래스 (액터 flag로 선택).
+MAGICALOGIA.themes = { dark: "theme-dark", light: "theme-light" };
