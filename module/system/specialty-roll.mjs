@@ -33,13 +33,12 @@ export async function rollSpecialty(actor, colKey, rowIndex) {
   const table = computeTable({
     owned: sys.skills,
     domain: sys.domain || null,
-    scarDomains: sys.scarDomains,
     wrap: sys.horizontalWrap,
   });
   const column = table.find((c) => c.key === colKey);
   const cell = column?.cells?.[rowIndex];
 
-  if (!cell || !cell.rollable) {
+  if (!cell) {
     ui.notifications.warn("이 특기로는 판정할 수 없습니다.");
     return;
   }

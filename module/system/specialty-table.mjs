@@ -1,7 +1,7 @@
 import { MAGICALOGIA } from "../helpers/config.mjs";
 
 /**
- * 마법표 셀별 목표치(TN)·rollable·owned 계산 (순수, Foundry 비의존).
+ * 마법표 셀별 목표치(TN)·owned 계산 (순수, Foundry 비의존).
  *
  * 거리 모델: 표를 2D 그래프로 본다.
  *   - 세로: 행 인덱스 차 |i-j| (순환 없음).
@@ -10,8 +10,11 @@ import { MAGICALOGIA } from "../helpers/config.mjs";
  *   - wrap=true면 어둠↔별 사이에 wrap-gap이 생겨 원형이 된다.
  *   - TN = 5 + (가장 가까운 보유 특기까지 거리). 보유 자신 = 0 → TN 5.
  *
- * @param {{owned:Object, domain:?string, scarDomains:Object, wrap:boolean}} state
- * @returns {Array} 열별 { key,num,title,dark,scar,domainActive, cells:[{name,index,value,tn,rollable,owned}] }
+ * 모든 속성 열은 동등(어둠도 이름만 어둠인 일반 속성). 상흔(scar)은 특기 사용·거리와 무관한
+ * 별도 룰이라 여기서 다루지 않는다. TN이 있는 셀은 모두 판정 대상이다.
+ *
+ * @param {{owned:Object, domain:?string, wrap:boolean}} state
+ * @returns {Array} 열별 { key,num,title,domainActive, cells:[{name,index,value,tn,owned}] }
  */
 export function computeTable(state) {
   const attrs = MAGICALOGIA.attributes;
@@ -55,8 +58,6 @@ export function computeTable(state) {
 
   return attrs.map((a) => {
     const c = colIndex[a.key];
-    const scar = Boolean(state.scarDomains?.[a.key]);
-    const rollableCol = !a.dark && !scar;
     const cells = MAGICALOGIA.chart[a.key].map((name, i) => {
       let tn = null;
       for (const anchor of anchors) {
@@ -69,7 +70,6 @@ export function computeTable(state) {
         index: i,
         value: rows[i],
         tn,
-        rollable: rollableCol,
         owned: isOwned(a.key, i),
       };
     });
@@ -77,8 +77,6 @@ export function computeTable(state) {
       key: a.key,
       num: a.num,
       title: a.title,
-      dark: a.dark,
-      scar,
       domainActive: domainIdx === c,
       cells,
     };

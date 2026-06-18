@@ -22,13 +22,6 @@
     {{/each}}
   </section>
 
-  <section class="mg-scar">
-    상흔영역:
-    {{#each attributes}}
-    <label><input type="checkbox" name="system.scarDomains.{{this.key}}" {{checked (lookup ../system.scarDomains this.key)}} /> {{this.title}}</label>
-    {{/each}}
-  </section>
-
   {{> "systems/magicalogia/templates/actor/parts/magic-chart.hbs"}}
 
   <section class="mg-memo">

@@ -38,7 +38,6 @@ describe("CharacterDataModel", () => {
     for (const key of [
       "skills",
       "domain",
-      "scarDomains",
       "horizontalWrap",
       "soulSkill",
       "abilities",

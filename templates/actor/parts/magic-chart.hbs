@@ -2,13 +2,13 @@
   <div class="mg-chart__grid">
     {{!-- 출목 열 --}}
     <div class="mg-chart__index">
-      <div class="mg-chart__head"><span class="num">치</span></div>
+      <div class="mg-chart__head"></div>
       {{#each chartRows}}<div class="mg-chart__index-cell">{{this}}</div>{{/each}}
     </div>
 
-    {{!-- 속성 열 --}}
+    {{!-- 속성 열 (모두 동등) --}}
     {{#each chart}}
-    <div class="mg-chart__col {{#if this.dark}}mg-chart__col--dark{{/if}} {{#if this.scar}}mg-chart__col--scar{{/if}}">
+    <div class="mg-chart__col">
       <div class="mg-chart__head">
         <span class="num">{{this.num}}</span>
         <span class="title">{{this.title}}</span>
@@ -16,11 +16,7 @@
       {{#each this.cells}}
       <div class="mg-chart__cell {{#if this.owned}}is-on{{/if}}">
         <span class="mg-check" data-action="toggleSkill" data-col="{{../key}}" data-index="{{this.index}}">{{#if this.owned}}✓{{/if}}</span>
-        {{#if this.rollable}}
         <span class="name mg-rollable" data-action="rollSpecialty" data-col="{{../key}}" data-index="{{this.index}}">{{this.name}}</span>
-        {{else}}
-        <span class="name">{{this.name}}</span>
-        {{/if}}
         <span class="tn">{{#if this.tn}}{{this.tn}}{{else}}—{{/if}}</span>
       </div>
       {{/each}}

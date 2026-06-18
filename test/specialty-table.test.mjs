@@ -22,7 +22,6 @@ describe("computeTable 거리/TN", () => {
     const t = computeTable({
       owned: own([["song", 3]]),
       domain: null,
-      scarDomains: {},
       wrap: false,
     });
     expect(cell(t, "song", 3).tn).toBe(5);
@@ -34,7 +33,6 @@ describe("computeTable 거리/TN", () => {
     const t = computeTable({
       owned: own([["song", 3]]),
       domain: null,
-      scarDomains: {},
       wrap: false,
     });
     expect(cell(t, "force", 3).tn).toBe(7);
@@ -45,7 +43,6 @@ describe("computeTable 거리/TN", () => {
     const t = computeTable({
       owned: own([["beast", 2]]),
       domain: "beast",
-      scarDomains: {},
       wrap: false,
     });
     expect(cell(t, "star", 2).tn).toBe(6);
@@ -56,47 +53,25 @@ describe("computeTable 거리/TN", () => {
     const t = computeTable({
       owned: own([["star", 0]]),
       domain: null,
-      scarDomains: {},
       wrap: false,
     });
     expect(cell(t, "star", 2).tn).toBe(7);
   });
 
-  it("어둠 열은 rollable=false, 보유 시 anchor로는 유효", () => {
+  it("어둠도 일반 속성 — 보유 시 TN 5, anchor로 인접 거리 반영", () => {
     const t = computeTable({
       owned: own([["dark", 0]]),
       domain: null,
-      scarDomains: {},
       wrap: false,
     });
-    expect(cell(t, "dark", 0).rollable).toBe(false);
+    expect(cell(t, "dark", 0).tn).toBe(5);
     expect(cell(t, "dark", 0).owned).toBe(true);
-    // 어둠 보유가 인접 거리에 반영되는지: dark[0] 기준 dream[0]은 거리 2 → TN 7
+    // dark[0] 기준 dream[0]은 거리 2 → TN 7
     expect(cell(t, "dream", 0).tn).toBe(7);
   });
 
-  it("상흔영역 열은 rollable=false", () => {
-    const t = computeTable({
-      owned: own([["song", 0]]),
-      domain: null,
-      scarDomains: { song: true },
-      wrap: false,
-    });
-    expect(cell(t, "song", 0).rollable).toBe(false);
-  });
-
-  it("일반 열은 rollable=true", () => {
-    const t = computeTable({
-      owned: own([["song", 0]]),
-      domain: null,
-      scarDomains: {},
-      wrap: false,
-    });
-    expect(cell(t, "song", 0).rollable).toBe(true);
-  });
-
-  it("보유 특기 0개면 tn=null, rollable=false 무관하게 tn 없음", () => {
-    const t = computeTable({ owned: noOwn(), domain: null, scarDomains: {}, wrap: false });
+  it("보유 특기 0개면 tn=null", () => {
+    const t = computeTable({ owned: noOwn(), domain: null, wrap: false });
     expect(cell(t, "star", 0).tn).toBeNull();
   });
 
@@ -105,7 +80,6 @@ describe("computeTable 거리/TN", () => {
     const t = computeTable({
       owned: own([["star", 0]]),
       domain: null,
-      scarDomains: {},
       wrap: true,
     });
     expect(cell(t, "dark", 0).tn).toBe(7);

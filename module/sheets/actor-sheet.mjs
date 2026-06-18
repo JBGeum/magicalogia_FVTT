@@ -49,7 +49,6 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     context.chart = computeTable({
       owned: sys.skills,
       domain: sys.domain || null,
-      scarDomains: sys.scarDomains,
       wrap: sys.horizontalWrap,
     });
     context.statuses = CONFIG.MAGICALOGIA.statuses.map((s) => ({
