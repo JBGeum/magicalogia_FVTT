@@ -68,6 +68,23 @@ describe("CharacterDataModel", () => {
       expect(s.skills.fields[key]).toBeInstanceOf(ArrayField);
     }
   });
+  it("시안 식별 9필드를 포함한다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const s = CharacterDataModel.defineSchema();
+    for (const key of [
+      "tempName",
+      "career",
+      "magicName",
+      "organization",
+      "player",
+      "socialStatus",
+      "genderAge",
+      "trueForm",
+      "effect",
+    ]) {
+      expect(Object.keys(s)).toContain(key);
+    }
+  });
   it("base 스키마(biography)를 상속한다", async () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     expect(Object.keys(CharacterDataModel.defineSchema())).toContain("biography");

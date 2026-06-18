@@ -31,6 +31,17 @@ export class CharacterDataModel extends BaseActorModel {
       soulSkill: new fields.StringField({ initial: "" }),
       variableSkill: new fields.StringField({ initial: "" }),
 
+      // 시안 헤더 식별 필드
+      tempName: new fields.StringField({ initial: "" }),
+      career: new fields.StringField({ initial: "" }),
+      magicName: new fields.StringField({ initial: "" }),
+      organization: new fields.StringField({ initial: "" }),
+      player: new fields.StringField({ initial: "" }),
+      socialStatus: new fields.StringField({ initial: "" }),
+      genderAge: new fields.StringField({ initial: "" }),
+      trueForm: new fields.StringField({ initial: "" }),
+      effect: new fields.StringField({ initial: "" }),
+
       // 능력치 (슬라이스에선 표시만)
       abilities: new fields.SchemaField({
         attack: new fields.NumberField({ initial: 0, integer: true }),
