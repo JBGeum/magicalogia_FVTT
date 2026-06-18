@@ -8,6 +8,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/magicalogia/templates/actor/character-sheet.hbs",
     "systems/magicalogia/templates/actor/parts/magic-chart.hbs",
     "systems/magicalogia/templates/item/generic-sheet.hbs",
+    "systems/magicalogia/templates/chat/specialty-roll.hbs",
   ]);
 };
 

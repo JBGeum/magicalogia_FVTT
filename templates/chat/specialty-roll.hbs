@@ -1,0 +1,11 @@
+<div class="magicalogia mg-roll-card">
+  <header class="mg-roll-card__head">{{column}} · {{specialty}} (목표 {{tn}})</header>
+  <div class="mg-roll-card__dice">🎲 {{d1}} + {{d2}} = {{result.total}}</div>
+  <div class="mg-roll-card__result">
+    {{#if result.fumble}}<strong>펌블! (실패)</strong>
+    {{else if result.special}}<strong>스페셜! (성공)</strong>
+    {{else if result.success}}<strong>성공</strong>
+    {{else}}<strong>실패</strong>{{/if}}
+    {{#if result.doublet}}<span class="mg-roll-card__doublet">· 더블릿</span>{{/if}}
+  </div>
+</div>

@@ -49,6 +49,12 @@
     text-align: center;
     color: var(--mg-check);
   }
+  .mg-rollable {
+    cursor: pointer;
+  }
+  .mg-rollable:hover {
+    color: var(--mg-gold);
+  }
   // 어둠 열 / 상흔 열 = 취소선·판정 불가
   .mg-chart__col--dark .name,
   .mg-chart__col--scar .name {

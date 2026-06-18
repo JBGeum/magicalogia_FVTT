@@ -1,4 +1,5 @@
 import { computeTable } from "../system/specialty-table.mjs";
+import { rollSpecialty } from "../system/specialty-roll.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -15,6 +16,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     },
     actions: {
       toggleSkill: MagicalogiaActorSheet.#onToggleSkill,
+      rollSpecialty: MagicalogiaActorSheet.#onRollSpecialty,
     },
   };
 
@@ -72,6 +74,10 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     while (arr.length < 11) arr.push(false);
     arr[index] = !arr[index];
     await this.actor.update({ [`system.skills.${col}`]: arr });
+  }
+
+  static async #onRollSpecialty(_event, target) {
+    await rollSpecialty(this.actor, target.dataset.col, Number(target.dataset.index));
   }
 
   static async #onSubmit(_event, _form, formData) {

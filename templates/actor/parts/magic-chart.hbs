@@ -16,7 +16,11 @@
       {{#each this.cells}}
       <div class="mg-chart__cell {{#if this.owned}}is-on{{/if}}">
         <span class="mg-check" data-action="toggleSkill" data-col="{{../key}}" data-index="{{this.index}}">{{#if this.owned}}✓{{/if}}</span>
+        {{#if this.rollable}}
+        <span class="name mg-rollable" data-action="rollSpecialty" data-col="{{../key}}" data-index="{{this.index}}">{{this.name}}</span>
+        {{else}}
         <span class="name">{{this.name}}</span>
+        {{/if}}
         <span class="tn">{{#if this.tn}}{{this.tn}}{{else}}—{{/if}}</span>
       </div>
       {{/each}}
