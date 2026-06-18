@@ -61,6 +61,14 @@ describe("CharacterDataModel", () => {
       "dark",
     ]);
   });
+  it("skills 각 열은 ArrayField다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const s = CharacterDataModel.defineSchema();
+    const ArrayField = foundry.data.fields.ArrayField;
+    for (const key of ["star", "beast", "force", "song", "dream", "dark"]) {
+      expect(s.skills.fields[key]).toBeInstanceOf(ArrayField);
+    }
+  });
   it("base 스키마(biography)를 상속한다", async () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     expect(Object.keys(CharacterDataModel.defineSchema())).toContain("biography");
