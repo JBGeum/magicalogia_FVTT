@@ -73,4 +73,10 @@ describe("CharacterDataModel", () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     expect(Object.keys(CharacterDataModel.defineSchema())).toContain("biography");
   });
+  // 회귀 가드: choices가 있는 StringField는 blank를 기본 거부 — domain은 "" 초기값을 허용해야 액터 생성이 된다.
+  it("domain은 빈 문자열을 허용한다(blank:true)", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const s = CharacterDataModel.defineSchema();
+    expect(s.domain.options.blank).toBe(true);
+  });
 });

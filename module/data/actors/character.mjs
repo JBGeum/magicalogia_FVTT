@@ -25,7 +25,8 @@ export class CharacterDataModel extends BaseActorModel {
 
       // 특기표
       skills: attrSchema(skillColumn),
-      domain: new fields.StringField({ initial: "", choices: ["", ...ATTR_KEYS] }),
+      // choices를 주면 Foundry StringField가 blank를 기본 거부하므로 blank:true로 "" (영역 미선택) 허용.
+      domain: new fields.StringField({ initial: "", blank: true, choices: ["", ...ATTR_KEYS] }),
       scarDomains: attrSchema(() => new fields.BooleanField({ initial: false })),
       horizontalWrap: new fields.BooleanField({ initial: false }),
       soulSkill: new fields.StringField({ initial: "" }),
