@@ -5,14 +5,15 @@
  */
 export const MAGICALOGIA = {};
 
-// 속성 열 (가로 순서 = 배열 순서). dark=true는 어둠(저주) 열.
+// 속성 열 (가로 순서 = 배열 순서).
+// 어둠은 특수처리(취소선·전용색 등) 없이 다른 속성과 동일하게 렌더한다.
 MAGICALOGIA.attributes = [
-  { key: "star", num: "1", title: "별", dark: false },
-  { key: "beast", num: "2", title: "짐승", dark: false },
-  { key: "force", num: "3", title: "힘", dark: false },
-  { key: "song", num: "4", title: "노래", dark: false },
-  { key: "dream", num: "5", title: "꿈", dark: false },
-  { key: "dark", num: "6", title: "어둠", dark: true },
+  { key: "star", num: "1", title: "별" },
+  { key: "beast", num: "2", title: "짐승" },
+  { key: "force", num: "3", title: "힘" },
+  { key: "song", num: "4", title: "노래" },
+  { key: "dream", num: "5", title: "꿈" },
+  { key: "dark", num: "6", title: "어둠" },
 ];
 
 // 행(출목) — 세로 위치. 인덱스 0..10 ↔ 출목 2..12.

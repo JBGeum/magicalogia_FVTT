@@ -12,9 +12,9 @@ describe("MAGICALOGIA config", () => {
       "dark",
     ]);
   });
-  it("어둠만 dark=true", () => {
-    const dark = MAGICALOGIA.attributes.filter((a) => a.dark).map((a) => a.key);
-    expect(dark).toEqual(["dark"]);
+  it("어둠은 특수처리 플래그 없이 일반 속성과 동일하다", () => {
+    const flagged = MAGICALOGIA.attributes.filter((a) => a.dark).map((a) => a.key);
+    expect(flagged).toEqual([]);
   });
   it("각 속성 특기 이름이 11개씩 있다", () => {
     for (const a of MAGICALOGIA.attributes) {
