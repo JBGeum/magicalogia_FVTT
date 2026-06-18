@@ -41,12 +41,12 @@ function ensureDistBuilt(): void {
 }
 
 function ensureSystemsDir(dataPath: string): string {
-  const systemsDir = path.join(dataPath, "Data", "systems");
-  if (!existsSync(systemsDir)) {
-    const alt = path.join(dataPath, "systems");
-    if (existsSync(alt)) return alt;
-    mkdirSync(systemsDir, { recursive: true });
-  }
+  // dataPath가 이미 "Data" 디렉토리인 경우와 그 부모 디렉토리인 경우를 모두 허용하도록 정규화
+  const isDataDir = path.basename(dataPath).toLowerCase() === "data";
+  const systemsDir = isDataDir
+    ? path.join(dataPath, "systems")
+    : path.join(dataPath, "Data", "systems");
+  mkdirSync(systemsDir, { recursive: true });
   return systemsDir;
 }
 
