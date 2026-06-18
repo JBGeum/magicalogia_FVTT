@@ -12,7 +12,14 @@ beforeAll(() => {
       fields: {
         NumberField: FakeField,
         StringField: FakeField,
+        BooleanField: FakeField,
         HTMLField: FakeField,
+        ArrayField: class extends FakeField {
+          constructor(element, opts) {
+            super(opts);
+            this.element = element;
+          }
+        },
         SchemaField: class extends FakeField {
           constructor(schema, opts) {
             super(opts);
