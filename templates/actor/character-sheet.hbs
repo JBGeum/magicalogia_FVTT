@@ -1,15 +1,30 @@
 <form class="{{cssClass}}" autocomplete="off">
-  <section class="sheet-body">
-    <div class="resource">
-      <label>{{localize "MAGICALOGIA.actor.health"}}</label>
-      <input type="number" name="system.health.value" value="{{system.health.value}}" />
-      <span>/</span>
-      <input type="number" name="system.health.max" value="{{system.health.max}}" />
-    </div>
+  <header class="mg-masthead">
+    <h1 class="mg-name">{{actor.name}}</h1>
+    <span class="mg-rank">계제 <input type="number" name="system.rank" value="{{system.rank}}" /></span>
+  </header>
 
-    <div class="biography">
-      <label>{{localize "MAGICALOGIA.actor.biography"}}</label>
-      {{editor enrichedBiography target="system.biography" button=true editable=editable}}
-    </div>
+  <section class="mg-stats">
+    <label>공격 <input type="number" name="system.abilities.attack" value="{{system.abilities.attack}}" /></label>
+    <label>방어 <input type="number" name="system.abilities.defense" value="{{system.abilities.defense}}" /></label>
+    <label>근원 <input type="number" name="system.abilities.source" value="{{system.abilities.source}}" /></label>
+    <label>마력 <input type="number" name="system.mp.value" value="{{system.mp.value}}" /> / <input type="number" name="system.mp.max" value="{{system.mp.max}}" /></label>
+    <label>일시마력 <input type="number" name="system.tempMp" value="{{system.tempMp}}" /></label>
+    <label>공적점 <input type="number" name="system.achievement" value="{{system.achievement}}" /></label>
+  </section>
+
+  <section class="mg-status">
+    {{#each statuses}}
+    <label class="mg-status__chip {{#if this.active}}is-active{{/if}}">
+      <input type="checkbox" name="system.statuses.{{this.key}}" {{checked this.active}} />
+      {{this.label}}
+    </label>
+    {{/each}}
+  </section>
+
+  {{> "systems/magicalogia/templates/actor/parts/magic-chart.hbs"}}
+
+  <section class="mg-memo">
+    {{editor enrichedBiography target="system.biography" button=true editable=editable}}
   </section>
 </form>

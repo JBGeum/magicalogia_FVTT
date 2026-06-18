@@ -1,5 +1,17 @@
 // 시트 공통 레이아웃 골격.
 .magicalogia.sheet {
+  // 창 높이를 넘는 콘텐츠는 내부 스크롤로 흡수(폼이 window-content를 채우고 스스로 스크롤).
+  .window-content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .window-content > form {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
   form {
     display: flex;
     flex-direction: column;

@@ -6,7 +6,9 @@ export const preloadHandlebarsTemplates = async function () {
   const { loadTemplates } = foundry.applications.handlebars;
   return loadTemplates([
     "systems/magicalogia/templates/actor/character-sheet.hbs",
+    "systems/magicalogia/templates/actor/parts/magic-chart.hbs",
     "systems/magicalogia/templates/item/generic-sheet.hbs",
+    "systems/magicalogia/templates/chat/specialty-roll.hbs",
   ]);
 };
 
@@ -16,4 +18,5 @@ export const preloadHandlebarsTemplates = async function () {
 export function registerHandlebarsHelpers() {
   Handlebars.registerHelper("checked", (condition) => (condition ? "checked" : ""));
   Handlebars.registerHelper("selected", (condition) => (condition ? "selected" : ""));
+  Handlebars.registerHelper("eq", (a, b) => a === b);
 }

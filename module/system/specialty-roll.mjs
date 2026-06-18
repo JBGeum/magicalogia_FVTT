@@ -1,0 +1,71 @@
+import { computeTable } from "./specialty-table.mjs";
+
+/**
+ * 2d6 특기 판정 분류 (순수).
+ *   (1,1) = 펌블(자동 실패), (6,6) = 스페셜(자동 성공),
+ *   그 외 합 >= TN = 성공. 같은 눈 = 더블릿.
+ *
+ * @param {number} d1
+ * @param {number} d2
+ * @param {number} tn  목표치
+ * @returns {{total:number, success:boolean, special:boolean, fumble:boolean, doublet:boolean}}
+ */
+export function classifyRoll(d1, d2, tn) {
+  const total = d1 + d2;
+  const doublet = d1 === d2;
+  const fumble = d1 === 1 && d2 === 1;
+  const special = d1 === 6 && d2 === 6;
+  let success;
+  if (fumble) success = false;
+  else if (special) success = true;
+  else success = total >= tn;
+  return { total, success, special, fumble, doublet };
+}
+
+/**
+ * 특기 셀로 2d6 판정 후 챗카드 출력.
+ * @param {Actor} actor
+ * @param {string} colKey   속성 key
+ * @param {number} rowIndex 행 인덱스 0..10
+ */
+export async function rollSpecialty(actor, colKey, rowIndex) {
+  const sys = actor.system;
+  const table = computeTable({
+    owned: sys.skills,
+    domain: sys.domain || null,
+    wrap: sys.horizontalWrap,
+  });
+  const column = table.find((c) => c.key === colKey);
+  const cell = column?.cells?.[rowIndex];
+
+  if (!cell) {
+    ui.notifications.warn("이 특기로는 판정할 수 없습니다.");
+    return;
+  }
+  if (cell.tn == null) {
+    ui.notifications.warn("보유한 특기가 없어 목표치를 계산할 수 없습니다.");
+    return;
+  }
+
+  const roll = await new Roll("2d6").evaluate();
+  const [d1, d2] = roll.dice[0].results.map((r) => r.result);
+  const result = classifyRoll(d1, d2, cell.tn);
+
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/specialty-roll.hbs",
+    {
+      specialty: cell.name,
+      column: column.title,
+      tn: cell.tn,
+      d1,
+      d2,
+      result,
+    },
+  );
+
+  await ChatMessage.create({
+    speaker: ChatMessage.getSpeaker({ actor }),
+    content,
+    rolls: [roll],
+  });
+}

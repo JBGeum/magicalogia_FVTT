@@ -1,0 +1,66 @@
+.magicalogia .mg-chart {
+  background: var(--mg-panel);
+  border: 1px solid var(--mg-line);
+  border-radius: var(--mg-radius);
+  color: var(--mg-ink);
+
+  .mg-chart__grid {
+    display: grid;
+    grid-template-columns: 30px repeat(6, 1fr);
+  }
+  .mg-chart__head {
+    height: var(--mg-head-h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border-bottom: 1px solid var(--mg-gold);
+    font-weight: 700;
+  }
+  .mg-chart__index-cell,
+  .mg-chart__cell {
+    height: var(--mg-row-h);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    border-bottom: 1px solid var(--mg-line);
+    font-size: 12px;
+  }
+  .mg-chart__col + .mg-chart__col {
+    border-left: 1px solid var(--mg-line);
+  }
+  .mg-chart__cell .name {
+    flex: 1;
+  }
+  .mg-chart__cell .tn {
+    color: var(--mg-soft);
+  }
+  .mg-chart__cell.is-on {
+    background: var(--mg-hi);
+  }
+  .mg-chart__cell .mg-check {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--mg-check);
+    border-radius: 2px;
+    cursor: pointer;
+    line-height: 1;
+    text-align: center;
+    color: var(--mg-check);
+  }
+  .mg-rollable {
+    cursor: pointer;
+  }
+  .mg-rollable:hover {
+    color: var(--mg-gold);
+  }
+  .mg-chart__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+    border-top: 1px solid var(--mg-gold);
+    font-size: 12px;
+  }
+}
