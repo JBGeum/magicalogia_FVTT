@@ -1,0 +1,69 @@
+// =============================================================
+//  Layout — Tab 1 "캐릭터 시트" using the C (dashboard) arrangement
+//  Dense header band → status strip → sub-tabs → magic chart → memo/tables
+// =============================================================
+@use "../theme/vars" as *;
+
+.magicalogia {
+  // ---- C : dashboard header band ----
+  // [ portrait 118px | identity (2-col) 1fr | stat-rail 132px ]
+  .mg-headband {
+    display: grid;
+    grid-template-columns: 118px 1fr 132px;
+    gap: 14px;
+    align-items: start;
+  }
+
+  .mg-identity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px 16px;
+
+    // full-width rows inside the 2-col identity grid (효과 etc.)
+    .mg-field--wide {
+      grid-column: 1 / -1;
+    }
+    .mg-field--wide.mg-field--effect {
+      align-items: center;
+    }
+  }
+
+  .mg-statrail {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .mg-counter-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  // ---- below the chart: memo + dice/tables (2-col) ----
+  .mg-belowgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+  }
+
+  // ---- shared vertical rhythm for the main tab inner blocks ----
+  .mg-main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mg-shared {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+}
+
+// -------------------------------------------------------------
+//  NOTE — other layouts available in the design prototype
+//  (kept here as a reference for future variants):
+//   B (card / vertical)      : grid-template-columns: 0.92fr 1.08fr
+//   D (wide two-pane)        : grid-template-columns: 336px 1fr   @ ~1040px window
+//   E (wide top-band)        : grid-template-columns: 190px 1.5fr 1.05fr @ ~1040px window
+//  This handoff implements C only (the chosen base).
+// -------------------------------------------------------------

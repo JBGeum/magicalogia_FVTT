@@ -1,0 +1,11 @@
+// 시안 구조 토큰(테마 비의존 Sass 변수). 이식한 _base/_layout/_components가 @use로 참조.
+$mg-font-body: "Nanum Myeongjo", serif;
+$mg-font-display: "Gowun Batang", serif;
+$mg-font-latin: "Cinzel", serif;
+
+$mg-radius: 3px;
+$mg-radius-sm: 2px;
+$mg-row-h: 22px;
+$mg-head-h: 36px;
+$mg-sheet-w: 720px;
+$mg-pad: 16px;

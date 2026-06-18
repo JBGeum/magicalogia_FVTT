@@ -1,6 +1,118 @@
-// 전역 기본 — 보일러플레이트 골격. 시스템 클래스 스코프 안에서 확장한다.
-.magicalogia.sheet {
-  .sheet-body {
-    padding: 0.5rem;
+// =============================================================
+//  Base — sheet shell, decorative layer, typography, masthead, tabs
+// =============================================================
+@use "../theme/vars" as *;
+
+.magicalogia {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: $mg-font-body;
+  line-height: 1.35;
+  color: var(--mg-ink);
+  background: var(--mg-paper);
+  border: 1px solid var(--mg-gold);
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  // Decorative background lives behind everything (see --mg-deco per theme)
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: var(--mg-deco);
+  }
+
+  // All real content sits above the decorative layer
+  .mg-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  // ---- Masthead ----
+  .mg-masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 18px;
+    background: var(--mg-bar);
+    border-bottom: 2px solid var(--mg-gold);
+
+    &__eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.34em;
+      color: var(--mg-gold);
+      margin-bottom: 3px;
+    }
+    &__title {
+      font-family: $mg-font-display;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      color: var(--mg-bar-ink);
+    }
+    &__latin {
+      font-family: $mg-font-latin;
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      color: var(--mg-gold);
+      margin-left: 11px;
+    }
+    &__sigil {
+      font-size: 30px;
+      line-height: 1;
+      color: var(--mg-gold);
+      opacity: 0.55;
+    }
+  }
+
+  // ---- Tabs ----
+  .mg-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    padding: 0 12px;
+    background: var(--mg-panel-2);
+    border-bottom: 1px solid var(--mg-line);
+
+    .mg-tab {
+      padding: 9px 15px;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      color: var(--mg-soft);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      cursor: pointer;
+
+      &.is-active {
+        color: var(--mg-bar-ink);
+        font-weight: 700;
+        border-bottom-color: var(--mg-gold);
+      }
+      &.is-disabled {
+        color: var(--mg-faint);
+        opacity: 0.55;
+        cursor: default;
+      }
+    }
+  }
+
+  // ---- Tab panels ----
+  .mg-panel-body {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mg-panel-body--pad {
+    padding: 18px;
   }
 }
