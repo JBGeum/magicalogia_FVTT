@@ -1,47 +1,90 @@
 .magicalogia .mg-chart {
   background: var(--mg-panel);
-  border: 1px solid var(--mg-line);
+  border: 1px solid var(--mg-gold);
   border-radius: var(--mg-radius);
+  overflow: hidden;
   color: var(--mg-ink);
 
+  // 출목(30px) + 6속성(1fr). 속성 열 사이마다 6px gap 트랙(5개)을 끼워
+  // 영역 간 간격을 만든다. 출목|첫 속성 경계는 gap 없이 골드 라인으로 구분.
   .mg-chart__grid {
     display: grid;
-    grid-template-columns: 30px repeat(6, 1fr);
+    grid-template-columns: 30px 1fr repeat(5, 6px 1fr);
   }
+
+  // 출목 열 — 첫 속성 열과 골드 1px로 구분(여기엔 gap을 두지 않음)
+  .mg-chart__index {
+    border-right: 1px solid var(--mg-gold);
+  }
+
+  // 영역과 영역 사이 빈 색 띠(단일 골드 틴트). 그리드 stretch로 전체 높이를 채워
+  // 시트에 색을 칠한 듯한 세로 밴드가 된다.
+  .mg-chart__gap {
+    background: var(--mg-hi);
+  }
+
+  // 열 헤더 (출목 번호 + 속성명)
   .mg-chart__head {
     height: var(--mg-head-h);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    border-bottom: 1px solid var(--mg-gold);
+    gap: 5px;
+    background: var(--mg-panel-2);
+    border-bottom: 2px solid var(--mg-gold);
     font-weight: 700;
+
+    .num {
+      font-size: 9px;
+      color: var(--mg-soft);
+    }
+    .title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--mg-bar-ink);
+    }
   }
+
   .mg-chart__index-cell,
   .mg-chart__cell {
     height: var(--mg-row-h);
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 0 4px;
-    border-bottom: 1px solid var(--mg-line);
+    gap: 5px;
+    padding: 0 7px;
+    border-top: 1px solid var(--mg-line);
     font-size: 12px;
   }
-  .mg-chart__col + .mg-chart__col {
-    border-left: 1px solid var(--mg-line);
+
+  // 출목 인덱스 셀 — 중앙정렬·굵게·소프트·등폭 숫자
+  .mg-chart__index-cell {
+    justify-content: center;
+    font-weight: 700;
+    color: var(--mg-soft);
+    font-variant-numeric: tabular-nums;
   }
+
   .mg-chart__cell .name {
     flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+  // 비용(목표치) — 골드, 우측정렬, 등폭 숫자
   .mg-chart__cell .tn {
-    color: var(--mg-soft);
+    min-width: 13px;
+    text-align: right;
+    color: var(--mg-gold);
+    font-variant-numeric: tabular-nums;
   }
   .mg-chart__cell.is-on {
     background: var(--mg-hi);
   }
   .mg-chart__cell .mg-check {
-    width: 12px;
-    height: 12px;
+    width: 13px;
+    height: 13px;
     border: 1px solid var(--mg-check);
     border-radius: 2px;
     cursor: pointer;
@@ -55,12 +98,14 @@
   .mg-rollable:hover {
     color: var(--mg-gold);
   }
+
   .mg-chart__footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 8px;
-    border-top: 1px solid var(--mg-gold);
+    padding: 6px 14px;
+    background: var(--mg-panel-2);
+    border-top: 2px solid var(--mg-gold);
     font-size: 12px;
   }
 }

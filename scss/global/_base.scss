@@ -4,9 +4,11 @@
 @use "../theme/vars" as *;
 
 .magicalogia {
-  position: relative;
+  // NOTE: 이 클래스는 ApplicationV2 루트(form.application)에 붙는다.
+  // position/width를 두면 Foundry 코어의 .application { position: fixed } 를
+  // 덮어써 창이 일반 흐름으로 떨어지므로(사이드바 우측 노출) 절대 두지 않는다.
+  // 시각 스타일은 모두 자식 래퍼 .mg-content 로 스코프한다.
   box-sizing: border-box;
-  width: 100%;
   font-family: $mg-font-body;
   line-height: 1.35;
   color: var(--mg-ink);

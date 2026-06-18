@@ -1,18 +1,18 @@
 // 시트 공통 레이아웃 골격.
+// 주의: ApplicationV2 루트(form.application)가 이미 <form>이므로 파트 템플릿의
+// 래퍼는 <div>다(중첩 form은 무효 HTML). 아래 선택자는 그 래퍼 div를 가리킨다.
 .magicalogia.sheet {
-  // 창 높이를 넘는 콘텐츠는 내부 스크롤로 흡수(폼이 window-content를 채우고 스스로 스크롤).
+  // window-content 가 부모 form 을 채우고, 그 안의 파트 래퍼가 내부 스크롤을 흡수.
   .window-content {
     overflow: hidden;
     display: flex;
     flex-direction: column;
   }
-  .window-content > form {
+  // 파트 래퍼(div) — 창 높이를 넘는 콘텐츠는 여기서 스크롤.
+  .window-content > div {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-  }
-
-  form {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

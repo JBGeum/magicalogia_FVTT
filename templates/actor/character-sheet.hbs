@@ -1,4 +1,4 @@
-<form class="{{cssClass}}" autocomplete="off">
+<div class="{{cssClass}}">
   <div class="mg-content">
     <header class="mg-masthead">
       <div>
@@ -44,6 +44,7 @@
               <span class="mg-field__mark">❖</span>
               <span class="mg-field__label">효과</span>
               <input class="mg-field__value" type="text" name="system.effect" value="{{system.effect}}" placeholder="—" />
+              <span class="mg-field__dots"><span class="mg-dot"></span><span class="mg-dot"></span></span>
             </label>
           </div>
 
@@ -52,6 +53,8 @@
               <label class="mg-stat"><span class="mg-stat__label">공격</span><input class="mg-stat__value" name="system.abilities.attack" value="{{system.abilities.attack}}" /></label>
               <label class="mg-stat"><span class="mg-stat__label">방어</span><input class="mg-stat__value" name="system.abilities.defense" value="{{system.abilities.defense}}" /></label>
               <label class="mg-stat"><span class="mg-stat__label">근원</span><input class="mg-stat__value" name="system.abilities.source" value="{{system.abilities.source}}" /></label>
+            </div>
+            <div class="mg-stat-row">
               <label class="mg-stat mg-stat--rank"><span class="mg-stat__label">계제</span><input class="mg-stat__value" name="system.rank" value="{{system.rank}}" /></label>
             </div>
             <div class="mg-gauge">
@@ -118,4 +121,4 @@
       </div>
     </section>
   </div>
-</form>
+</div>
