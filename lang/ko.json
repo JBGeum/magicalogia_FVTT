@@ -1,0 +1,23 @@
+{
+  "MAGICALOGIA": {
+    "actor": {
+      "health": "생명력",
+      "biography": "설정"
+    },
+    "item": {
+      "description": "설명"
+    },
+    "type": {
+      "character": "캐릭터",
+      "generic": "일반 아이템"
+    }
+  },
+  "TYPES": {
+    "Actor": {
+      "character": "캐릭터"
+    },
+    "Item": {
+      "generic": "일반 아이템"
+    }
+  }
+}
