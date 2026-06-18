@@ -17,6 +17,8 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     actions: {
       toggleSkill: MagicalogiaActorSheet.#onToggleSkill,
       rollSpecialty: MagicalogiaActorSheet.#onRollSpecialty,
+      editImg: MagicalogiaActorSheet.#onEditImg,
+      toggleStatus: MagicalogiaActorSheet.#onToggleStatus,
     },
   };
 
@@ -77,6 +79,22 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
 
   static async #onRollSpecialty(_event, target) {
     await rollSpecialty(this.actor, target.dataset.col, Number(target.dataset.index));
+  }
+
+  /** 초상화 클릭 → FilePicker로 액터 이미지 교체. */
+  static async #onEditImg() {
+    const fp = new foundry.applications.apps.FilePicker.implementation({
+      type: "image",
+      current: this.actor.img,
+      callback: (path) => this.actor.update({ img: path }),
+    });
+    return fp.browse();
+  }
+
+  /** 상태이상 칩 클릭 → 해당 status boolean 토글. */
+  static async #onToggleStatus(_event, target) {
+    const key = target.dataset.status;
+    await this.actor.update({ [`system.statuses.${key}`]: !this.actor.system.statuses?.[key] });
   }
 
   static async #onSubmit(_event, _form, formData) {

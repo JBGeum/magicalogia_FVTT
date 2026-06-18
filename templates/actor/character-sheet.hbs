@@ -1,30 +1,121 @@
 <form class="{{cssClass}}" autocomplete="off">
-  <header class="mg-masthead">
-    <h1 class="mg-name">{{actor.name}}</h1>
-    <span class="mg-rank">계제 <input type="number" name="system.rank" value="{{system.rank}}" /></span>
-  </header>
+  <div class="mg-content">
+    <header class="mg-masthead">
+      <div>
+        <div class="mg-masthead__eyebrow">❧ 파토서대전 RPG ❧</div>
+        <span class="mg-masthead__title">마기카로기아</span>
+        <span class="mg-masthead__latin">CHARACTER SHEET</span>
+      </div>
+      <div class="mg-masthead__sigil">✶</div>
+    </header>
 
-  <section class="mg-stats">
-    <label>공격 <input type="number" name="system.abilities.attack" value="{{system.abilities.attack}}" /></label>
-    <label>방어 <input type="number" name="system.abilities.defense" value="{{system.abilities.defense}}" /></label>
-    <label>근원 <input type="number" name="system.abilities.source" value="{{system.abilities.source}}" /></label>
-    <label>마력 <input type="number" name="system.mp.value" value="{{system.mp.value}}" /> / <input type="number" name="system.mp.max" value="{{system.mp.max}}" /></label>
-    <label>일시마력 <input type="number" name="system.tempMp" value="{{system.tempMp}}" /></label>
-    <label>공적점 <input type="number" name="system.achievement" value="{{system.achievement}}" /></label>
-  </section>
+    <nav class="mg-tabs">
+      <a class="mg-tab is-active">캐릭터 시트</a>
+      <a class="mg-tab is-disabled" title="준비 중">장서</a>
+      <a class="mg-tab is-disabled" title="준비 중">관계</a>
+      <a class="mg-tab is-disabled" title="준비 중">개요·정보</a>
+      <a class="mg-tab is-disabled" title="준비 중">속성·능력</a>
+    </nav>
 
-  <section class="mg-status">
-    {{#each statuses}}
-    <label class="mg-status__chip {{#if this.active}}is-active{{/if}}">
-      <input type="checkbox" name="system.statuses.{{this.key}}" {{checked this.active}} />
-      {{this.label}}
-    </label>
-    {{/each}}
-  </section>
+    <section class="mg-tab-content">
+      <div class="tab mg-main mg-panel-body" data-tab="main">
 
-  {{> "systems/magicalogia/templates/actor/parts/magic-chart.hbs"}}
+        <div class="mg-headband">
+          <div class="mg-portrait" data-action="editImg">
+            {{#if actor.img}}
+            <img src="{{actor.img}}" alt="portrait" />
+            {{else}}
+            <span class="mg-corner mg-corner--tl"></span><span class="mg-corner mg-corner--tr"></span>
+            <span class="mg-corner mg-corner--bl"></span><span class="mg-corner mg-corner--br"></span>
+            <span class="mg-portrait__glyph">✶</span><span class="mg-portrait__hint">초상화</span>
+            {{/if}}
+          </div>
 
-  <section class="mg-memo">
-    {{editor enrichedBiography target="system.biography" button=true editable=editable}}
-  </section>
+          <div class="mg-identity-grid">
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="임시 이름" name="system.tempName" value=system.tempName}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="경력" name="system.career" value=system.career}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="마법명" name="system.magicName" value=system.magicName}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="기관" name="system.organization" value=system.organization}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="플레이어" name="system.player" value=system.player}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="신분" name="system.socialStatus" value=system.socialStatus}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="성별·연령" name="system.genderAge" value=system.genderAge}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="진정한 모습" name="system.trueForm" value=system.trueForm}}
+            <label class="mg-field mg-field--wide mg-field--effect">
+              <span class="mg-field__mark">❖</span>
+              <span class="mg-field__label">효과</span>
+              <input class="mg-field__value" type="text" name="system.effect" value="{{system.effect}}" placeholder="—" />
+            </label>
+          </div>
+
+          <div class="mg-statrail">
+            <div class="mg-stat-row">
+              <label class="mg-stat"><span class="mg-stat__label">공격</span><input class="mg-stat__value" name="system.abilities.attack" value="{{system.abilities.attack}}" /></label>
+              <label class="mg-stat"><span class="mg-stat__label">방어</span><input class="mg-stat__value" name="system.abilities.defense" value="{{system.abilities.defense}}" /></label>
+              <label class="mg-stat"><span class="mg-stat__label">근원</span><input class="mg-stat__value" name="system.abilities.source" value="{{system.abilities.source}}" /></label>
+              <label class="mg-stat mg-stat--rank"><span class="mg-stat__label">계제</span><input class="mg-stat__value" name="system.rank" value="{{system.rank}}" /></label>
+            </div>
+            <div class="mg-gauge">
+              <span class="mg-gauge__icon">◈</span><span class="mg-gauge__label">마력</span>
+              <input class="mg-gauge__value" name="system.mp.value" value="{{system.mp.value}}" />
+              <span class="mg-gauge__sep">/</span>
+              <input class="mg-gauge__max" name="system.mp.max" value="{{system.mp.max}}" />
+            </div>
+            <div class="mg-gauge">
+              <span class="mg-gauge__icon">◇</span><span class="mg-gauge__label">일시 마력</span>
+              <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
+            </div>
+            <div class="mg-counter-row">
+              <label class="mg-counter"><span class="mg-counter__label">공적점</span><input class="mg-counter__value" name="system.achievement" value="{{system.achievement}}" /></label>
+              <label class="mg-counter"><span class="mg-counter__label">마화</span><input class="mg-counter__value" name="system.mabloom" value="{{system.mabloom}}" /></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mg-status">
+          <span class="mg-status__title"><span class="mark">❖</span>상태이상</span>
+          <span class="mg-status__list">
+            {{#each statuses}}
+            <span class="mg-status__chip {{#if this.active}}is-active{{/if}}" data-action="toggleStatus" data-status="{{this.key}}">{{this.label}}</span>
+            {{/each}}
+          </span>
+        </div>
+
+        <div class="mg-shared">
+          <div class="mg-subtabs">
+            <a class="mg-subtab is-active">특기</a>
+            <a class="mg-subtab is-disabled" title="준비 중">설정</a>
+          </div>
+
+          {{> "systems/magicalogia/templates/actor/parts/magic-chart.hbs"}}
+
+          <div class="mg-belowgrid">
+            <div class="mg-memo">
+              <span class="mg-memo__label">메 모</span>
+              {{editor enrichedBiography target="system.biography" button=true editable=editable}}
+            </div>
+            <div>
+              <div class="mg-banner mg-banner--inline" style="margin-bottom: 6px">
+                <span class="mg-banner__rule mg-banner__rule--l"></span>
+                <span class="mg-banner__label">주사위 및 각종 표</span>
+                <span class="mg-banner__rule mg-banner__rule--r"></span>
+              </div>
+              <div class="mg-tables">
+                <div class="mg-tablecard">
+                  <div class="mg-tablecard__head">가변특기</div>
+                  <div class="mg-tablecard__body mg-tablecard__body--select">
+                    <input class="mg-field__value" type="text" name="system.variableSkill" value="{{system.variableSkill}}" placeholder="—" /><span class="caret">▾</span>
+                  </div>
+                </div>
+                <div class="mg-tablecard"><div class="mg-tablecard__head">운명 변전</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
+                <div class="mg-tablecard"><div class="mg-tablecard__head">장면 표</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
+                <div class="mg-tablecard"><div class="mg-tablecard__head">주사위</div><div class="mg-tablecard__body mg-tablecard__body--roll">D6</div></div>
+                <div class="mg-tablecard"><div class="mg-tablecard__head">펌블 표</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
+                <div class="mg-tablecard"><div class="mg-tablecard__head">사건 표</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </form>

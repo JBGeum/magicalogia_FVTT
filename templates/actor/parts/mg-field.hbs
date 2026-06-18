@@ -1,0 +1,12 @@
+{{!-- 라벨+밑줄 값 필드. usage: {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="마법명" name="system.magicName" value=system.magicName}} --}}
+<label class="mg-field">
+  <span class="mg-field__mark">❖</span>
+  <span class="mg-field__label">{{label}}</span>
+  <input
+    class="mg-field__value {{#unless value}}mg-field__value--empty{{/unless}}"
+    type="text"
+    name="{{name}}"
+    value="{{value}}"
+    placeholder="—"
+  />
+</label>
