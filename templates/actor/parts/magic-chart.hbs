@@ -1,0 +1,38 @@
+<div class="mg-chart">
+  <div class="mg-chart__grid">
+    {{!-- 출목 열 --}}
+    <div class="mg-chart__index">
+      <div class="mg-chart__head"><span class="num">치</span></div>
+      {{#each chartRows}}<div class="mg-chart__index-cell">{{this}}</div>{{/each}}
+    </div>
+
+    {{!-- 속성 열 --}}
+    {{#each chart}}
+    <div class="mg-chart__col {{#if this.dark}}mg-chart__col--dark{{/if}} {{#if this.scar}}mg-chart__col--scar{{/if}}">
+      <div class="mg-chart__head">
+        <span class="num">{{this.num}}</span>
+        <span class="title">{{this.title}}</span>
+      </div>
+      {{#each this.cells}}
+      <div class="mg-chart__cell {{#if this.owned}}is-on{{/if}}">
+        <span class="mg-check" data-action="toggleSkill" data-col="{{../key}}" data-index="{{this.index}}">{{#if this.owned}}✓{{/if}}</span>
+        <span class="name">{{this.name}}</span>
+        <span class="tn">{{#if this.tn}}{{this.tn}}{{else}}—{{/if}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="mg-chart__footer">
+    <label>소속영역
+      <select name="system.domain">
+        <option value="" {{selected (eq system.domain "")}}>—</option>
+        {{#each attributes}}
+        <option value="{{this.key}}" {{selected (eq ../system.domain this.key)}}>{{this.title}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label>혼의 특기 <input type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
+  </div>
+</div>

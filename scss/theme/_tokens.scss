@@ -1,0 +1,22 @@
+// 마기카로기아 디자인 토큰 (다크 — 마법진 바이올렛). 출처: docs/design/styles/_tokens.scss
+.magicalogia {
+  --mg-paper: radial-gradient(120% 80% at 50% 0%, #271745, #170e2c 72%);
+  --mg-panel: #231640;
+  --mg-panel-2: #2c1c50;
+  --mg-ink: #f1e9ff;
+  --mg-soft: #c3b0ec;
+  --mg-faint: #7d6aa8;
+  --mg-bar: linear-gradient(180deg, #4a2c84, #321f5e);
+  --mg-bar-ink: #f0e3b8;
+  --mg-gold: #e0c074;
+  --mg-line: rgba(224, 192, 116, 0.26);
+  --mg-field: #2a1b4c;
+  --mg-field-ink: #ece2ff;
+  --mg-hi: rgba(224, 192, 116, 0.18);
+  --mg-check: #e0c074;
+  --mg-dark-ink: #a98fd0;
+
+  --mg-radius: 3px;
+  --mg-row-h: 22px;
+  --mg-head-h: 36px;
+}

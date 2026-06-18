@@ -5,3 +5,6 @@ package-lock.json
 
 # 외부 디자인 핸드오프 레퍼런스 — 우리 포맷터/린터 대상 아님
 docs/design/
+
+# Handlebars 템플릿 — {{#if}} in attribute values는 Prettier hbs 파서가 거부함
+templates/
