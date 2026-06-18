@@ -5,14 +5,11 @@
 
 .magicalogia {
   position: relative;
-  overflow: hidden;
   box-sizing: border-box;
   width: 100%;
   font-family: $mg-font-body;
   line-height: 1.35;
   color: var(--mg-ink);
-  background: var(--mg-paper);
-  border: 1px solid var(--mg-gold);
 
   *,
   *::before,
@@ -20,20 +17,23 @@
     box-sizing: border-box;
   }
 
-  // Decorative background lives behind everything (see --mg-deco per theme)
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: var(--mg-deco);
-  }
-
   // All real content sits above the decorative layer
   .mg-content {
     position: relative;
     z-index: 1;
+    overflow: hidden;
+    background: var(--mg-paper);
+    border: 1px solid var(--mg-gold);
+
+    // Decorative background lives behind everything (see --mg-deco per theme)
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: var(--mg-deco);
+    }
   }
 
   // ---- Masthead ----
