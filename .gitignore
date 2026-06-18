@@ -1,0 +1,30 @@
+# IDE
+.idea/
+.vs/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Node
+node_modules/
+npm-debug.log
+.npm/
+*.log
+
+# Build outputs
+dist/
+.vite/
+*.tsbuildinfo
+
+# Foundry
+*.lock
+jsconfig.json
+foundry/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude
+/.claude/*
+*.zip

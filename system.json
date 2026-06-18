@@ -1,0 +1,41 @@
+{
+  "id": "magicalogia",
+  "title": "Magicalogia",
+  "description": "마기카로기아 - Foundry VTT 시스템",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13",
+    "maximum": "14"
+  },
+  "authors": [{ "name": "JBGeum" }],
+  "esmodules": ["module/magicalogia.mjs"],
+  "styles": ["magicalogia.css"],
+  "scripts": [],
+  "packs": [],
+  "documentTypes": {
+    "Actor": {
+      "character": {}
+    },
+    "Item": {
+      "generic": {}
+    }
+  },
+  "languages": [
+    {
+      "lang": "ko",
+      "name": "Korean",
+      "path": "lang/ko.json"
+    }
+  ],
+  "grid": {
+    "distance": 1,
+    "units": "m"
+  },
+  "primaryTokenAttribute": "health",
+  "url": "",
+  "manifest": "",
+  "download": "",
+  "license": "LICENSE.txt",
+  "changelog": "CHANGELOG.md"
+}
