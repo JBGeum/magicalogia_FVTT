@@ -7,6 +7,7 @@
 @use "component/grimoire";
 @use "component/item-sheet";
 
-// 폰트 — 시안 지정(본문 Nanum Myeongjo / 디스플레이 Gowun Batang / 라틴 Cinzel).
-// 오프라인/사설 서버용 @font-face 번들은 후속 작업.
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700&display=swap");
+// 폰트 — 본문/디스플레이 Pretendard, 라틴 강조 Cinzel.
+// 오프라인/사설 서버용 @font-face 번들은 후속 작업(지금은 CDN).
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap");
