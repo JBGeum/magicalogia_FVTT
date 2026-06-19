@@ -53,11 +53,14 @@
     > .mg-gauge {
       flex: 1;
     }
-    .mg-stat {
-      padding: 6px 0;
-    }
     .mg-gauge {
       align-items: center;
+    }
+    // 시안: 게이지 head가 (flex:1로 늘어난) 게이지 전체 높이를 채운다.
+    // (.mg-stat 의 padding 오버라이드는 제거 — S2 .mg-stat 는 min-height + flex 로
+    //  자체 높이를 가지므로 padding 을 더하면 시안보다 타일이 커진다.)
+    .mg-gauge__head {
+      height: 100%;
     }
   }
   .mg-counter-row {
