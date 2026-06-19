@@ -283,6 +283,21 @@
     }
   }
 
+  // ---- Baroque divider (교체 가능 이미지 자산) ----
+  .mg-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6px 0 4px;
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+    }
+  }
+
   // ---- Status-ailment strip (상태이상) ----
   .mg-status {
     display: flex;
