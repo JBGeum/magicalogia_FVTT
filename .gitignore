@@ -28,3 +28,6 @@ Thumbs.db
 # Claude
 /.claude/*
 *.zip
+
+# 디자인 작업 파일 (디자이너 시안 — 코드 외부 관리)
+docs/design/
