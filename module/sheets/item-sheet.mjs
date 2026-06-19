@@ -17,6 +17,12 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
     generic: {
       template: "systems/magicalogia/templates/item/generic-sheet.hbs",
     },
+    spell: {
+      template: "systems/magicalogia/templates/item/spell-sheet.hbs",
+    },
+    anchor: {
+      template: "systems/magicalogia/templates/item/anchor-sheet.hbs",
+    },
   };
 
   get title() {
@@ -41,6 +47,12 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
         this.item.system.description,
         { secrets: this.item.isOwner },
       );
+    if (this.item.type === "spell") {
+      context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
+      context.costAreas = CONFIG.MAGICALOGIA.COST_AREAS;
+    } else if (this.item.type === "anchor") {
+      context.anchorAttrs = CONFIG.MAGICALOGIA.anchorAttrs;
+    }
     return context;
   }
 

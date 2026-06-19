@@ -1,0 +1,21 @@
+<div class="{{cssClass}}">
+  <section class="sheet-body mg-item-form">
+    <div class="mg-item-grid">
+      <label class="mg-ifield"><span>운명점</span>
+        <input type="number" name="system.fate" value="{{system.fate}}" />
+      </label>
+      <label class="mg-ifield"><span>속성</span>
+        <select name="system.attr">
+          <option value="" {{selected (eq system.attr "")}}>—</option>
+          {{#each anchorAttrs}}<option value="{{this}}" {{selected (eq ../system.attr this)}}>{{this}}</option>{{/each}}
+        </select>
+      </label>
+      <label class="mg-icheck"><input type="checkbox" name="system.encumbrance" {{checked system.encumbrance}} /><span>중하(重荷)</span></label>
+      <label class="mg-icheck"><input type="checkbox" name="system.scar" {{checked system.scar}} /><span>스카(疵)</span></label>
+    </div>
+    <div class="description">
+      <label>설정</label>
+      {{editor enrichedDescription target="system.description" button=true editable=editable}}
+    </div>
+  </section>
+</div>

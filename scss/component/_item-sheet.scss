@@ -1,0 +1,45 @@
+// item 시트(spell/anchor) 폼 — 2열 그리드 + cost(영역 select + 개수).
+.mg-item-form {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mg-item-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+}
+.mg-ifield {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  > span {
+    flex: 0 0 64px;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  input,
+  select {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  &--wide {
+    grid-column: 1 / -1;
+  }
+  &--cost {
+    select {
+      flex: 0 0 84px;
+    }
+    input {
+      flex: 0 0 56px;
+    }
+  }
+}
+.mg-icheck {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}

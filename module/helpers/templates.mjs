@@ -11,6 +11,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/magicalogia/templates/actor/parts/grimoire.hbs",
     "systems/magicalogia/templates/actor/parts/relations.hbs",
     "systems/magicalogia/templates/item/generic-sheet.hbs",
+    "systems/magicalogia/templates/item/spell-sheet.hbs",
+    "systems/magicalogia/templates/item/anchor-sheet.hbs",
     "systems/magicalogia/templates/chat/specialty-roll.hbs",
   ]);
 };

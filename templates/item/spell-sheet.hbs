@@ -1,0 +1,39 @@
+<div class="{{cssClass}}">
+  <section class="sheet-body mg-item-form">
+    <div class="mg-item-grid">
+      <label class="mg-ifield"><span>타입</span>
+        <select name="system.type">
+          <option value="" {{selected (eq system.type "")}}>—</option>
+          {{#each spellTypes}}<option value="{{this}}" {{selected (eq ../system.type this)}}>{{this}}</option>{{/each}}
+        </select>
+      </label>
+      <label class="mg-ifield"><span>지정특기</span>
+        <input type="text" name="system.skill" value="{{system.skill}}" />
+      </label>
+      <label class="mg-ifield"><span>목표</span>
+        <input type="text" name="system.target" value="{{system.target}}" />
+      </label>
+      <div class="mg-ifield mg-ifield--cost"><span>코스트</span>
+        <select name="system.cost.area">
+          {{#each costAreas}}<option value="{{this.value}}" {{selected (eq ../system.cost.area this.value)}}>{{this.label}}</option>{{/each}}
+        </select>
+        <input type="number" name="system.cost.count" value="{{system.cost.count}}" min="0" />
+      </div>
+      <label class="mg-ifield"><span>충전</span>
+        <input type="number" name="system.charge" value="{{system.charge}}" min="0" max="6" />
+      </label>
+      <label class="mg-ifield"><span>수정</span>
+        <input type="number" name="system.mod" value="{{system.mod}}" />
+      </label>
+      <label class="mg-icheck"><input type="checkbox" name="system.active" {{checked system.active}} /><span>장비/유효</span></label>
+      <label class="mg-icheck"><input type="checkbox" name="system.recite" {{checked system.recite}} /><span>주구</span></label>
+      <label class="mg-ifield mg-ifield--wide"><span>효과</span>
+        <input type="text" name="system.effect" value="{{system.effect}}" />
+      </label>
+    </div>
+    <div class="description">
+      <label>서술</label>
+      {{editor enrichedDescription target="system.description" button=true editable=editable}}
+    </div>
+  </section>
+</div>
