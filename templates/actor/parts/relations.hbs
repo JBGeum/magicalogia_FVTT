@@ -1,0 +1,23 @@
+<div class="mg-table mg-table--relations mg-relations">
+  <div class="mg-table__head">
+    <span>□</span><span class="col-name">앵커 이름</span><span>운명</span><span>속성</span><span class="col-setting">설정</span>
+  </div>
+  {{#each anchors}}
+  <div class="mg-table__row" data-index="{{this.index}}">
+    <span class="col-check">
+      <span class="mg-check {{#if this.checked}}is-on{{/if}}" data-action="toggle-anchor" data-index="{{this.index}}">{{#if this.checked}}✓{{/if}}</span>
+    </span>
+    <span class="col-name {{#unless this.name}}col-empty{{/unless}}"><input type="text" name="system.anchors.{{this.index}}.name" value="{{this.name}}" placeholder="—" /></span>
+    <span><input type="text" name="system.anchors.{{this.index}}.fate" value="{{this.fate}}" /></span>
+    <span><input type="text" name="system.anchors.{{this.index}}.attr" value="{{this.attr}}" /></span>
+    <span class="col-setting"><input type="text" name="system.anchors.{{this.index}}.setting" value="{{this.setting}}" placeholder="—" /></span>
+  </div>
+  {{/each}}
+  <div class="mg-table__add" data-action="add-anchor">＋</div>
+</div>
+
+<label class="mg-field mg-field--wide">
+  <span class="mg-field__mark">❖</span>
+  <span class="mg-field__label">의무</span>
+  <input class="mg-field__value" type="text" name="system.mission" value="{{system.mission}}" placeholder="—" />
+</label>

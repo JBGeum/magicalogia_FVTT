@@ -101,4 +101,9 @@ describe("CharacterDataModel", () => {
     const spellSchema = s.spells.element.fields;
     expect(Object.keys(spellSchema)).toContain("active");
   });
+  it("anchors 항목은 setting 필드를 가진다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const s = CharacterDataModel.defineSchema();
+    expect(Object.keys(s.anchors.element.fields)).toContain("setting");
+  });
 });

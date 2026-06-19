@@ -25,6 +25,8 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       "add-spell": MagicalogiaActorSheet.#onAddSpell,
       "toggle-spell-flag": MagicalogiaActorSheet.#onToggleSpellFlag,
       "set-charge": MagicalogiaActorSheet.#onSetCharge,
+      "add-anchor": MagicalogiaActorSheet.#onAddAnchor,
+      "toggle-anchor": MagicalogiaActorSheet.#onToggleAnchor,
     },
   };
 
@@ -33,6 +35,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       tabs: [
         { id: "main", label: "캐릭터 시트" },
         { id: "grimoire", label: "장서" },
+        { id: "relations", label: "관계" },
       ],
       initial: "main",
     },
@@ -85,6 +88,9 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       })),
     }));
 
+    // 관계 — 원본 인덱스 부여(배열 갱신 시 사용).
+    context.anchors = (sys.anchors ?? []).map((a, i) => ({ ...a, index: i }));
+
     context.enrichedBiography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sys.biography,
       {
@@ -100,6 +106,12 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
         group: "primary",
         label: "장서",
         active: activeTab === "grimoire",
+      },
+      relations: {
+        id: "relations",
+        group: "primary",
+        label: "관계",
+        active: activeTab === "relations",
       },
     };
     return context;
@@ -153,6 +165,22 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     await this.actor.update({ "system.spells": arr });
   }
 
+  /** 관계 행 추가 — 빈 항목을 배열 끝에 push. */
+  static async #onAddAnchor() {
+    const arr = foundry.utils.deepClone(this.actor.system.anchors ?? []);
+    arr.push({ name: "", fate: 0, attr: "", setting: "", checked: false });
+    await this.actor.update({ "system.anchors": arr });
+  }
+
+  /** 관계 행의 checked boolean 토글. */
+  static async #onToggleAnchor(_event, target) {
+    const index = Number(target.dataset.index);
+    const arr = foundry.utils.deepClone(this.actor.system.anchors ?? []);
+    if (!arr[index]) return;
+    arr[index].checked = !arr[index].checked;
+    await this.actor.update({ "system.anchors": arr });
+  }
+
   static async #onRollSpecialty(_event, target) {
     await rollSpecialty(this.actor, target.dataset.col, Number(target.dataset.index));
   }
@@ -173,7 +201,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     await this.actor.update({ [`system.statuses.${key}`]: !this.actor.system.statuses?.[key] });
   }
 
-  /** 장서 행 우클릭 컨텍스트 메뉴(렌더 후 element에 위임). */
+  /** 장서/관계 행 우클릭 컨텍스트 메뉴(렌더 후 element에 위임). */
   _onRender(context, options) {
     super._onRender?.(context, options);
     new foundry.applications.ux.ContextMenu(
@@ -188,6 +216,18 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       ],
       { jQuery: false },
     );
+    new foundry.applications.ux.ContextMenu(
+      this.element,
+      ".mg-relations .mg-table__row",
+      [
+        {
+          name: "삭제",
+          icon: '<i class="fa-solid fa-trash"></i>',
+          callback: (target) => this.#deleteAnchor(Number(target.dataset.index)),
+        },
+      ],
+      { jQuery: false },
+    );
   }
 
   /** 장서 행 삭제 — 해당 index 제거 후 배열 갱신. */
@@ -196,6 +236,14 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
     arr.splice(index, 1);
     await this.actor.update({ "system.spells": arr });
+  }
+
+  /** 관계 행 삭제 — 해당 index 제거 후 배열 갱신. */
+  async #deleteAnchor(index) {
+    if (Number.isNaN(index)) return;
+    const arr = foundry.utils.deepClone(this.actor.system.anchors ?? []);
+    arr.splice(index, 1);
+    await this.actor.update({ "system.anchors": arr });
   }
 
   static async #onSubmit(_event, _form, formData) {

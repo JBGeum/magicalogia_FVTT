@@ -85,12 +85,13 @@ export class CharacterDataModel extends BaseActorModel {
         }),
       ),
 
-      // 관계(anchor) — 필드만
+      // 관계(anchor)
       anchors: new fields.ArrayField(
         new fields.SchemaField({
           name: new fields.StringField({ initial: "" }),
           fate: new fields.NumberField({ initial: 0, integer: true }),
           attr: new fields.StringField({ initial: "" }),
+          setting: new fields.StringField({ initial: "" }),
           checked: new fields.BooleanField({ initial: false }),
         }),
       ),

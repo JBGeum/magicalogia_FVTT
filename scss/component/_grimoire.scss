@@ -120,6 +120,18 @@
     grid-template-columns: 24px 1.55fr 0.95fr 0.85fr 0.6fr 0.95fr 26px;
   }
 
+  // 컬럼 템플릿 — □ / 앵커 이름 / 운명 / 속성 / 설정 (패널 폭을 가득 채움)
+  .mg-table--relations .mg-table__head,
+  .mg-table--relations .mg-table__row {
+    grid-template-columns: 24px 1.3fr 0.6fr 0.85fr 1.9fr;
+  }
+  // 설정 — 좌측정렬 넓은 컬럼(줄바꿈 허용)
+  .mg-table--relations .col-setting {
+    text-align: left;
+    padding-left: 8px;
+    white-space: normal;
+  }
+
   // 충전 슬롯(동그라미) — 클릭으로 충전수 증감
   .mg-rings {
     display: flex;

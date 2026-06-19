@@ -12,7 +12,7 @@
     <nav class="mg-tabs tabs" data-group="primary">
       <a class="mg-tab {{#if tabs.main.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="main">캐릭터 시트</a>
       <a class="mg-tab {{#if tabs.grimoire.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="grimoire">장서</a>
-      <a class="mg-tab is-disabled" title="준비 중">관계</a>
+      <a class="mg-tab {{#if tabs.relations.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="relations">관계</a>
       <a class="mg-tab is-disabled" title="준비 중">개요·정보</a>
       <a class="mg-tab is-disabled" title="준비 중">속성·능력</a>
     </nav>
@@ -122,6 +122,10 @@
 
       <div class="tab mg-panel-body {{#if tabs.grimoire.active}}active{{/if}}" data-tab="grimoire" data-group="primary">
         {{> "systems/magicalogia/templates/actor/parts/grimoire.hbs"}}
+      </div>
+
+      <div class="tab mg-panel-body {{#if tabs.relations.active}}active{{/if}}" data-tab="relations" data-group="primary">
+        {{> "systems/magicalogia/templates/actor/parts/relations.hbs"}}
       </div>
     </section>
   </div>
