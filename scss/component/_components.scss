@@ -137,6 +137,56 @@
     gap: 6px;
   }
 
+  // ---- Rank tile (계제: 값 + 등급명 + 플로리시) ----
+  .mg-rank {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--mg-gold);
+    border-radius: $mg-radius-sm;
+    overflow: hidden;
+    text-align: center;
+
+    &__label {
+      background: var(--mg-head-bg);
+      color: var(--mg-head-ink);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 0;
+    }
+    &__body {
+      background: var(--mg-field);
+      padding: 3px 0 5px;
+    }
+    &__flourish {
+      display: flex;
+      justify-content: center;
+      height: 11px;
+      margin: 1px 0;
+      color: var(--mg-gold);
+
+      svg {
+        height: 11px;
+        width: auto;
+        display: block;
+      }
+    }
+    // value 는 <input> — statrail input 리셋(투명/border0/padding0) 적용.
+    &__value {
+      width: 100%;
+      text-align: center;
+      color: var(--mg-gold);
+      font-family: $mg-font-body;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    &__sub {
+      color: var(--mg-soft);
+      font-size: 9.5px;
+      margin-top: 1px;
+    }
+  }
+
   // ---- Resource gauge (마력 value/max, 일시 마력) — head/body 2분할 ----
   .mg-gauge {
     display: flex;

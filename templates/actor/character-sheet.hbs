@@ -120,14 +120,13 @@
                 <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
               </div>
             </div>
-            <div class="mg-stat-row">
-              <label class="mg-stat mg-stat--rank mg-stat--muted"><span
-                  class="mg-stat__label"
-                >계제</span><input
-                  class="mg-stat__value"
-                  name="system.rank"
-                  value="{{system.rank}}"
-                /></label>
+            <div class="mg-rank">
+              <div class="mg-rank__label">계제</div>
+              <div class="mg-rank__body">
+                <div class="mg-rank__flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-rankflr.hbs"}}</div>
+                <input class="mg-rank__value" name="system.rank" value="{{system.rank}}" />
+                <div class="mg-rank__sub">{{rankTitle}}</div>
+              </div>
             </div>
           </div>
         </div>
