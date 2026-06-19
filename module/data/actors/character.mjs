@@ -74,33 +74,6 @@ export class CharacterDataModel extends BaseActorModel {
         ),
       ),
 
-      // 장서(spell)
-      spells: new fields.ArrayField(
-        new fields.SchemaField({
-          name: new fields.StringField({ initial: "" }),
-          type: new fields.StringField({ initial: "" }),
-          skill: new fields.StringField({ initial: "" }),
-          target: new fields.StringField({ initial: "" }),
-          cost: new fields.StringField({ initial: "" }),
-          charge: new fields.NumberField({ initial: 0, integer: true }),
-          mod: new fields.NumberField({ initial: 0, integer: true }),
-          active: new fields.BooleanField({ initial: false }),
-          recite: new fields.BooleanField({ initial: false }),
-          effect: new fields.StringField({ initial: "" }),
-        }),
-      ),
-
-      // 관계(anchor)
-      anchors: new fields.ArrayField(
-        new fields.SchemaField({
-          name: new fields.StringField({ initial: "" }),
-          fate: new fields.NumberField({ initial: 0, integer: true }),
-          attr: new fields.StringField({ initial: "" }),
-          setting: new fields.StringField({ initial: "" }),
-          checked: new fields.BooleanField({ initial: false }),
-        }),
-      ),
-
       mission: new fields.StringField({ initial: "" }),
       collection: new fields.StringField({ initial: "" }),
     };

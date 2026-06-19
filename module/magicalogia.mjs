@@ -7,6 +7,8 @@ import { MagicalogiaItem } from "./documents/item.mjs";
 // DataModels
 import { CharacterDataModel } from "./data/actors/character.mjs";
 import { GenericItemDataModel } from "./data/items/generic.mjs";
+import { SpellDataModel } from "./data/items/spell.mjs";
+import { AnchorDataModel } from "./data/items/anchor.mjs";
 // Sheets
 import { MagicalogiaActorSheet } from "./sheets/actor-sheet.mjs";
 import { MagicalogiaItemSheet } from "./sheets/item-sheet.mjs";
@@ -30,6 +32,8 @@ Hooks.once("init", async function () {
   };
   CONFIG.Item.dataModels = {
     generic: GenericItemDataModel,
+    spell: SpellDataModel,
+    anchor: AnchorDataModel,
   };
 
   // V13: 시트 컬렉션은 foundry.documents.collections 네임스페이스.

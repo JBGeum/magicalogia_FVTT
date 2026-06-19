@@ -18,7 +18,9 @@
       "character": {}
     },
     "Item": {
-      "generic": {}
+      "generic": {},
+      "spell": {},
+      "anchor": {}
     }
   },
   "languages": [

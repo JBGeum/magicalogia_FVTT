@@ -48,8 +48,6 @@ describe("CharacterDataModel", () => {
       "soulSkill",
       "abilities",
       "statuses",
-      "spells",
-      "anchors",
     ]) {
       expect(Object.keys(s)).toContain(key);
     }
@@ -104,17 +102,6 @@ describe("CharacterDataModel", () => {
     const s = CharacterDataModel.defineSchema();
     expect(s.domain.options.blank).toBe(true);
   });
-  it("spells 항목은 active boolean 필드를 가진다", async () => {
-    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
-    const s = CharacterDataModel.defineSchema();
-    const spellSchema = s.spells.element.fields;
-    expect(Object.keys(spellSchema)).toContain("active");
-  });
-  it("anchors 항목은 setting 필드를 가진다", async () => {
-    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
-    const s = CharacterDataModel.defineSchema();
-    expect(Object.keys(s.anchors.element.fields)).toContain("setting");
-  });
   it("genderAge는 더 이상 스키마에 없다", async () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     expect(Object.keys(CharacterDataModel.defineSchema())).not.toContain("genderAge");
@@ -143,5 +130,11 @@ describe("CharacterDataModel", () => {
     const out = CharacterDataModel.migrateData({ genderAge: "남", gender: "여" });
     expect(out.gender).toBe("여");
     expect(out.genderAge).toBeUndefined();
+  });
+  it("spells/anchors는 더 이상 액터 스키마에 없다(Item으로 이관)", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const keys = Object.keys(CharacterDataModel.defineSchema());
+    expect(keys).not.toContain("spells");
+    expect(keys).not.toContain("anchors");
   });
 });
