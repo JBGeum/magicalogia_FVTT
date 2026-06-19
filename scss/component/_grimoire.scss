@@ -1,0 +1,107 @@
+@use "../theme/vars" as *;
+
+// 데이터 테이블 (장서 / 관계) — 출처: docs/design/styles/_components.scss
+.magicalogia {
+  .mg-table {
+    border: 1px solid var(--mg-gold);
+    border-radius: $mg-radius;
+    overflow: hidden;
+
+    &__head,
+    &__row {
+      display: grid;
+      align-items: center;
+    }
+    &__head {
+      background: var(--mg-bar);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--mg-bar-ink);
+    }
+    &__head > * {
+      padding: 6px 4px;
+      text-align: center;
+    }
+    &__head > .col-name {
+      text-align: left;
+      padding-left: 8px;
+    }
+    &__row {
+      background: var(--mg-panel);
+      border-top: 1px solid var(--mg-line);
+    }
+    &__row > * {
+      padding: 5px 4px;
+      font-size: 11.5px;
+      text-align: center;
+      color: var(--mg-soft);
+      border-left: 1px solid var(--mg-line);
+    }
+    &__row > .col-check {
+      border-left: 0;
+    }
+    &__row .col-name {
+      text-align: left;
+      padding-left: 8px;
+      color: var(--mg-field-ink);
+      font-size: 12.5px;
+    }
+    &__row .col-empty {
+      color: var(--mg-faint);
+    }
+    &__note {
+      padding: 4px 10px 7px 32px;
+      background: var(--mg-panel);
+      border-top: 1px dotted var(--mg-line);
+    }
+    &__add {
+      padding: 7px;
+      text-align: center;
+      font-size: 16px;
+      color: var(--mg-gold);
+      background: var(--mg-panel-2);
+      border-top: 1px solid var(--mg-line);
+      cursor: pointer;
+    }
+
+    // 행 입력칸은 셀 안에서 투명 배경으로 가득 채운다.
+    input {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      font: inherit;
+      text-align: inherit;
+    }
+    &__note input {
+      font-size: 11px;
+      font-style: italic;
+      color: var(--mg-faint);
+    }
+
+    // 커스텀 체크박스(시안 .mg-check) — 테이블 스코프
+    .mg-check {
+      width: 13px;
+      height: 13px;
+      flex: none;
+      border-radius: $mg-radius-sm;
+      border: 1px solid var(--mg-line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &.is-on {
+        background: var(--mg-check);
+        border-color: var(--mg-check);
+        color: var(--mg-panel);
+        font-size: 8px;
+      }
+    }
+  }
+
+  // 컬럼 템플릿
+  .mg-table--grimoire .mg-table__head,
+  .mg-table--grimoire .mg-table__row {
+    grid-template-columns: 24px 2.4fr 1fr 1.1fr 0.9fr 0.8fr 0.7fr 0.8fr 24px;
+  }
+}
