@@ -6,12 +6,30 @@
 
 .magicalogia {
   // ---- C : dashboard header band ----
-  // [ portrait 118px | identity (2-col) 1fr | stat-rail 132px ]
+  // [ portcol 150px | identity (2-col) 1fr | stat-rail 170px ]
   .mg-headband {
     display: grid;
-    grid-template-columns: 118px 1fr 132px;
-    gap: 14px;
-    align-items: start;
+    grid-template-columns: 150px 1fr 170px;
+    gap: 11px;
+    align-items: stretch;
+  }
+
+  // 초상화 + 카운터행 묶음(좌측 컬럼).
+  .mg-portcol {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    .mg-portrait {
+      aspect-ratio: 1 / 1;
+      flex: none;
+    }
+    .mg-counter-row {
+      flex: 1;
+    }
+    .mg-counter {
+      justify-content: center;
+    }
   }
 
   .mg-identity-grid {
@@ -29,7 +47,18 @@
   .mg-statrail {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 7px;
+
+    > .mg-stat-row,
+    > .mg-gauge {
+      flex: 1;
+    }
+    .mg-stat {
+      padding: 6px 0;
+    }
+    .mg-gauge {
+      align-items: center;
+    }
   }
   .mg-counter-row {
     display: flex;

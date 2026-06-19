@@ -119,6 +119,24 @@
     &--rank .mg-stat__value {
       color: var(--mg-gold);
     }
+    // 강조(공격/방어/근원): 금테 + 큰 값.
+    &--key {
+      border-color: var(--mg-gold);
+    }
+    &--key .mg-stat__label {
+      color: var(--mg-bar-ink);
+    }
+    &--key .mg-stat__value {
+      font-size: 22px;
+    }
+    // 약화(계제 등): 흐리게 + 작은 값.
+    &--muted {
+      opacity: 0.7;
+    }
+    &--muted .mg-stat__value {
+      font-size: 14px;
+      color: var(--mg-soft);
+    }
   }
   .mg-stat-row {
     display: flex;
@@ -166,6 +184,25 @@
       font-size: 15px;
       color: var(--mg-gold);
     }
+    // 강조(마력): 금테 + 큰 값.
+    &--key {
+      border-color: var(--mg-gold);
+    }
+    &--key .mg-gauge__icon,
+    &--key .mg-gauge__label {
+      color: var(--mg-bar-ink);
+    }
+    &--key .mg-gauge__value,
+    &--key .mg-gauge__max {
+      font-size: 21px;
+    }
+    // 약화(일시 마력).
+    &--muted {
+      opacity: 0.7;
+    }
+    &--muted .mg-gauge__value {
+      color: var(--mg-soft);
+    }
   }
 
   // ---- Counter pill (공적점 / 마화) ----
@@ -191,6 +228,13 @@
       font-size: 15px;
       font-weight: 700;
       color: var(--mg-gold);
+    }
+    // 약화(공적점/마화).
+    &--muted {
+      opacity: 0.7;
+    }
+    &--muted .mg-counter__value {
+      color: var(--mg-soft);
     }
   }
 

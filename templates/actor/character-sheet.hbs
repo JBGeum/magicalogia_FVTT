@@ -21,14 +21,28 @@
       <div class="tab mg-main mg-panel-body {{#if tabs.main.active}}active{{/if}}" data-tab="main" data-group="primary">
 
         <div class="mg-headband">
-          <div class="mg-portrait" data-action="editImg">
-            {{#if actor.img}}
-            <img src="{{actor.img}}" alt="portrait" />
-            {{else}}
-            <span class="mg-corner mg-corner--tl"></span><span class="mg-corner mg-corner--tr"></span>
-            <span class="mg-corner mg-corner--bl"></span><span class="mg-corner mg-corner--br"></span>
-            <span class="mg-portrait__glyph">✶</span><span class="mg-portrait__hint">초상화</span>
-            {{/if}}
+          <div class="mg-portcol">
+            <div class="mg-portrait" data-action="editImg">
+              {{#if actor.img}}
+                <img src="{{actor.img}}" alt="portrait" />
+              {{else}}
+                <span class="mg-corner mg-corner--tl"></span><span class="mg-corner mg-corner--tr"></span>
+                <span class="mg-corner mg-corner--bl"></span><span class="mg-corner mg-corner--br"></span>
+                <span class="mg-portrait__glyph">✶</span><span class="mg-portrait__hint">초상화</span>
+              {{/if}}
+            </div>
+            <div class="mg-counter-row">
+              <label class="mg-counter mg-counter--muted"><span class="mg-counter__label">공적점</span><input
+                  class="mg-counter__value"
+                  name="system.achievement"
+                  value="{{system.achievement}}"
+                /></label>
+              <label class="mg-counter mg-counter--muted"><span class="mg-counter__label">마화</span><input
+                  class="mg-counter__value"
+                  name="system.mabloom"
+                  value="{{system.mabloom}}"
+                /></label>
+            </div>
           </div>
 
           <div class="mg-identity-grid">
@@ -70,26 +84,40 @@
 
           <div class="mg-statrail">
             <div class="mg-stat-row">
-              <label class="mg-stat"><span class="mg-stat__label">공격</span><input class="mg-stat__value" name="system.abilities.attack" value="{{system.abilities.attack}}" /></label>
-              <label class="mg-stat"><span class="mg-stat__label">방어</span><input class="mg-stat__value" name="system.abilities.defense" value="{{system.abilities.defense}}" /></label>
-              <label class="mg-stat"><span class="mg-stat__label">근원</span><input class="mg-stat__value" name="system.abilities.source" value="{{system.abilities.source}}" /></label>
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label">공격</span><input
+                  class="mg-stat__value"
+                  name="system.abilities.attack"
+                  value="{{system.abilities.attack}}"
+                /></label>
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label">방어</span><input
+                  class="mg-stat__value"
+                  name="system.abilities.defense"
+                  value="{{system.abilities.defense}}"
+                /></label>
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label">근원</span><input
+                  class="mg-stat__value"
+                  name="system.abilities.source"
+                  value="{{system.abilities.source}}"
+                /></label>
             </div>
-            <div class="mg-stat-row">
-              <label class="mg-stat mg-stat--rank"><span class="mg-stat__label">계제</span><input class="mg-stat__value" name="system.rank" value="{{system.rank}}" /></label>
-            </div>
-            <div class="mg-gauge">
+            <div class="mg-gauge mg-gauge--key">
               <span class="mg-gauge__icon">◈</span><span class="mg-gauge__label">마력</span>
               <input class="mg-gauge__value" name="system.mp.value" value="{{system.mp.value}}" />
               <span class="mg-gauge__sep">/</span>
               <input class="mg-gauge__max" name="system.mp.max" value="{{system.mp.max}}" />
             </div>
-            <div class="mg-gauge">
+            <div class="mg-gauge mg-gauge--muted">
               <span class="mg-gauge__icon">◇</span><span class="mg-gauge__label">일시 마력</span>
               <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
             </div>
-            <div class="mg-counter-row">
-              <label class="mg-counter"><span class="mg-counter__label">공적점</span><input class="mg-counter__value" name="system.achievement" value="{{system.achievement}}" /></label>
-              <label class="mg-counter"><span class="mg-counter__label">마화</span><input class="mg-counter__value" name="system.mabloom" value="{{system.mabloom}}" /></label>
+            <div class="mg-stat-row">
+              <label class="mg-stat mg-stat--rank mg-stat--muted"><span
+                  class="mg-stat__label"
+                >계제</span><input
+                  class="mg-stat__value"
+                  name="system.rank"
+                  value="{{system.rank}}"
+                /></label>
             </div>
           </div>
         </div>
