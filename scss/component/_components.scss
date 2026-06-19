@@ -277,16 +277,20 @@
   .mg-portrait {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1.05;
+    aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 6px;
     background: var(--mg-panel);
-    border: 1px solid var(--mg-gold);
+    border: 2px solid var(--mg-gold);
     border-radius: $mg-radius;
     overflow: hidden;
+    box-shadow:
+      inset 0 0 0 1px var(--mg-gold),
+      inset 0 0 0 4px var(--mg-panel),
+      inset 0 0 0 5px var(--mg-line);
 
     img {
       position: absolute;
@@ -307,35 +311,39 @@
       color: var(--mg-faint);
     }
 
-    // L-shaped corner ornaments
-    .mg-corner {
+    // SVG corner filigree (시안 mg-pcorner)
+    .mg-pcorner {
       position: absolute;
-      width: 12px;
-      height: 12px;
+      width: 30px;
+      height: 30px;
+      color: var(--mg-gold);
+      z-index: 2;
+      pointer-events: none;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
     }
-    .mg-corner--tl {
-      top: 6px;
-      left: 6px;
-      border-top: 2px solid var(--mg-gold);
-      border-left: 2px solid var(--mg-gold);
+    .mg-pcorner--tl {
+      top: 3px;
+      left: 3px;
     }
-    .mg-corner--tr {
-      top: 6px;
-      right: 6px;
-      border-top: 2px solid var(--mg-gold);
-      border-right: 2px solid var(--mg-gold);
+    .mg-pcorner--tr {
+      top: 3px;
+      right: 3px;
+      transform: scaleX(-1);
     }
-    .mg-corner--bl {
-      bottom: 6px;
-      left: 6px;
-      border-bottom: 2px solid var(--mg-gold);
-      border-left: 2px solid var(--mg-gold);
+    .mg-pcorner--bl {
+      bottom: 3px;
+      left: 3px;
+      transform: scaleY(-1);
     }
-    .mg-corner--br {
-      bottom: 6px;
-      right: 6px;
-      border-bottom: 2px solid var(--mg-gold);
-      border-right: 2px solid var(--mg-gold);
+    .mg-pcorner--br {
+      bottom: 3px;
+      right: 3px;
+      transform: scale(-1);
     }
   }
 

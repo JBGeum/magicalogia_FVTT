@@ -8,6 +8,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/magicalogia/templates/actor/character-sheet.hbs",
     "systems/magicalogia/templates/actor/parts/magic-chart.hbs",
     "systems/magicalogia/templates/actor/parts/mg-field.hbs",
+    "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs",
     "systems/magicalogia/templates/actor/parts/grimoire.hbs",
     "systems/magicalogia/templates/actor/parts/relations.hbs",
     "systems/magicalogia/templates/item/generic-sheet.hbs",

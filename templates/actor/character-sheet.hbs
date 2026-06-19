@@ -27,11 +27,13 @@
         <div class="mg-headband">
           <div class="mg-portcol">
             <div class="mg-portrait" data-action="editImg">
+              <span class="mg-pcorner mg-pcorner--tl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
+              <span class="mg-pcorner mg-pcorner--tr">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
+              <span class="mg-pcorner mg-pcorner--bl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
+              <span class="mg-pcorner mg-pcorner--br">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
               {{#if actor.img}}
                 <img src="{{actor.img}}" alt="portrait" />
               {{else}}
-                <span class="mg-corner mg-corner--tl"></span><span class="mg-corner mg-corner--tr"></span>
-                <span class="mg-corner mg-corner--bl"></span><span class="mg-corner mg-corner--br"></span>
                 <span class="mg-portrait__glyph">✶</span><span class="mg-portrait__hint">초상화</span>
               {{/if}}
             </div>
