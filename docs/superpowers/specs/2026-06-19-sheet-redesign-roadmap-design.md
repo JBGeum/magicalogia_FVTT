@@ -75,6 +75,9 @@
 - **신규 SCSS**: `mg-ident-select`(+`--wide`), `mg-portcol`, `mg-field--lg`, `mg-field--box`,
   `mg-stat--key`/`--muted`, `mg-gauge--key`/`--muted`, `mg-counter--muted`.
 - 식별 정보 중 player/socialStatus/gender/age는 메인 그리드에서 제거 → 정보 탭(③)으로.
+- ⚠️ **필수**: `templates/actor/character-sheet.hbs`의 `system.genderAge` 바인딩을 `gender`/`age`로
+  교체. ①에서 `genderAge`가 스키마에서 제거됨 — 미교체 시 "성별·연령" 입력이 silent no-op이
+  된다(DataModel이 다음 prepare에서 키를 버림). ① 최종 리뷰 발견.
 
 ## ③ 정보 탭 신설 (①에 의존)
 
