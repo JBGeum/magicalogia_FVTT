@@ -105,4 +105,13 @@ export class CharacterDataModel extends BaseActorModel {
       collection: new fields.StringField({ initial: "" }),
     };
   }
+
+  /** 구버전 genderAge 단일 필드를 gender로 이관(개발 초기 데이터 호환). */
+  static migrateData(source) {
+    if (source.genderAge && !source.gender) {
+      source.gender = source.genderAge;
+    }
+    delete source.genderAge;
+    return super.migrateData(source);
+  }
 }

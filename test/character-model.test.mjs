@@ -27,7 +27,13 @@ beforeAll(() => {
         },
       },
     },
-    abstract: { TypeDataModel: class {} },
+    abstract: {
+      TypeDataModel: class {
+        static migrateData(s) {
+          return s;
+        }
+      },
+    },
   };
 });
 
@@ -125,5 +131,17 @@ describe("CharacterDataModel", () => {
     const s = CharacterDataModel.defineSchema();
     expect(s.trueFormRevealed).toBeInstanceOf(foundry.data.fields.BooleanField);
     expect(s.trueFormRevealed.options.initial).toBe(false);
+  });
+  it("genderAge를 gender로 마이그레이션하고 키를 제거한다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const out = CharacterDataModel.migrateData({ genderAge: "남/20" });
+    expect(out.gender).toBe("남/20");
+    expect(out.genderAge).toBeUndefined();
+  });
+  it("gender가 이미 있으면 genderAge로 덮어쓰지 않는다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const out = CharacterDataModel.migrateData({ genderAge: "남", gender: "여" });
+    expect(out.gender).toBe("여");
+    expect(out.genderAge).toBeUndefined();
   });
 });
