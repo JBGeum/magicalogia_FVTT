@@ -9,16 +9,16 @@
       <div class="mg-masthead__sigil">✶</div>
     </header>
 
-    <nav class="mg-tabs">
-      <a class="mg-tab is-active">캐릭터 시트</a>
-      <a class="mg-tab is-disabled" title="준비 중">장서</a>
+    <nav class="mg-tabs tabs" data-group="primary">
+      <a class="mg-tab {{#if tabs.main.active}}is-active{{/if}}" data-action="tab" data-group="primary" data-tab="main">캐릭터 시트</a>
+      <a class="mg-tab {{#if tabs.grimoire.active}}is-active{{/if}}" data-action="tab" data-group="primary" data-tab="grimoire">장서</a>
       <a class="mg-tab is-disabled" title="준비 중">관계</a>
       <a class="mg-tab is-disabled" title="준비 중">개요·정보</a>
       <a class="mg-tab is-disabled" title="준비 중">속성·능력</a>
     </nav>
 
     <section class="mg-tab-content">
-      <div class="tab mg-main mg-panel-body" data-tab="main">
+      <div class="tab mg-main mg-panel-body {{#if tabs.main.active}}active{{/if}}" data-tab="main" data-group="primary">
 
         <div class="mg-headband">
           <div class="mg-portrait" data-action="editImg">
@@ -118,6 +118,10 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="tab mg-panel-body {{#if tabs.grimoire.active}}active{{/if}}" data-tab="grimoire" data-group="primary">
+        {{!-- Task 4에서 장서 테이블 partial 삽입 --}}
       </div>
     </section>
   </div>

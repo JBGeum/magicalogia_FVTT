@@ -22,6 +22,16 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     },
   };
 
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "main", label: "캐릭터 시트" },
+        { id: "grimoire", label: "장서" },
+      ],
+      initial: "main",
+    },
+  };
+
   static PARTS = {
     character: {
       template: "systems/magicalogia/templates/actor/character-sheet.hbs",
@@ -64,6 +74,17 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
         secrets: this.actor.isOwner,
       },
     );
+
+    const activeTab = this.tabGroups.primary ?? "main";
+    context.tabs = {
+      main: { id: "main", group: "primary", label: "캐릭터 시트", active: activeTab === "main" },
+      grimoire: {
+        id: "grimoire",
+        group: "primary",
+        label: "장서",
+        active: activeTab === "grimoire",
+      },
+    };
     return context;
   }
 

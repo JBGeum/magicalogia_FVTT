@@ -25,6 +25,15 @@
     flex: 1 0 auto;
   }
 
+  // 탭 패널 — active 한 탭만 표시(코어 규칙 보강).
+  .mg-tab-content > .tab {
+    display: none;
+  }
+  .mg-tab-content > .tab.active {
+    display: flex;
+    flex-direction: column;
+  }
+
   .resource {
     display: flex;
     align-items: center;
