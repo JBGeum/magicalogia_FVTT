@@ -82,6 +82,8 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     // 식별그리드 입력 옵션(datalist 추천목록 + 효과종류 select).
     context.careerOptions = CONFIG.MAGICALOGIA.CAREER_OPTIONS;
     context.orgOptions = CONFIG.MAGICALOGIA.ORG_OPTIONS;
+    // 계제 등급명(범위 밖이면 빈 문자열).
+    context.rankTitle = CONFIG.MAGICALOGIA.rankTitles[Number(sys.rank)] ?? "";
     context.effectTypes = CONFIG.MAGICALOGIA.EFFECT_TYPES.map((t) => ({
       value: t,
       selected: t === sys.effectType,

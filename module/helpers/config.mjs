@@ -65,6 +65,20 @@ MAGICALOGIA.statuses = [
   { key: "vanish", label: "소멸" },
 ];
 
+// 계제(rank) 등급명 — rankTitle 헬퍼/시트 컨텍스트가 system.rank 값으로 조회.
+MAGICALOGIA.rankTitles = {
+  1: "입문자 (Neophyte)",
+  2: "열성자 (Zelator)",
+  3: "이론자 (Theoricus)",
+  4: "실천자 (Practicus)",
+  5: "철학자 (Philosophus)",
+  6: "소관문 (Adeptus Minor)",
+  7: "대관문 (Adeptus Major)",
+  8: "면관문 (Adeptus Exemptus)",
+  9: "대사 (Magister)",
+  10: "마도사 (Magus)",
+};
+
 // 장서/관계 select 옵션.
 MAGICALOGIA.spellTypes = ["소환", "주문", "장비"];
 
