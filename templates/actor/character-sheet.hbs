@@ -2,7 +2,7 @@
   <div class="mg-content">
     <header class="mg-masthead">
       <div>
-        <div class="mg-masthead__eyebrow">❧ 파토서대전 RPG ❧</div>
+        <div class="mg-masthead__eyebrow">❧ 마도서대전 TRPG ❧</div>
         <span class="mg-masthead__title">마기카로기아</span>
         <span class="mg-masthead__latin">CHARACTER SHEET</span>
       </div>
@@ -10,8 +10,8 @@
     </header>
 
     <nav class="mg-tabs tabs" data-group="primary">
-      <a class="mg-tab {{#if tabs.main.active}}is-active{{/if}}" data-action="tab" data-group="primary" data-tab="main">캐릭터 시트</a>
-      <a class="mg-tab {{#if tabs.grimoire.active}}is-active{{/if}}" data-action="tab" data-group="primary" data-tab="grimoire">장서</a>
+      <a class="mg-tab {{#if tabs.main.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="main">캐릭터 시트</a>
+      <a class="mg-tab {{#if tabs.grimoire.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="grimoire">장서</a>
       <a class="mg-tab is-disabled" title="준비 중">관계</a>
       <a class="mg-tab is-disabled" title="준비 중">개요·정보</a>
       <a class="mg-tab is-disabled" title="준비 중">속성·능력</a>
@@ -121,7 +121,7 @@
       </div>
 
       <div class="tab mg-panel-body {{#if tabs.grimoire.active}}active{{/if}}" data-tab="grimoire" data-group="primary">
-        {{!-- Task 4에서 장서 테이블 partial 삽입 --}}
+        {{> "systems/magicalogia/templates/actor/parts/grimoire.hbs"}}
       </div>
     </section>
   </div>

@@ -94,7 +94,9 @@
       margin-bottom: -1px;
       cursor: pointer;
 
-      &.is-active {
+      // Foundry changeTab 은 active 클래스를 토글하므로 active 로 스타일한다
+      // (초기 렌더 템플릿도 active 부여 — is-active 와 혼용 금지).
+      &.active {
         color: var(--mg-bar-ink);
         font-weight: 700;
         border-bottom-color: var(--mg-gold);

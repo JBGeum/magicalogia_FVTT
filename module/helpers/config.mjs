@@ -66,7 +66,7 @@ MAGICALOGIA.statuses = [
 ];
 
 // 장서/관계 select 옵션.
-MAGICALOGIA.spellTypes = ["공격", "소환", "장비", "주문", "기타"];
+MAGICALOGIA.spellTypes = ["소환", "주문", "장비"];
 MAGICALOGIA.anchorAttrs = ["혈연", "연애", "흥미", "존경", "사명", "공포", "열등", "분노"];
 
 // 테마 루트 클래스 (액터 flag로 선택).

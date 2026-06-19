@@ -21,6 +21,7 @@
     &__head > * {
       padding: 6px 4px;
       text-align: center;
+      white-space: nowrap;
     }
     &__head > .col-name {
       text-align: left;
@@ -32,6 +33,7 @@
     }
     &__row > * {
       padding: 5px 4px;
+      min-height: 18px;
       font-size: 11.5px;
       text-align: center;
       color: var(--mg-soft);
@@ -39,6 +41,13 @@
     }
     &__row > .col-check {
       border-left: 0;
+      display: flex;
+      justify-content: center;
+    }
+    // 타입 등 흐린 보조 컬럼
+    .col-faint {
+      color: var(--mg-faint);
+      font-size: 10px;
     }
     &__row .col-name {
       text-align: left;
@@ -64,14 +73,20 @@
       cursor: pointer;
     }
 
-    // 행 입력칸은 셀 안에서 투명 배경으로 가득 채운다.
-    input {
+    // 행 입력칸(input/select)은 셀 안에서 투명 배경으로 가득 채운다.
+    input,
+    select {
       width: 100%;
       background: transparent;
       border: 0;
       color: inherit;
       font: inherit;
       text-align: inherit;
+      cursor: pointer;
+    }
+    select option {
+      color: var(--mg-ink);
+      background: var(--mg-panel);
     }
     &__note input {
       font-size: 11px;
@@ -99,9 +114,27 @@
     }
   }
 
-  // 컬럼 템플릿
+  // 컬럼 템플릿 — □ / 이름 / 타입 / 지정특기 / 코스트 / 충전 / 주구
   .mg-table--grimoire .mg-table__head,
   .mg-table--grimoire .mg-table__row {
-    grid-template-columns: 24px 2.4fr 1fr 1.1fr 0.9fr 0.8fr 0.7fr 0.8fr 24px;
+    grid-template-columns: 24px 1.55fr 0.95fr 0.85fr 0.6fr 0.95fr 26px;
+  }
+
+  // 충전 슬롯(동그라미) — 클릭으로 충전수 증감
+  .mg-rings {
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+  }
+  .mg-ring {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1.5px solid var(--mg-gold);
+    cursor: pointer;
+    &.is-on {
+      background: var(--mg-gold);
+    }
   }
 }

@@ -4,6 +4,7 @@
 .magicalogia.sheet {
   // window-content 가 부모 form 을 채우고, 그 안의 파트 래퍼가 내부 스크롤을 흡수.
   .window-content {
+    padding: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;

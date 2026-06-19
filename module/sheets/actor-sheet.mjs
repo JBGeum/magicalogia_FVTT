@@ -4,10 +4,13 @@ import { rollSpecialty } from "../system/specialty-roll.mjs";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
 
+// 장서 충전 슬롯(동그라미) 개수. charge 0..CHARGE_SLOTS.
+const CHARGE_SLOTS = 6;
+
 export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["magicalogia", "sheet", "actor", "theme-dark"],
-    position: { width: 720, height: 920 },
+    position: { width: 860, height: 920 },
     window: { resizable: true },
     form: {
       handler: MagicalogiaActorSheet.#onSubmit,
@@ -19,6 +22,9 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       rollSpecialty: MagicalogiaActorSheet.#onRollSpecialty,
       editImg: MagicalogiaActorSheet.#onEditImg,
       toggleStatus: MagicalogiaActorSheet.#onToggleStatus,
+      "add-spell": MagicalogiaActorSheet.#onAddSpell,
+      "toggle-spell-flag": MagicalogiaActorSheet.#onToggleSpellFlag,
+      "set-charge": MagicalogiaActorSheet.#onSetCharge,
     },
   };
 
@@ -68,6 +74,17 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       active: Boolean(sys.statuses?.[s.key]),
     }));
 
+    // 장서 — 원본 인덱스와 충전 슬롯(rings) 표시 데이터를 미리 만든다.
+    context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
+    context.spells = (sys.spells ?? []).map((sp, i) => ({
+      ...sp,
+      index: i,
+      rings: Array.from({ length: CHARGE_SLOTS }, (_, r) => ({
+        n: r + 1,
+        on: r + 1 <= (sp.charge ?? 0),
+      })),
+    }));
+
     context.enrichedBiography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sys.biography,
       {
@@ -98,6 +115,44 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     await this.actor.update({ [`system.skills.${col}`]: arr });
   }
 
+  /** 장서 행 추가 — 빈 항목을 배열 끝에 push. */
+  static async #onAddSpell() {
+    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
+    arr.push({
+      name: "",
+      type: "",
+      skill: "",
+      target: "",
+      cost: "",
+      charge: 0,
+      mod: 0,
+      active: false,
+      recite: false,
+      effect: "",
+    });
+    await this.actor.update({ "system.spells": arr });
+  }
+
+  /** 장서 행의 active/recite boolean 토글. */
+  static async #onToggleSpellFlag(_event, target) {
+    const index = Number(target.dataset.index);
+    const flag = target.dataset.flag; // "active" | "recite"
+    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
+    if (!arr[index]) return;
+    arr[index][flag] = !arr[index][flag];
+    await this.actor.update({ "system.spells": arr });
+  }
+
+  /** 장서 충전 슬롯 클릭 — 별점식 증감(현재 값과 같으면 -1, 아니면 클릭한 칸 수). */
+  static async #onSetCharge(_event, target) {
+    const i = Number(target.dataset.spell);
+    const ring = Number(target.dataset.ring);
+    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
+    if (!arr[i]) return;
+    arr[i].charge = arr[i].charge === ring ? ring - 1 : ring;
+    await this.actor.update({ "system.spells": arr });
+  }
+
   static async #onRollSpecialty(_event, target) {
     await rollSpecialty(this.actor, target.dataset.col, Number(target.dataset.index));
   }
@@ -116,6 +171,31 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   static async #onToggleStatus(_event, target) {
     const key = target.dataset.status;
     await this.actor.update({ [`system.statuses.${key}`]: !this.actor.system.statuses?.[key] });
+  }
+
+  /** 장서 행 우클릭 컨텍스트 메뉴(렌더 후 element에 위임). */
+  _onRender(context, options) {
+    super._onRender?.(context, options);
+    new foundry.applications.ux.ContextMenu(
+      this.element,
+      ".mg-grimoire .mg-table__row",
+      [
+        {
+          name: "삭제",
+          icon: '<i class="fa-solid fa-trash"></i>',
+          callback: (target) => this.#deleteSpell(Number(target.dataset.index)),
+        },
+      ],
+      { jQuery: false },
+    );
+  }
+
+  /** 장서 행 삭제 — 해당 index 제거 후 배열 갱신. */
+  async #deleteSpell(index) {
+    if (Number.isNaN(index)) return;
+    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
+    arr.splice(index, 1);
+    await this.actor.update({ "system.spells": arr });
   }
 
   static async #onSubmit(_event, _form, formData) {

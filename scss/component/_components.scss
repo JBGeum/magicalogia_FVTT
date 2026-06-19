@@ -58,6 +58,14 @@
   }
 
   // ---- Stat box (공격력 / 방어력 / 근원력 / 계제) ----
+  // .mg-statrail 값은 시안에선 <div>지만 Foundry는 <input> — 기본 배경/테두리/패딩을
+  // 제거해 시안과 같은 평면 텍스트로 만든다(폭·정렬·폰트는 각 __value 가 지정).
+  .mg-statrail input {
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+
   .mg-stat {
     flex: 1;
     text-align: center;
@@ -74,6 +82,7 @@
       // 시안은 <div>라 폭이 박스를 가득 채운다. Foundry는 <input>이라
       // 기본 폭(size=20)이 강제되므로 100%로 맞춰 시안과 동일하게 만든다.
       width: 100%;
+      text-align: center;
       font-family: $mg-font-display;
       font-size: 16px;
       font-weight: 700;
@@ -147,6 +156,9 @@
       color: var(--mg-soft);
     }
     &__value {
+      width: 100%;
+      min-width: 0;
+      text-align: center;
       font-family: $mg-font-display;
       font-size: 15px;
       font-weight: 700;
