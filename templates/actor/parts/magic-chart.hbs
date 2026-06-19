@@ -9,7 +9,7 @@
     {{!-- 속성 열 (모두 동등) — 열 사이마다 빈 색 띠(gap) 컬럼 삽입 --}}
     {{#each chart}}
     {{#unless @first}}<div class="mg-chart__gap"></div>{{/unless}}
-    <div class="mg-chart__col">
+    <div class="mg-chart__col{{#if (eq this.key ../system.domain)}} is-domain{{/if}}">
       <div class="mg-chart__head">
         <span class="num">{{this.num}}</span>
         <span class="title">{{this.title}}</span>

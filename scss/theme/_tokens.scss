@@ -13,6 +13,10 @@
   --mg-field: #2a1b4c;
   --mg-field-ink: #ece2ff;
   --mg-hi: rgba(224, 192, 116, 0.18);
+  // 영역 사이 gap 기본 색 띠(보유 셀 --mg-hi 18%보다 옅게)
+  --mg-hi-soft: rgba(224, 192, 116, 0.12);
+  // 소속영역 양옆 gap 강조용(기본 gap 대비 진한 골드 틴트)
+  --mg-hi-strong: rgba(224, 192, 116, 0.55);
   --mg-check: #e0c074;
   --mg-dark-ink: #a98fd0;
 

@@ -20,7 +20,15 @@
   // 영역과 영역 사이 빈 색 띠(단일 골드 틴트). 그리드 stretch로 전체 높이를 채워
   // 시트에 색을 칠한 듯한 세로 밴드가 된다.
   .mg-chart__gap {
-    background: var(--mg-hi);
+    background: var(--mg-hi-soft);
+  }
+
+  // 소속영역(is-domain)으로 선택된 열의 양옆 gap을 진한 골드로 강조.
+  // 한 gap은 인접 두 열이 공유하므로 선택 열 기준 오른쪽/왼쪽을 각각 집는다.
+  // (첫/마지막 영역은 한쪽 gap이 없어 자연히 한쪽만 칠해진다.)
+  .mg-chart__col.is-domain + .mg-chart__gap,
+  .mg-chart__gap:has(+ .mg-chart__col.is-domain) {
+    background: var(--mg-hi-strong);
   }
 
   // 열 헤더 (출목 번호 + 속성명)
