@@ -4,7 +4,7 @@
   --mg-panel: #231640;
   --mg-panel-2: #2c1c50;
   --mg-ink: #f1e9ff;
-  --mg-soft: #c3b0ec;
+  --mg-soft: #d4c8f6;
   --mg-faint: #7d6aa8;
   --mg-bar: linear-gradient(180deg, #4a2c84, #321f5e);
   --mg-bar-ink: #f0e3b8;
@@ -27,6 +27,9 @@
     radial-gradient(700px 480px at 50% 30%, rgba(74, 44, 132, 0.5), transparent 70%);
 
   --mg-radius: 3px;
-  --mg-row-h: 22px;
-  --mg-head-h: 36px;
+  --mg-row-h: 21px;
+  --mg-head-h: 30px;
+  // S2/S3에서 스탯 타일·차트 헤더가 소비. S1은 정의만.
+  --mg-head-bg: linear-gradient(180deg, #e8d196, #d2b061);
+  --mg-head-ink: #241544;
 }
