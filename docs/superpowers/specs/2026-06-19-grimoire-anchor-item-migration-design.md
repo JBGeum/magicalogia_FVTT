@@ -45,9 +45,9 @@
 
 - `fate`: NumberField(initial 0, integer) — 운명점
 - `attr`: StringField(initial "") — 속성
-- `setting`: StringField(initial "") — 설정
-- `checked`: BooleanField(initial false) — 중하(重荷/인컴브런스)
+- `encumbrance`: BooleanField(initial false) — 중하(重荷/인컴브런스). 확장 대비 `checked` 대신 의미 기반 네이밍
 - `scar`: BooleanField(initial false) — 스카(疵/상흔), **신규**
+- (`description`: BaseItemModel 상속 — 앵커 설정(캐릭터 설정에 가까운 서술)에 사용. 별도 `setting` 필드 두지 않음)
 
 **`config.mjs`**: `COST_AREAS` 상수 신설 — 코스트 영역 목록(`["", star, beast, force, song, dream, dark, all, none]` 표기 라벨 포함). 기존 `spellTypes`는 그대로 사용.
 
@@ -62,7 +62,7 @@
 - `_prepareContext`: `sys.spells`/`sys.anchors` → `this.actor.itemTypes.spell`/`.anchor`로 교체. 충전 링(rings) 표시 계산은 spell 아이템 기준으로 유지(`item.system.charge`).
 - 액션 교체(ArrayField CRUD 폐기):
   - `add-spell`/`add-anchor`: `actor.createEmbeddedDocuments("Item", [{ type, name }])` → 생성된 item의 `sheet.render(true)` 자동 오픈.
-  - 빠른 토글 `toggle-spell-flag`(active/recite)·`toggle-anchor`(checked)·신규 scar 토글·`set-charge`: `data-item-id`로 아이템 조회 후 `item.update({...})`.
+  - 빠른 토글 `toggle-spell-flag`(active/recite)·`toggle-anchor`(encumbrance)·신규 scar 토글·`set-charge`: `data-item-id`로 아이템 조회 후 `item.update({...})`.
   - 본문 편집: 행 더블클릭 → `item.sheet.render(true)`.
   - 삭제: 기존 우클릭 ContextMenu → `item.delete()`(또는 `deleteEmbeddedDocuments`).
 - `CHARGE_SLOTS`(=6) 상수 유지.
@@ -70,19 +70,19 @@
 `templates/actor/parts/grimoire.hbs`·`relations.hbs`:
 
 - 배열 인덱스 바인딩(`name="system.spells.{i}.x"`) 전면 제거 → 아이템 순회 + `data-item-id`.
-- 표시: 이름은 **인라인 읽기 표시**(편집은 더블클릭), 타입/지정특기/cost/충전/빠른 토글 노출. 관계는 이름/운명점/속성/설정 + 중하·scar 토글.
+- 표시: 이름은 **인라인 읽기 표시**(편집은 더블클릭), 타입/지정특기/cost/충전/빠른 토글 노출. 관계는 이름/운명점/속성 + 중하(encumbrance)·scar 토글. 설정(description)은 item sheet에서 편집.
 - 기존 `.mg-table--grimoire`/`.mg-table--relations` SCSS 재사용.
 
 ### ⑤ Item 시트 템플릿 (신규)
 
 - `templates/item/spell-sheet.hbs`: type select, 지정특기/목표/effect 텍스트, **cost = 영역 select + 개수 number**, charge, active/recite 체크, description 리치텍스트.
-- `templates/item/anchor-sheet.hbs`: fate(number)/속성/설정 입력, 중하·scar 체크, description.
+- `templates/item/anchor-sheet.hbs`: fate(number)/속성 입력, 중하(encumbrance)·scar 체크, 설정은 description 리치텍스트.
 - `module/helpers/templates.mjs`: 프리로드 목록에 신규 템플릿 등록.
 - 스타일은 기존 `mg-field` 등 재사용 + cost(영역 select + 개수) 소규모 레이아웃만 신설.
 
 ### ⑥ 테스트
 
-- `test/spell-model.test.mjs`·`test/anchor-model.test.mjs` 신설: 스키마 기본값, `cost` 구조(area/count), `scar` 기본값, fate Number 유지 검증. 기존 `test/character-model.test.mjs` 패턴 차용.
+- `test/spell-model.test.mjs`·`test/anchor-model.test.mjs` 신설: 스키마 기본값, `cost` 구조(area/count), `scar`·`encumbrance` 기본값, fate Number 유지 검증. 기존 `test/character-model.test.mjs` 패턴 차용.
 - `test/character-model.test.mjs`: spells/anchors 필드 제거에 따른 단언 정리.
 - 시트 액션(Item CRUD)은 기존과 동일하게 무테스트(ApplicationV2 단위테스트 인프라 없음).
 
