@@ -69,5 +69,12 @@ MAGICALOGIA.statuses = [
 MAGICALOGIA.spellTypes = ["소환", "주문", "장비"];
 MAGICALOGIA.anchorAttrs = ["혈연", "연애", "흥미", "존경", "사명", "공포", "열등", "분노"];
 
+// 헤더 식별 datalist 추천목록(자유 입력 허용 — 목록은 가이드일 뿐).
+MAGICALOGIA.CAREER_OPTIONS = ["서경", "주화", "야행"];
+MAGICALOGIA.ORG_OPTIONS = ["마탑", "결사"];
+
+// 효과 지속 종류 select(고정 choices). 0번이 기본값.
+MAGICALOGIA.EFFECT_TYPES = ["없음", "지속", "순간", "장면"];
+
 // 테마 루트 클래스 (액터 flag로 선택).
 MAGICALOGIA.themes = { dark: "theme-dark", light: "theme-light" };

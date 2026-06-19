@@ -28,4 +28,13 @@ describe("MAGICALOGIA config", () => {
     expect(MAGICALOGIA.statuses).toHaveLength(8);
     expect(MAGICALOGIA.statuses[0]).toEqual({ key: "seal", label: "봉인" });
   });
+  it("효과종류는 없음/지속/순간/장면 4종", () => {
+    expect(MAGICALOGIA.EFFECT_TYPES).toEqual(["없음", "지속", "순간", "장면"]);
+  });
+  it("경력/기관 datalist 추천목록을 제공한다", () => {
+    expect(Array.isArray(MAGICALOGIA.CAREER_OPTIONS)).toBe(true);
+    expect(MAGICALOGIA.CAREER_OPTIONS.length).toBeGreaterThan(0);
+    expect(Array.isArray(MAGICALOGIA.ORG_OPTIONS)).toBe(true);
+    expect(MAGICALOGIA.ORG_OPTIONS.length).toBeGreaterThan(0);
+  });
 });
