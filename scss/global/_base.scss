@@ -24,17 +24,100 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
-    background: var(--mg-paper);
+    // deco was on ::before; merged into background so ::before/::after
+    // are free to draw the new double gold inset frame lines.
+    background: var(--mg-deco), var(--mg-paper);
     border: 1px solid var(--mg-gold);
 
-    // Decorative background lives behind everything (see --mg-deco per theme)
+    // Double gold inset frame lines
     &::before {
       content: "";
       position: absolute;
-      inset: 0;
-      z-index: 0;
+      inset: 3px;
+      z-index: 6;
       pointer-events: none;
-      background: var(--mg-deco);
+      border: 1px solid var(--mg-gold);
+      opacity: 0.55;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      z-index: 6;
+      pointer-events: none;
+      border: 1px solid var(--mg-gold);
+      opacity: 0.3;
+    }
+
+    // Real content above deco/frame
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  // ---- Corner filigree (gold L-bars + diamond stud) ----
+  .mg-fcorner {
+    position: absolute;
+    z-index: 7;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--mg-gold);
+    }
+    &::before {
+      width: 24px;
+      height: 2px;
+    }
+    &::after {
+      width: 2px;
+      height: 24px;
+    }
+
+    &--tl {
+      top: 7px;
+      left: 7px;
+    }
+    &--tr {
+      top: 7px;
+      right: 7px;
+      transform: scaleX(-1);
+    }
+    &--bl {
+      bottom: 7px;
+      left: 7px;
+      transform: scaleY(-1);
+    }
+    &--br {
+      bottom: 7px;
+      right: 7px;
+      transform: scale(-1);
+    }
+  }
+
+  .mg-fdia {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 9px;
+    height: 9px;
+    background: var(--mg-gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 0 2px var(--mg-paper-edge, transparent);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 2.5px;
+      background: var(--mg-bar-ink);
+      opacity: 0.65;
     }
   }
 
