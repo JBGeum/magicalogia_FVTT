@@ -5,35 +5,26 @@
   </div>
   {{#each spells}}
   <div>
-    <div class="mg-table__row" data-index="{{this.index}}">
+    <div class="mg-table__row" data-item-id="{{this.id}}">
       <span class="col-check">
-        <span class="mg-check {{#if this.active}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="active" data-index="{{this.index}}">{{#if this.active}}✓{{/if}}</span>
+        <span class="mg-check {{#if this.system.active}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="active" data-item-id="{{this.id}}">{{#if this.system.active}}✓{{/if}}</span>
       </span>
-      <span class="col-name {{#unless this.name}}col-empty{{/unless}}"><input type="text" name="system.spells.{{this.index}}.name" value="{{this.name}}" placeholder="—" /></span>
-      <span class="col-faint">
-        <select name="system.spells.{{this.index}}.type">
-          <option value="" {{selected (eq this.type "")}}>—</option>
-          {{#each ../spellTypes}}
-          <option value="{{this}}" {{selected (eq ../type this)}}>{{this}}</option>
-          {{/each}}
-        </select>
-      </span>
-      <span><input type="text" name="system.spells.{{this.index}}.skill" value="{{this.skill}}" /></span>
-      <span><input type="text" name="system.spells.{{this.index}}.cost" value="{{this.cost}}" /></span>
+      <span class="col-name {{#unless this.name}}col-empty{{/unless}}">{{#if this.name}}{{this.name}}{{else}}—{{/if}}</span>
+      <span class="col-faint">{{this.system.type}}</span>
+      <span>{{this.system.skill}}</span>
+      <span>{{this.costLabel}}</span>
       <span>
         <span class="mg-rings">
           {{#each this.rings}}
-          <span class="mg-ring {{#if this.on}}is-on{{/if}}" data-action="set-charge" data-spell="{{../index}}" data-ring="{{this.n}}"></span>
+          <span class="mg-ring {{#if this.on}}is-on{{/if}}" data-action="set-charge" data-item-id="{{../id}}" data-ring="{{this.n}}"></span>
           {{/each}}
         </span>
       </span>
       <span class="col-check">
-        <span class="mg-check {{#if this.recite}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="recite" data-index="{{this.index}}">{{#if this.recite}}✓{{/if}}</span>
+        <span class="mg-check {{#if this.system.recite}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="recite" data-item-id="{{this.id}}">{{#if this.system.recite}}✓{{/if}}</span>
       </span>
     </div>
-    <div class="mg-table__note">
-      <input type="text" name="system.spells.{{this.index}}.effect" value="{{this.effect}}" placeholder="마법 효과 ……" />
-    </div>
+    <div class="mg-table__note">{{#if this.system.effect}}{{this.system.effect}}{{else}}—{{/if}}</div>
   </div>
   {{/each}}
   <div class="mg-table__add" data-action="add-spell">＋</div>

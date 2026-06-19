@@ -28,6 +28,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       "set-charge": MagicalogiaActorSheet.#onSetCharge,
       "add-anchor": MagicalogiaActorSheet.#onAddAnchor,
       "toggle-anchor": MagicalogiaActorSheet.#onToggleAnchor,
+      "toggle-scar": MagicalogiaActorSheet.#onToggleScar,
     },
   };
 
@@ -86,19 +87,32 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       selected: t === sys.effectType,
     }));
 
-    // 장서 — 원본 인덱스와 충전 슬롯(rings) 표시 데이터를 미리 만든다.
+    // 장서 — spell 아이템 + 충전 슬롯(rings)/코스트 라벨 표시 데이터.
+    const costAreaLabels = Object.fromEntries(
+      CONFIG.MAGICALOGIA.COST_AREAS.map((a) => [a.value, a.label]),
+    );
     context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
-    context.spells = (sys.spells ?? []).map((sp, i) => ({
-      ...sp,
-      index: i,
-      rings: Array.from({ length: CHARGE_SLOTS }, (_, r) => ({
-        n: r + 1,
-        on: r + 1 <= (sp.charge ?? 0),
-      })),
-    }));
+    context.spells = this.actor.itemTypes.spell.map((it) => {
+      const area = it.system.cost?.area ?? "";
+      const count = it.system.cost?.count ?? 0;
+      return {
+        id: it.id,
+        name: it.name,
+        system: it.system,
+        costLabel: area ? `${costAreaLabels[area] ?? area}${count ? "×" + count : ""}` : "—",
+        rings: Array.from({ length: CHARGE_SLOTS }, (_, r) => ({
+          n: r + 1,
+          on: r + 1 <= (it.system.charge ?? 0),
+        })),
+      };
+    });
 
-    // 관계 — 원본 인덱스 부여(배열 갱신 시 사용).
-    context.anchors = (sys.anchors ?? []).map((a, i) => ({ ...a, index: i }));
+    // 관계 — anchor 아이템.
+    context.anchors = this.actor.itemTypes.anchor.map((it) => ({
+      id: it.id,
+      name: it.name,
+      system: it.system,
+    }));
 
     context.enrichedBiography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sys.biography,
@@ -136,58 +150,51 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     await this.actor.update({ [`system.skills.${col}`]: arr });
   }
 
-  /** 장서 행 추가 — 빈 항목을 배열 끝에 push. */
+  /** 장서 추가 — spell 아이템 생성 후 시트를 연다. */
   static async #onAddSpell() {
-    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
-    arr.push({
-      name: "",
-      type: "",
-      skill: "",
-      target: "",
-      cost: "",
-      charge: 0,
-      mod: 0,
-      active: false,
-      recite: false,
-      effect: "",
-    });
-    await this.actor.update({ "system.spells": arr });
+    const [item] = await this.actor.createEmbeddedDocuments("Item", [
+      { type: "spell", name: "새 마법" },
+    ]);
+    item?.sheet.render(true);
   }
 
-  /** 장서 행의 active/recite boolean 토글. */
+  /** 장서 active/recite boolean 토글. */
   static async #onToggleSpellFlag(_event, target) {
-    const index = Number(target.dataset.index);
+    const item = this.actor.items.get(target.dataset.itemId);
+    if (!item) return;
     const flag = target.dataset.flag; // "active" | "recite"
-    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
-    if (!arr[index]) return;
-    arr[index][flag] = !arr[index][flag];
-    await this.actor.update({ "system.spells": arr });
+    await item.update({ [`system.${flag}`]: !item.system[flag] });
   }
 
-  /** 장서 충전 슬롯 클릭 — 별점식 증감(현재 값과 같으면 -1, 아니면 클릭한 칸 수). */
+  /** 장서 충전 슬롯 클릭 — 별점식 증감(현재 값과 같은 칸 클릭 시 -1). */
   static async #onSetCharge(_event, target) {
-    const i = Number(target.dataset.spell);
+    const item = this.actor.items.get(target.dataset.itemId);
+    if (!item) return;
     const ring = Number(target.dataset.ring);
-    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
-    if (!arr[i]) return;
-    arr[i].charge = arr[i].charge === ring ? ring - 1 : ring;
-    await this.actor.update({ "system.spells": arr });
+    const charge = item.system.charge === ring ? ring - 1 : ring;
+    await item.update({ "system.charge": charge });
   }
 
-  /** 관계 행 추가 — 빈 항목을 배열 끝에 push. */
+  /** 관계 추가 — anchor 아이템 생성 후 시트를 연다. */
   static async #onAddAnchor() {
-    const arr = foundry.utils.deepClone(this.actor.system.anchors ?? []);
-    arr.push({ name: "", fate: 0, attr: "", setting: "", checked: false });
-    await this.actor.update({ "system.anchors": arr });
+    const [item] = await this.actor.createEmbeddedDocuments("Item", [
+      { type: "anchor", name: "새 앵커" },
+    ]);
+    item?.sheet.render(true);
   }
 
-  /** 관계 행의 checked boolean 토글. */
+  /** 관계 중하(encumbrance) 토글. */
   static async #onToggleAnchor(_event, target) {
-    const index = Number(target.dataset.index);
-    const arr = foundry.utils.deepClone(this.actor.system.anchors ?? []);
-    if (!arr[index]) return;
-    arr[index].checked = !arr[index].checked;
-    await this.actor.update({ "system.anchors": arr });
+    const item = this.actor.items.get(target.dataset.itemId);
+    if (!item) return;
+    await item.update({ "system.encumbrance": !item.system.encumbrance });
+  }
+
+  /** 관계 스카(scar) 토글. */
+  static async #onToggleScar(_event, target) {
+    const item = this.actor.items.get(target.dataset.itemId);
+    if (!item) return;
+    await item.update({ "system.scar": !item.system.scar });
   }
 
   static async #onRollSpecialty(_event, target) {
@@ -217,49 +224,22 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     });
   }
 
-  /** 장서/관계 행 우클릭 컨텍스트 메뉴(렌더 후 element에 위임). */
+  /** 렌더 후: 장서/관계 행 더블클릭→시트 열기, 우클릭→삭제. */
   _onRender(context, options) {
     super._onRender?.(context, options);
-    new foundry.applications.ux.ContextMenu(
-      this.element,
-      ".mg-grimoire .mg-table__row",
-      [
-        {
-          name: "삭제",
-          icon: '<i class="fa-solid fa-trash"></i>',
-          callback: (target) => this.#deleteSpell(Number(target.dataset.index)),
-        },
-      ],
-      { jQuery: false },
-    );
-    new foundry.applications.ux.ContextMenu(
-      this.element,
-      ".mg-relations .mg-table__row",
-      [
-        {
-          name: "삭제",
-          icon: '<i class="fa-solid fa-trash"></i>',
-          callback: (target) => this.#deleteAnchor(Number(target.dataset.index)),
-        },
-      ],
-      { jQuery: false },
-    );
-  }
-
-  /** 장서 행 삭제 — 해당 index 제거 후 배열 갱신. */
-  async #deleteSpell(index) {
-    if (Number.isNaN(index)) return;
-    const arr = foundry.utils.deepClone(this.actor.system.spells ?? []);
-    arr.splice(index, 1);
-    await this.actor.update({ "system.spells": arr });
-  }
-
-  /** 관계 행 삭제 — 해당 index 제거 후 배열 갱신. */
-  async #deleteAnchor(index) {
-    if (Number.isNaN(index)) return;
-    const arr = foundry.utils.deepClone(this.actor.system.anchors ?? []);
-    arr.splice(index, 1);
-    await this.actor.update({ "system.anchors": arr });
+    const open = (el) => this.actor.items.get(el.dataset.itemId)?.sheet.render(true);
+    const del = (el) => this.actor.items.get(el.dataset.itemId)?.delete();
+    for (const sel of [".mg-grimoire .mg-table__row", ".mg-relations .mg-table__row"]) {
+      this.element.querySelectorAll(sel).forEach((row) => {
+        row.addEventListener("dblclick", () => open(row));
+      });
+      new foundry.applications.ux.ContextMenu(
+        this.element,
+        sel,
+        [{ name: "삭제", icon: '<i class="fa-solid fa-trash"></i>', callback: del }],
+        { jQuery: false },
+      );
+    }
   }
 
   static async #onSubmit(_event, _form, formData) {
