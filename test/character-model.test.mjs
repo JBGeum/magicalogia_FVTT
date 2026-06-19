@@ -68,7 +68,7 @@ describe("CharacterDataModel", () => {
       expect(s.skills.fields[key]).toBeInstanceOf(ArrayField);
     }
   });
-  it("시안 식별 9필드를 포함한다", async () => {
+  it("시안 식별 필드를 포함한다", async () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     const s = CharacterDataModel.defineSchema();
     for (const key of [
@@ -78,9 +78,12 @@ describe("CharacterDataModel", () => {
       "organization",
       "player",
       "socialStatus",
-      "genderAge",
+      "gender",
+      "age",
       "trueForm",
+      "trueFormRevealed",
       "effect",
+      "effectType",
     ]) {
       expect(Object.keys(s)).toContain(key);
     }
@@ -105,5 +108,22 @@ describe("CharacterDataModel", () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     const s = CharacterDataModel.defineSchema();
     expect(Object.keys(s.anchors.element.fields)).toContain("setting");
+  });
+  it("genderAge는 더 이상 스키마에 없다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    expect(Object.keys(CharacterDataModel.defineSchema())).not.toContain("genderAge");
+  });
+  it("effectType은 EFFECT_TYPES choices와 '없음' 기본값을 가진다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const { MAGICALOGIA } = await import("../module/helpers/config.mjs");
+    const s = CharacterDataModel.defineSchema();
+    expect(s.effectType.options.choices).toEqual(MAGICALOGIA.EFFECT_TYPES);
+    expect(s.effectType.options.initial).toBe("없음");
+  });
+  it("trueFormRevealed는 BooleanField이며 기본 false", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const s = CharacterDataModel.defineSchema();
+    expect(s.trueFormRevealed).toBeInstanceOf(foundry.data.fields.BooleanField);
+    expect(s.trueFormRevealed.options.initial).toBe(false);
   });
 });
