@@ -95,4 +95,10 @@ describe("CharacterDataModel", () => {
     const s = CharacterDataModel.defineSchema();
     expect(s.domain.options.blank).toBe(true);
   });
+  it("spells 항목은 active boolean 필드를 가진다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const s = CharacterDataModel.defineSchema();
+    const spellSchema = s.spells.element.fields;
+    expect(Object.keys(spellSchema)).toContain("active");
+  });
 });

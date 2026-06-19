@@ -69,7 +69,7 @@ export class CharacterDataModel extends BaseActorModel {
         ),
       ),
 
-      // 장서(spell) — 필드만
+      // 장서(spell)
       spells: new fields.ArrayField(
         new fields.SchemaField({
           name: new fields.StringField({ initial: "" }),
@@ -79,6 +79,7 @@ export class CharacterDataModel extends BaseActorModel {
           cost: new fields.StringField({ initial: "" }),
           charge: new fields.NumberField({ initial: 0, integer: true }),
           mod: new fields.NumberField({ initial: 0, integer: true }),
+          active: new fields.BooleanField({ initial: false }),
           recite: new fields.BooleanField({ initial: false }),
           effect: new fields.StringField({ initial: "" }),
         }),
