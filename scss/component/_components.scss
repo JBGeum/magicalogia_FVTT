@@ -43,18 +43,6 @@
       color: var(--mg-ink);
       font-weight: 700;
     }
-
-    // toggle dots (효과 ○○)
-    &__dots {
-      display: flex;
-      gap: 4px;
-    }
-  }
-  .mg-dot {
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    border: 1px solid var(--mg-line);
   }
 
   // ---- Stat box (공격력 / 방어력 / 근원력 / 계제) ----
