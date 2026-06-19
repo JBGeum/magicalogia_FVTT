@@ -67,6 +67,20 @@ MAGICALOGIA.statuses = [
 
 // 장서/관계 select 옵션.
 MAGICALOGIA.spellTypes = ["소환", "주문", "장비"];
+
+// 코스트 영역(마소 속성) select 옵션. ""=미선택, all=全, none=없음.
+MAGICALOGIA.COST_AREAS = [
+  { value: "", label: "—" },
+  { value: "star", label: "별" },
+  { value: "beast", label: "짐승" },
+  { value: "force", label: "힘" },
+  { value: "song", label: "노래" },
+  { value: "dream", label: "꿈" },
+  { value: "dark", label: "어둠" },
+  { value: "all", label: "전(全)" },
+  { value: "none", label: "없음" },
+];
+
 MAGICALOGIA.anchorAttrs = ["혈연", "연애", "흥미", "존경", "사명", "공포", "열등", "분노"];
 
 // 헤더 식별 datalist 추천목록(자유 입력 허용 — 목록은 가이드일 뿐).
