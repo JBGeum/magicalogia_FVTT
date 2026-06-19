@@ -95,47 +95,41 @@
   }
 
   .mg-stat {
+    display: flex;
+    flex-direction: column;
     flex: 1;
-    text-align: center;
-    padding: 3px 0;
-    background: var(--mg-field);
-    border: 1px solid var(--mg-line);
+    min-height: 46px;
+    border: 1px solid var(--mg-gold);
     border-radius: $mg-radius-sm;
+    overflow: hidden;
+    // value input은 .mg-statrail input 리셋으로 투명 → 타일 배경을 field로 둔다.
+    background: var(--mg-field);
 
     &__label {
-      font-size: 9.5px;
-      color: var(--mg-soft);
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--mg-head-bg);
+      color: var(--mg-head-ink);
+      text-align: center;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      padding: 0 2px;
     }
     &__value {
-      // 시안은 <div>라 폭이 박스를 가득 채운다. Foundry는 <input>이라
-      // 기본 폭(size=20)이 강제되므로 100%로 맞춰 시안과 동일하게 만든다.
+      flex: 1;
       width: 100%;
       text-align: center;
-      font-family: $mg-font-display;
-      font-size: 16px;
-      font-weight: 700;
       color: var(--mg-ink);
+      font-family: $mg-font-body;
+      font-size: 18px;
+      font-weight: 800;
     }
-    &--rank .mg-stat__value {
-      color: var(--mg-gold);
-    }
-    // 강조(공격/방어/근원): 금테 + 큰 값.
-    &--key {
-      border-color: var(--mg-gold);
-    }
-    &--key .mg-stat__label {
-      color: var(--mg-bar-ink);
-    }
+    // 강조(공격/방어/근원): 큰 값.
     &--key .mg-stat__value {
-      font-size: 22px;
-    }
-    // 약화(계제 등): 흐리게 + 작은 값.
-    &--muted {
-      opacity: 0.7;
-    }
-    &--muted .mg-stat__value {
-      font-size: 14px;
-      color: var(--mg-soft);
+      font-size: 20px;
     }
   }
   .mg-stat-row {
