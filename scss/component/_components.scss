@@ -143,33 +143,52 @@
     gap: 6px;
   }
 
-  // ---- Resource gauge (마력 value/max, 일시 마력) ----
+  // ---- Resource gauge (마력 value/max, 일시 마력) — head/body 2분할 ----
   .mg-gauge {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 9px;
-    background: var(--mg-field);
-    border: 1px solid var(--mg-line);
+    align-items: stretch;
+    border: 1px solid var(--mg-gold);
     border-radius: $mg-radius-sm;
+    overflow: hidden;
+    min-height: 32px;
 
+    &__head {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background: var(--mg-head-bg);
+      color: var(--mg-head-ink);
+      font-weight: 800;
+      font-size: 11.5px;
+      padding: 0 8px;
+      white-space: nowrap;
+    }
     &__icon {
-      color: var(--mg-gold);
+      display: flex;
+      align-items: center;
+      color: var(--mg-head-ink);
       font-size: 11px;
     }
-    &__label {
-      font-size: 11px;
-      color: var(--mg-soft);
+    &__body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--mg-field);
+      padding: 0 8px;
     }
-    // value/max 는 <input> — 폭 제약이 없으면 input 기본 폭이 게이지(132px)를
-    // 넘어 잘린다. 좁은 폭 + min-width:0(flex 축소 허용) + 우측정렬로 가둔다.
+    // value/max 는 <input> — statrail input 리셋(투명/border0/padding0)이 적용된다.
+    // 폭 제약이 없으면 input 기본 폭이 body를 넘으므로 좁은 폭 + min-width:0 으로 가둔다.
     &__value {
-      margin-left: auto;
       width: 3ch;
       min-width: 0;
       text-align: right;
-      font-family: $mg-font-display;
-      font-size: 15px;
+      font-family: $mg-font-body;
+      font-size: 16px;
+      font-weight: 800;
       color: var(--mg-ink);
     }
     &__sep {
@@ -180,28 +199,10 @@
       width: 3ch;
       min-width: 0;
       text-align: right;
-      font-family: $mg-font-display;
-      font-size: 15px;
+      font-family: $mg-font-body;
+      font-size: 16px;
+      font-weight: 800;
       color: var(--mg-gold);
-    }
-    // 강조(마력): 금테 + 큰 값.
-    &--key {
-      border-color: var(--mg-gold);
-    }
-    &--key .mg-gauge__icon,
-    &--key .mg-gauge__label {
-      color: var(--mg-bar-ink);
-    }
-    &--key .mg-gauge__value,
-    &--key .mg-gauge__max {
-      font-size: 21px;
-    }
-    // 약화(일시 마력).
-    &--muted {
-      opacity: 0.7;
-    }
-    &--muted .mg-gauge__value {
-      color: var(--mg-soft);
     }
   }
 

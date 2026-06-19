@@ -106,15 +106,19 @@
                   value="{{system.abilities.source}}"
                 /></label>
             </div>
-            <div class="mg-gauge mg-gauge--key">
-              <span class="mg-gauge__icon">◈</span><span class="mg-gauge__label">마력</span>
-              <input class="mg-gauge__value" name="system.mp.value" value="{{system.mp.value}}" />
-              <span class="mg-gauge__sep">/</span>
-              <input class="mg-gauge__max" name="system.mp.max" value="{{system.mp.max}}" />
+            <div class="mg-gauge">
+              <div class="mg-gauge__head"><span class="mg-gauge__icon">◈</span>마력</div>
+              <div class="mg-gauge__body">
+                <input class="mg-gauge__value" name="system.mp.value" value="{{system.mp.value}}" />
+                <span class="mg-gauge__sep">/</span>
+                <input class="mg-gauge__max" name="system.mp.max" value="{{system.mp.max}}" />
+              </div>
             </div>
-            <div class="mg-gauge mg-gauge--muted">
-              <span class="mg-gauge__icon">◇</span><span class="mg-gauge__label">일시 마력</span>
-              <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
+            <div class="mg-gauge">
+              <div class="mg-gauge__head"><span class="mg-gauge__icon">◇</span>일시 마력</div>
+              <div class="mg-gauge__body">
+                <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
+              </div>
             </div>
             <div class="mg-stat-row">
               <label class="mg-stat mg-stat--rank mg-stat--muted"><span
