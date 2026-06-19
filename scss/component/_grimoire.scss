@@ -94,24 +94,7 @@
       color: var(--mg-faint);
     }
 
-    // 커스텀 체크박스(시안 .mg-check) — 테이블 스코프
-    .mg-check {
-      width: 13px;
-      height: 13px;
-      flex: none;
-      border-radius: $mg-radius-sm;
-      border: 1px solid var(--mg-line);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      &.is-on {
-        background: var(--mg-check);
-        border-color: var(--mg-check);
-        color: var(--mg-panel);
-        font-size: 8px;
-      }
-    }
+    // 커스텀 체크박스는 전역 .mg-check(scss/component/_components.scss)를 그대로 사용.
   }
 
   // 컬럼 템플릿 — □ / 이름 / 타입 / 지정특기 / 코스트 / 충전 / 주구
