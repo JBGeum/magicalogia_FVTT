@@ -20,7 +20,7 @@
   --mg-check: #e0c074;
   --mg-dark-ink: #a98fd0;
 
-  // 배경 장식 — 골드 소환진 + 보라 글로우 (다크). _base의 .magicalogia::before가 읽음.
+  // 배경 장식 — 골드 소환진 + 보라 글로우 (다크). _base의 .mg-content background가 읽음.
   --mg-deco:
     url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='440' viewBox='0 0 440 440'><g fill='none' stroke='%23e0c074' stroke-opacity='0.5'><circle cx='220' cy='220' r='168' stroke-width='1.5'/><circle cx='220' cy='220' r='146'/><circle cx='220' cy='220' r='100'/><rect x='96' y='96' width='248' height='248' transform='rotate(45 220 220)'/><rect x='116' y='116' width='208' height='208'/></g></svg>")
       no-repeat center 40px / 460px 460px,
