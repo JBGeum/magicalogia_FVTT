@@ -43,6 +43,46 @@
       color: var(--mg-ink);
       font-weight: 700;
     }
+    // 강조 텍스트 필드(임시이름/마법명).
+    &--lg .mg-field__label {
+      font-size: 13.5px;
+    }
+    &--lg .mg-field__value {
+      font-size: 15px;
+    }
+    // 효과: 값 위에 종류 select가 붙는 박스형(상단 정렬·줄바꿈 허용).
+    &--box {
+      align-items: flex-start;
+    }
+    &--box .mg-field__value {
+      white-space: normal;
+      min-height: 36px;
+      line-height: 1.4;
+    }
+  }
+
+  // 식별그리드 드롭다운(경력/기관/효과종류).
+  .mg-ident-select {
+    margin-left: auto;
+    padding: 2px 6px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--mg-gold);
+    background: var(--mg-field);
+    border: 1px solid var(--mg-line);
+    border-radius: $mg-radius-sm;
+    cursor: pointer;
+
+    &--wide {
+      min-width: 4em;
+      text-align: center;
+    }
+    option {
+      color: var(--mg-ink);
+      background: var(--mg-panel);
+      font-weight: 400;
+    }
   }
 
   // ---- Stat box (공격력 / 방어력 / 근원력 / 계제) ----

@@ -22,6 +22,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       rollSpecialty: MagicalogiaActorSheet.#onRollSpecialty,
       editImg: MagicalogiaActorSheet.#onEditImg,
       toggleStatus: MagicalogiaActorSheet.#onToggleStatus,
+      toggleTrueForm: MagicalogiaActorSheet.#onToggleTrueForm,
       "add-spell": MagicalogiaActorSheet.#onAddSpell,
       "toggle-spell-flag": MagicalogiaActorSheet.#onToggleSpellFlag,
       "set-charge": MagicalogiaActorSheet.#onSetCharge,
@@ -75,6 +76,14 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     context.statuses = CONFIG.MAGICALOGIA.statuses.map((s) => ({
       ...s,
       active: Boolean(sys.statuses?.[s.key]),
+    }));
+
+    // 식별그리드 입력 옵션(datalist 추천목록 + 효과종류 select).
+    context.careerOptions = CONFIG.MAGICALOGIA.CAREER_OPTIONS;
+    context.orgOptions = CONFIG.MAGICALOGIA.ORG_OPTIONS;
+    context.effectTypes = CONFIG.MAGICALOGIA.EFFECT_TYPES.map((t) => ({
+      value: t,
+      selected: t === sys.effectType,
     }));
 
     // 장서 — 원본 인덱스와 충전 슬롯(rings) 표시 데이터를 미리 만든다.
@@ -199,6 +208,13 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   static async #onToggleStatus(_event, target) {
     const key = target.dataset.status;
     await this.actor.update({ [`system.statuses.${key}`]: !this.actor.system.statuses?.[key] });
+  }
+
+  /** 진정한 모습 공개 여부(trueFormRevealed) 토글. */
+  static async #onToggleTrueForm() {
+    await this.actor.update({
+      "system.trueFormRevealed": !this.actor.system.trueFormRevealed,
+    });
   }
 
   /** 장서/관계 행 우클릭 컨텍스트 메뉴(렌더 후 element에 위임). */

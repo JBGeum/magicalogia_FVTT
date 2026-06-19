@@ -32,19 +32,40 @@
           </div>
 
           <div class="mg-identity-grid">
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="임시 이름" name="system.tempName" value=system.tempName}}
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="경력" name="system.career" value=system.career}}
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="마법명" name="system.magicName" value=system.magicName}}
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="기관" name="system.organization" value=system.organization}}
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="플레이어" name="system.player" value=system.player}}
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="신분" name="system.socialStatus" value=system.socialStatus}}
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="성별·연령" name="system.genderAge" value=system.genderAge}}
-            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="진정한 모습" name="system.trueForm" value=system.trueForm}}
-            <label class="mg-field mg-field--wide mg-field--effect">
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="임시 이름" name="system.tempName" value=system.tempName fieldClass="mg-field--wide mg-field--lg"}}
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="마법명" name="system.magicName" value=system.magicName fieldClass="mg-field--wide mg-field--lg"}}
+
+            <label class="mg-field">
+              <span class="mg-field__mark">❖</span>
+              <span class="mg-field__label">경력</span>
+              <input class="mg-field__value {{#unless system.career}}mg-field__value--empty{{/unless}}" type="text" name="system.career" value="{{system.career}}" list="mg-career-list" placeholder="—" />
+              <datalist id="mg-career-list">{{#each careerOptions}}<option value="{{this}}"></option>{{/each}}</datalist>
+            </label>
+
+            <label class="mg-field">
+              <span class="mg-field__mark">❖</span>
+              <span class="mg-field__label">기관</span>
+              <input class="mg-field__value {{#unless system.organization}}mg-field__value--empty{{/unless}}" type="text" name="system.organization" value="{{system.organization}}" list="mg-org-list" placeholder="—" />
+              <datalist id="mg-org-list">{{#each orgOptions}}<option value="{{this}}"></option>{{/each}}</datalist>
+            </label>
+
+            <label class="mg-field mg-field--wide">
+              <span class="mg-field__mark">❖</span>
+              <span class="mg-check {{#if system.trueFormRevealed}}is-on{{/if}}" data-action="toggleTrueForm">{{#if system.trueFormRevealed}}✓{{/if}}</span>
+              <span class="mg-field__label">진정한 모습</span>
+              <input class="mg-field__value {{#unless system.trueForm}}mg-field__value--empty{{/unless}}" type="text" name="system.trueForm" value="{{system.trueForm}}" placeholder="—" />
+            </label>
+
+            <label class="mg-field mg-field--wide mg-field--box">
               <span class="mg-field__mark">❖</span>
               <span class="mg-field__label">효과</span>
-              <input class="mg-field__value" type="text" name="system.effect" value="{{system.effect}}" placeholder="—" />
+              <input class="mg-field__value {{#unless system.effect}}mg-field__value--empty{{/unless}}" type="text" name="system.effect" value="{{system.effect}}" placeholder="—" />
+              <select class="mg-ident-select mg-ident-select--wide" name="system.effectType">
+                {{#each effectTypes}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{value}}</option>{{/each}}
+              </select>
             </label>
+
+            {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="혼의 특기" name="system.soulSkill" value=system.soulSkill fieldClass="mg-field--wide" valueClass="mg-field__value--accent"}}
           </div>
 
           <div class="mg-statrail">

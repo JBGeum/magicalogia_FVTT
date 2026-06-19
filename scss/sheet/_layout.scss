@@ -17,14 +17,12 @@
   .mg-identity-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1px 16px;
+    gap: 9px 12px;
+    align-content: start;
 
-    // full-width rows inside the 2-col identity grid (효과 etc.)
+    // 2열 그리드에서 전체폭을 차지하는 행(진정한모습/효과/혼의특기 등).
     .mg-field--wide {
       grid-column: 1 / -1;
-    }
-    .mg-field--wide.mg-field--effect {
-      align-items: center;
     }
   }
 
