@@ -13,6 +13,9 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
       submitOnChange: true,
       closeOnSubmit: false,
     },
+    actions: {
+      "toggle-field": MagicalogiaItemSheet.#onToggleField,
+    },
   };
 
   static PARTS = {
@@ -65,5 +68,11 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
 
   static async #onSubmit(_event, _form, formData) {
     await this.item.update(formData.object);
+  }
+
+  /** 불리언 필드 토글(.mg-check 클릭) — data-field 경로의 boolean 반전. */
+  static async #onToggleField(_event, target) {
+    const field = target.dataset.field;
+    await this.item.update({ [field]: !foundry.utils.getProperty(this.item, field) });
   }
 }
