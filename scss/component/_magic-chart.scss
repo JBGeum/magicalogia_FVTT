@@ -121,12 +121,20 @@
 
   .mg-chart__footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 20px;
     padding: 6px 14px;
     background: var(--mg-panel-2);
     border-top: 2px solid var(--mg-gold);
     font-size: 12px;
+
+    // 각 라벨: 플로리시 + 텍스트 + 컨트롤(select/input)을 한 줄에 가로 배치.
+    label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
   }
 
   .mg-flourish {
