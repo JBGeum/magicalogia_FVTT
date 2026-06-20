@@ -27,7 +27,7 @@
   </div>
 
   <div class="mg-chart__footer">
-    <label>소속영역
+    <label><span class="mg-flourish">{{> mg-svg-miniflr}}</span>소속영역
       <select name="system.domain">
         <option value="" {{selected (eq system.domain "")}}>—</option>
         {{#each attributes}}
@@ -35,6 +35,6 @@
         {{/each}}
       </select>
     </label>
-    <label>혼의 특기 <input type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
+    <label><span class="mg-flourish">{{> mg-svg-miniflr}}</span>혼의 특기 <input type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
   </div>
 </div>

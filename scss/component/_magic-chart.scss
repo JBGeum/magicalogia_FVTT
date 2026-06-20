@@ -128,4 +128,14 @@
     border-top: 2px solid var(--mg-gold);
     font-size: 12px;
   }
+
+  .mg-flourish {
+    display: inline-flex;
+    align-items: center;
+    color: var(--mg-gold);
+
+    svg {
+      display: block;
+    }
+  }
 }
