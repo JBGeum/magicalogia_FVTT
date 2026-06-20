@@ -1,6 +1,9 @@
 <div class="{{cssClass}}">
   <section class="sheet-body mg-item-form">
     <div class="mg-item-grid">
+      <label class="mg-ifield mg-ifield--wide"><span>이름</span>
+        <input type="text" name="name" value="{{item.name}}" placeholder="이름" />
+      </label>
       <label class="mg-ifield"><span>타입</span>
         <select name="system.type">
           <option value="" {{selected (eq system.type "")}}>—</option>
