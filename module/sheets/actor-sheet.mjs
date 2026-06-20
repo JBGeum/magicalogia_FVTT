@@ -35,7 +35,10 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
 
   static TABS = {
     primary: {
-      tabs: [{ id: "main", label: "캐릭터 시트" }],
+      tabs: [
+        { id: "main", label: "캐릭터 시트" },
+        { id: "info", label: "정보" },
+      ],
       initial: "main",
     },
   };
@@ -123,6 +126,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     const activeTab = this.tabGroups.primary ?? "main";
     context.tabs = {
       main: { id: "main", group: "primary", label: "캐릭터 시트", active: activeTab === "main" },
+      info: { id: "info", group: "primary", label: "정보", active: activeTab === "info" },
     };
     return context;
   }

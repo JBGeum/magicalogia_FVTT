@@ -15,7 +15,7 @@
 
     <nav class="mg-tabs tabs" data-group="primary">
       <a class="mg-tab {{#if tabs.main.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="main">캐릭터 시트</a>
-      <a class="mg-tab is-disabled" title="준비 중">정보</a>
+      <a class="mg-tab {{#if tabs.info.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="info">정보</a>
       <a class="mg-tab is-disabled" title="준비 중">속성·능력</a>
     </nav>
 
@@ -195,6 +195,20 @@
           <div class="mg-accordion__body">
             {{> "systems/magicalogia/templates/actor/parts/relations.hbs"}}
           </div>
+        </div>
+      </div>
+
+      <div class="tab mg-panel-body--pad {{#if tabs.info.active}}active{{/if}}" data-tab="info" data-group="primary">
+        <div class="mg-banner" style="margin-bottom: 4px">
+          <span class="mg-banner__rule mg-banner__rule--l"></span>
+          <span class="mg-banner__label">정 보</span>
+          <span class="mg-banner__rule mg-banner__rule--r"></span>
+        </div>
+        <div class="mg-info-fields">
+          {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="플레이어" name="system.player" value=system.player}}
+          {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="신분" name="system.socialStatus" value=system.socialStatus}}
+          {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="성별" name="system.gender" value=system.gender}}
+          {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="연령" name="system.age" value=system.age}}
         </div>
       </div>
 
