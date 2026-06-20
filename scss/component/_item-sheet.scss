@@ -87,6 +87,52 @@
       flex-direction: column;
       gap: 11px;
     }
+
+    // ---- Checkbox rows ----
+    .mg-checkrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--mg-soft);
+      cursor: pointer;
+      user-select: none;
+
+      &:hover .mg-check {
+        border-color: var(--mg-gold);
+      }
+
+      .han {
+        color: var(--mg-faint);
+        font-weight: 500;
+        margin-left: 1px;
+      }
+    }
+
+    .mg-check {
+      flex: none;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--mg-line);
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      line-height: 1;
+      color: transparent;
+      transition:
+        background 0.12s,
+        border-color 0.12s,
+        color 0.12s;
+
+      &.is-on {
+        background: var(--mg-check);
+        border-color: var(--mg-check);
+        color: var(--mg-panel);
+      }
+    }
   }
 
   // ---- Field rows ----
@@ -137,7 +183,7 @@
     border: 1px solid var(--mg-line);
     border-radius: 3px;
     color: var(--mg-field-ink);
-    font-family: "Pretendard", sans-serif;
+    font-family: $mg-font-body;
     font-size: 13px;
     font-weight: 600;
     padding: 6px 9px;
@@ -206,52 +252,6 @@
     min-height: 58px;
     line-height: 1.45;
     font-weight: 500;
-  }
-
-  // ---- Checkbox rows ----
-  .mg-checkrow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--mg-soft);
-    cursor: pointer;
-    user-select: none;
-
-    &:hover .mg-check {
-      border-color: var(--mg-gold);
-    }
-
-    .han {
-      color: var(--mg-faint);
-      font-weight: 500;
-      margin-left: 1px;
-    }
-  }
-
-  .mg-check {
-    flex: none;
-    width: 16px;
-    height: 16px;
-    border: 1.5px solid var(--mg-line);
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    line-height: 1;
-    color: transparent;
-    transition:
-      background 0.12s,
-      border-color 0.12s,
-      color 0.12s;
-
-    &.is-on {
-      background: var(--mg-check);
-      border-color: var(--mg-check);
-      color: var(--mg-panel);
-    }
   }
 
   // ---- Divider + section label ----
