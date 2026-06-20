@@ -75,7 +75,8 @@
     background-size: 8px 6px;
     color: var(--mg-gold);
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12.5px; // 라벨(12.5px)과 통일 — 높이 차이 제거
+    line-height: inherit;
     font-family: inherit;
     text-align: left;
     padding: 1px 14px 1px 2px;
@@ -163,6 +164,7 @@
     background: var(--mg-field);
     font-family: $mg-font-body;
     font-weight: 800;
+    text-align: center; // 값은 <input> — flex가 아닌 text-align으로 숫자 중앙 정렬
     padding: 0;
   }
 

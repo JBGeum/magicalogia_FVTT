@@ -161,6 +161,7 @@
   // ---- Tabs ----
   .mg-tabs {
     display: flex;
+    justify-content: flex-start;
     align-items: stretch;
     gap: 2px;
     padding: 0 12px;
