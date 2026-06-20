@@ -215,12 +215,16 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     });
   }
 
-  /** 장서/관계 아코디언 펼침 토글 — 인스턴스 상태로 보관(리렌더 견딤, 저장 안 함). */
-  static async #onToggleAccordion(_event, target) {
+  /**
+   * 장서/관계 아코디언 펼침 토글. 리렌더 없이 DOM 클래스만 직접 토글해 스크롤 위치를
+   * 보존한다. 펼침 상태는 인스턴스 멤버에 보관해, submitOnChange 등으로 시트가 리렌더될
+   * 때 _onRender가 복원한다(저장 안 함).
+   */
+  static #onToggleAccordion(_event, target) {
     const key = target.dataset.acc; // "grimoire" | "relations"
     this._accOpen ??= { grimoire: false, relations: false };
     this._accOpen[key] = !this._accOpen[key];
-    this.render();
+    target.closest(".mg-accordion")?.classList.toggle("is-open", this._accOpen[key]);
   }
 
   /** 렌더 후: 장서/관계 행 더블클릭→시트 열기, 우클릭→삭제. */
