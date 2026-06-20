@@ -78,11 +78,11 @@
               <input class="mg-field__value {{#unless system.trueForm}}mg-field__value--empty{{/unless}}" type="text" name="system.trueForm" value="{{system.trueForm}}" placeholder="—" />
             </label>
 
-            <label class="mg-field mg-field--wide mg-field--box">
+            <label class="mg-field mg-field--wide">
               <span class="mg-field__mark">❖</span>
               <span class="mg-field__label">효과</span>
               <input class="mg-field__value {{#unless system.effect}}mg-field__value--empty{{/unless}}" type="text" name="system.effect" value="{{system.effect}}" placeholder="—" />
-              <select class="mg-ident-select mg-ident-select--wide" name="system.effectType">
+              <select class="mg-ident-select mg-ident-select--tag" name="system.effectType">
                 {{#each effectTypes}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{value}}</option>{{/each}}
               </select>
             </label>
@@ -106,18 +106,20 @@
                   value="{{system.abilities.source}}"
                 /></label>
             </div>
-            <div class="mg-gauge">
-              <div class="mg-gauge__head"><span class="mg-gauge__icon">◈</span>마력</div>
-              <div class="mg-gauge__body">
-                <input class="mg-gauge__value" name="system.mp.value" value="{{system.mp.value}}" />
-                <span class="mg-gauge__sep">/</span>
-                <input class="mg-gauge__max" name="system.mp.max" value="{{system.mp.max}}" />
+            <div class="mg-gauge-row">
+              <div class="mg-gauge">
+                <div class="mg-gauge__head"><span class="mg-gauge__icon">◈</span>마력</div>
+                <div class="mg-gauge__body">
+                  <input class="mg-gauge__value" name="system.mp.value" value="{{system.mp.value}}" />
+                  <span class="mg-gauge__sep">/</span>
+                  <input class="mg-gauge__max" name="system.mp.max" value="{{system.mp.max}}" />
+                </div>
               </div>
-            </div>
-            <div class="mg-gauge">
-              <div class="mg-gauge__head"><span class="mg-gauge__icon">◇</span>일시 마력</div>
-              <div class="mg-gauge__body">
-                <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
+              <div class="mg-gauge">
+                <div class="mg-gauge__head"><span class="mg-gauge__icon">◇</span>일시 마력</div>
+                <div class="mg-gauge__body">
+                  <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
+                </div>
               </div>
             </div>
             <div class="mg-rank">

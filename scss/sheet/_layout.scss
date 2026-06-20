@@ -6,10 +6,10 @@
 
 .magicalogia {
   // ---- C : dashboard header band ----
-  // [ portcol 150px | identity (2-col) 1fr | stat-rail 170px ]
+  // [ portcol 150px | identity (2-col) 1fr | stat-rail 188px ]
   .mg-headband {
     display: grid;
-    grid-template-columns: 150px 1fr 170px;
+    grid-template-columns: 150px 1fr 188px;
     gap: 11px;
     align-items: stretch;
   }
@@ -24,8 +24,9 @@
       aspect-ratio: 1 / 1;
       flex: none;
     }
+    // portrait 밑 카운터는 자연 높이(flex:none) — 세로 flex:1 금지
     .mg-counter-row {
-      flex: 1;
+      flex: none;
     }
     .mg-counter {
       justify-content: center;
@@ -35,7 +36,7 @@
   .mg-identity-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 9px 12px;
+    gap: 8px 14px;
     align-content: start;
 
     // 2열 그리드에서 전체폭을 차지하는 행(진정한모습/효과/혼의특기 등).
@@ -44,25 +45,34 @@
     }
   }
 
+  // 스탯 레일: flex column, gap, 자식은 flex:1 0 auto(자연 높이 + 공간 분배)
   .mg-statrail {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 7px;
 
+    // 세로 자식: grow:1 shrink:0 → 압축 없이 빈 공간만 나눠 초상화 열 높이와 맞춤
     > .mg-stat-row,
-    > .mg-gauge {
-      flex: 1;
-    }
-    .mg-gauge {
-      align-items: center;
-    }
-    // 시안: 게이지 head가 (flex:1로 늘어난) 게이지 전체 높이를 채운다.
-    // (.mg-stat 의 padding 오버라이드는 제거 — S2 .mg-stat 는 min-height + flex 로
-    //  자체 높이를 가지므로 padding 을 더하면 시안보다 타일이 커진다.)
-    .mg-gauge__head {
-      height: 100%;
+    > .mg-gauge-row,
+    > .mg-rank {
+      flex: 1 0 auto;
     }
   }
+
+  // 마력·일시 마력 1행(2fr 1fr) 래퍼
+  .mg-gauge-row {
+    display: flex;
+    gap: 7px;
+
+    > .mg-gauge:first-child {
+      flex: 2;
+    }
+    > .mg-gauge:last-child {
+      flex: 1;
+    }
+  }
+
   .mg-counter-row {
     display: flex;
     gap: 6px;

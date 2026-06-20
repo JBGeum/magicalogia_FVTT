@@ -8,9 +8,10 @@
   // ---- Labelled field row (label + underlined value) ----
   .mg-field {
     display: flex;
-    align-items: baseline;
-    gap: 7px;
-    padding: 4px 0;
+    align-items: center;
+    gap: 6px;
+    min-height: 26px;
+    padding: 2px 0;
     border-bottom: 1px solid var(--mg-line);
 
     &__mark {
@@ -19,7 +20,8 @@
       flex: none;
     } // ❖
     &__label {
-      font-size: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
       color: var(--mg-soft);
       white-space: nowrap;
     }
@@ -50,40 +52,41 @@
       color: var(--mg-ink);
       font-weight: 700;
     }
-    // 강조 텍스트 필드(임시이름/마법명).
-    &--lg .mg-field__label {
-      font-size: 13.5px;
-    }
+    // 강조 텍스트 필드(임시이름/마법명) — 값만 크게, 라벨은 통일 크기 유지.
     &--lg .mg-field__value {
       font-size: 15px;
     }
-    // 효과: 값 위에 종류 select가 붙는 박스형(상단 정렬·줄바꿈 허용).
-    &--box {
-      align-items: flex-start;
-    }
-    &--box .mg-field__value {
-      white-space: normal;
-      min-height: 36px;
-      line-height: 1.4;
-    }
   }
 
-  // 식별그리드 드롭다운(경력/기관/효과종류).
+  // 식별그리드 .mg-field--wide 행 라벨 정렬
+  .mg-identity-grid .mg-field--wide > .mg-field__label {
+    min-width: 70px;
+  }
+
+  // 식별그리드 드롭다운(경력/기관/효과종류) — 밑줄 필드형 언더라인 스타일.
   .mg-ident-select {
-    margin-left: auto;
-    padding: 2px 6px;
-    font-family: inherit;
-    font-size: 13.5px;
-    font-weight: 700;
+    flex: 1;
+    min-width: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    background: transparent no-repeat right center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6'%3E%3Cpath fill='%23e0c074' d='M0 0h8L4 6z'/%3E%3C/svg%3E");
+    background-size: 8px 6px;
     color: var(--mg-gold);
-    background: var(--mg-field);
-    border: 1px solid var(--mg-line);
-    border-radius: $mg-radius-sm;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: inherit;
+    text-align: left;
+    padding: 1px 14px 1px 2px;
     cursor: pointer;
 
-    &--wide {
-      min-width: 4em;
+    // 효과 우측 태그형(컴팩트). 옛 --wide(박스형)는 폐기.
+    &--tag {
+      flex: 0 0 auto;
+      width: 54px;
       text-align: center;
+      padding-right: 15px;
     }
     option {
       color: var(--mg-ink);
@@ -92,51 +95,88 @@
     }
   }
 
-  // ---- Stat box (공격력 / 방어력 / 근원력 / 계제) ----
-  // .mg-statrail 값은 시안에선 <div>지만 Foundry는 <input> — 기본 배경/테두리/패딩을
-  // 제거해 시안과 같은 평면 텍스트로 만든다(폭·정렬·폰트는 각 __value 가 지정).
-  .mg-statrail input {
+  // 라이트 테마 캐럿(어두운 골드)
+  &.theme-light .mg-ident-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6'%3E%3Cpath fill='%239a7430' d='M0 0h8L4 6z'/%3E%3C/svg%3E");
+  }
+
+  // ---- Stat box, Counter, Rank, Gauge — 4종 골드 헤더 타일 통일 ----
+  // .mg-statrail 및 .mg-counter 값은 Foundry <input> — 기본 배경/테두리/패딩을
+  // 제거해 시안과 같은 평면 텍스트로 만든다.
+  .mg-statrail input,
+  .mg-counter input {
     background: transparent;
     border: 0;
     padding: 0;
   }
 
-  .mg-stat {
+  // 4종 타일 공통: 세로 flex 컨테이너. (★ 세로 레일에서 flex:1 금지 — 가로 행에서만)
+  .mg-stat,
+  .mg-counter,
+  .mg-rank,
+  .mg-gauge {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 46px;
     border: 1px solid var(--mg-gold);
     border-radius: $mg-radius-sm;
     overflow: hidden;
-    // value input은 .mg-statrail input 리셋으로 투명 → 타일 배경을 field로 둔다.
-    background: var(--mg-field);
+  }
 
-    &__label {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--mg-head-bg);
-      color: var(--mg-head-ink);
-      text-align: center;
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      padding: 0 2px;
-    }
+  // 가로 행에서만 flex:1 — 스탓 3칸·카운터 2칸 폭 채움. 세로 레일에선 사용 금지.
+  .mg-stat-row .mg-stat,
+  .mg-counter-row .mg-counter {
+    flex: 1;
+  }
+
+  // 골드 라벨 strip — 4종 통일 (flex:none 필수 — 압축 방지)
+  .mg-stat__label,
+  .mg-counter__label,
+  .mg-rank__label,
+  .mg-gauge__head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    height: $mg-tile-head-h;
+    background: var(--mg-head-bg);
+    color: var(--mg-head-ink);
+    font-size: $mg-tile-head-fz;
+    font-weight: $mg-tile-head-fw;
+    letter-spacing: $mg-tile-head-ls;
+    line-height: 1;
+    white-space: nowrap;
+    padding: 0 6px;
+  }
+
+  // 값 본문 — 3종 통일 높이
+  .mg-stat__value,
+  .mg-counter__value,
+  .mg-gauge__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    min-height: $mg-tile-body-h;
+    background: var(--mg-field);
+    font-family: $mg-font-body;
+    font-weight: 800;
+    padding: 0;
+  }
+
+  .mg-stat {
     &__value {
       flex: 1;
-      width: 100%;
-      text-align: center;
       color: var(--mg-ink);
-      font-family: $mg-font-body;
-      font-size: 18px;
-      font-weight: 800;
-    }
-    // 강조(공격/방어/근원): 큰 값.
-    &--key .mg-stat__value {
       font-size: 20px;
+    }
+    // 강조(공격/방어/근원): 더 큰 값.
+    &--key .mg-stat__value {
+      font-size: 24px;
+    }
+    &--rank .mg-stat__value {
+      color: var(--mg-gold);
     }
   }
   .mg-stat-row {
@@ -146,21 +186,16 @@
 
   // ---- Rank tile (계제: 값 + 등급명 + 플로리시) ----
   .mg-rank {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--mg-gold);
-    border-radius: $mg-radius-sm;
-    overflow: hidden;
     text-align: center;
 
     &__label {
-      background: var(--mg-head-bg);
-      color: var(--mg-head-ink);
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 0;
+      // 통일 strip 규칙으로 이미 처리됨 — 레거시 override 없음
     }
     &__body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       background: var(--mg-field);
       padding: 3px 0 5px;
     }
@@ -194,27 +229,10 @@
     }
   }
 
-  // ---- Resource gauge (마력 value/max, 일시 마력) — head/body 2분할 ----
+  // ---- Resource gauge (마력 value/max, 일시 마력) — 세로 타일(헤더 위/본문 아래) ----
   .mg-gauge {
-    display: flex;
-    align-items: stretch;
-    border: 1px solid var(--mg-gold);
-    border-radius: $mg-radius-sm;
-    overflow: hidden;
-    min-height: 32px;
-
     &__head {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      background: var(--mg-head-bg);
-      color: var(--mg-head-ink);
-      font-weight: 800;
-      font-size: 11.5px;
-      padding: 0 8px;
-      white-space: nowrap;
+      // 통일 strip 규칙으로 처리됨. (옛 flex:1/height:100% override 삭제)
     }
     &__icon {
       display: flex;
@@ -223,20 +241,13 @@
       font-size: 11px;
     }
     &__body {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background: var(--mg-field);
-      padding: 0 8px;
+      flex: 1; // gauge-row 가 자랄 때 본문도 채움
     }
     // value/max 는 <input> — statrail input 리셋(투명/border0/padding0)이 적용된다.
     // 폭 제약이 없으면 input 기본 폭이 body를 넘으므로 좁은 폭 + min-width:0 으로 가둔다.
     &__value {
       width: 3ch;
       min-width: 0;
-      text-align: right;
       font-family: $mg-font-body;
       font-size: 16px;
       font-weight: 800;
@@ -249,7 +260,6 @@
     &__max {
       width: 3ch;
       min-width: 0;
-      text-align: right;
       font-family: $mg-font-body;
       font-size: 16px;
       font-weight: 800;
@@ -257,42 +267,11 @@
     }
   }
 
-  // ---- Counter tile (공적점 / 마화) — 시안: 골드 헤더 + 값 2분할(stat 타일과 동형) ----
+  // ---- Counter tile (공적점 / 마화) — 골드 헤더 + 값 2분할 ----
   .mg-counter {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 42px;
-    border: 1px solid var(--mg-gold);
-    border-radius: $mg-radius-sm;
-    overflow: hidden;
-
-    &__label {
-      flex: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--mg-head-bg);
-      color: var(--mg-head-ink);
-      text-align: center;
-      font-size: 10px;
-      font-weight: 800;
-      line-height: 1.1;
-      padding: 1px 0;
-    }
-    // value 는 <input>(시안에선 <div>) — 기본 배경/테두리/패딩을 제거해 평면 텍스트로.
     &__value {
-      flex: 1;
-      width: 100%;
-      min-width: 0;
-      text-align: center;
-      background: var(--mg-field);
-      border: 0;
-      padding: 0;
       color: var(--mg-gold);
-      font-family: $mg-font-body;
       font-size: 16px;
-      font-weight: 800;
     }
     // 약화(공적점/마화): 골드 헤더 타일은 유지하고 값 색만 죽인다.
     &--muted .mg-counter__value {
