@@ -528,6 +528,64 @@
     letter-spacing: 0.1em;
   }
 
+  // ---- Accordion (캐릭터 시트 하단 장서/관계 접이식) ----
+  .mg-accordion {
+    border: 1px solid var(--mg-gold);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 2px;
+  }
+  .mg-accordion + .mg-accordion {
+    margin-top: 8px;
+  }
+  .mg-accordion__head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 13px;
+    background: var(--mg-bar);
+    color: var(--mg-bar-ink);
+    cursor: pointer;
+    user-select: none;
+  }
+  .mg-accordion__caret {
+    color: var(--mg-gold);
+    font-size: 11px;
+    transition: transform 0.18s ease;
+  }
+  .mg-accordion.is-open .mg-accordion__caret {
+    transform: rotate(90deg);
+  }
+  .mg-accordion__title {
+    font-family: $mg-font-display;
+    font-weight: 800;
+    font-size: 13.5px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .mg-accordion__count {
+    margin-left: auto;
+    color: var(--mg-gold);
+    opacity: 0.8;
+    font-size: 11px;
+  }
+  .mg-accordion__body {
+    display: none;
+    padding: 12px 13px;
+    background: var(--mg-paper);
+  }
+  .mg-accordion.is-open .mg-accordion__body {
+    display: block;
+  }
+
+  // ---- 정보 탭 필드 래퍼 ----
+  .mg-info-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 420px;
+  }
+
   // ---- Dice & tables grid (주사위 및 각종 표) ----
   .mg-tables {
     display: grid;
