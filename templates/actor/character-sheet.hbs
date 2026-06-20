@@ -56,15 +56,19 @@
             <label class="mg-field">
               <span class="mg-field__mark">❖</span>
               <span class="mg-field__label">경력</span>
-              <input class="mg-field__value {{#unless system.career}}mg-field__value--empty{{/unless}}" type="text" name="system.career" value="{{system.career}}" list="mg-career-list" placeholder="—" />
-              <datalist id="mg-career-list">{{#each careerOptions}}<option value="{{this}}"></option>{{/each}}</datalist>
+              <select class="mg-ident-select" name="system.career">
+                <option value="" {{selected (eq system.career "")}}>—</option>
+                {{#each careerOptions}}<option value="{{this}}" {{selected (eq ../system.career this)}}>{{this}}</option>{{/each}}
+              </select>
             </label>
 
             <label class="mg-field">
               <span class="mg-field__mark">❖</span>
               <span class="mg-field__label">기관</span>
-              <input class="mg-field__value {{#unless system.organization}}mg-field__value--empty{{/unless}}" type="text" name="system.organization" value="{{system.organization}}" list="mg-org-list" placeholder="—" />
-              <datalist id="mg-org-list">{{#each orgOptions}}<option value="{{this}}"></option>{{/each}}</datalist>
+              <select class="mg-ident-select" name="system.organization">
+                <option value="" {{selected (eq system.organization "")}}>—</option>
+                {{#each orgOptions}}<option value="{{this}}" {{selected (eq ../system.organization this)}}>{{this}}</option>{{/each}}
+              </select>
             </label>
 
             <label class="mg-field mg-field--wide">

@@ -28,13 +28,13 @@
 
   <div class="mg-chart__footer">
     <label><span class="mg-flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs"}}</span>소속영역
-      <select name="system.domain">
+      <select class="mg-ident-select" name="system.domain">
         <option value="" {{selected (eq system.domain "")}}>—</option>
         {{#each attributes}}
         <option value="{{this.key}}" {{selected (eq ../system.domain this.key)}}>{{this.title}}</option>
         {{/each}}
       </select>
     </label>
-    <label><span class="mg-flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs"}}</span>혼의 특기 <input type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
+    <label><span class="mg-flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs"}}</span>혼의 특기 <input class="mg-field__value" type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
   </div>
 </div>
