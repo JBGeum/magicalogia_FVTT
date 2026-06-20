@@ -33,3 +33,30 @@
   --mg-head-bg: linear-gradient(180deg, #e8d196, #d2b061);
   --mg-head-ink: #241544;
 }
+
+// 라이트(양피지) 테마 — 다크 토큰을 덮어쓴다. 출처: 시안 example.html .magicalogia.theme-light
+.magicalogia.theme-light {
+  --mg-paper: radial-gradient(130% 90% at 50% 0%, #f1e7cc, #e6d8b6 75%);
+  --mg-panel: #e8dabb;
+  --mg-panel-2: #ddcca1;
+  --mg-ink: #3a2c18;
+  --mg-soft: #6e5a38;
+  --mg-faint: #9c8a64;
+  --mg-bar: linear-gradient(180deg, #6a4a2c, #4f3520);
+  --mg-bar-ink: #f1e4c4;
+  --mg-gold: #9a7430;
+  --mg-line: #5a3d2457;
+  --mg-field: #f5eed9;
+  --mg-field-ink: #3a2c18;
+  --mg-hi: #9a74302e;
+  --mg-hi-soft: #9a74301a;
+  --mg-hi-strong: #9a743070;
+  --mg-check: #7a5524;
+  --mg-dark-ink: #9c5a3a;
+  --mg-head-bg: linear-gradient(180deg, #b58a3e, #9c7430);
+  --mg-head-ink: #fbf3dc;
+  --mg-deco:
+    repeating-linear-gradient(112deg, #5a3d240d 0 2px, transparent 2px 8px),
+    repeating-linear-gradient(28deg, #5a3d240a 0 2px, transparent 2px 9px),
+    radial-gradient(150% 130% at 50% -15%, transparent 58%, #3c281433);
+}
