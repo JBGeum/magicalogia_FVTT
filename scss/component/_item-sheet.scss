@@ -1,45 +1,338 @@
-// item 시트(spell/anchor) 폼 — 2열 그리드 + cost(영역 select + 개수).
-.mg-item-form {
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.mg-item-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 10px;
-}
-.mg-ifield {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+// =============================================================
+//  Item Sheet — .mg-item component rules
+//  Source: docs/design/06201857/styles/magicalogia-item.css (L16+)
+//  Token blocks and @import font lines are excluded (provided by _tokens.scss).
+// =============================================================
+@use "../theme/vars" as *;
 
-  > span {
-    flex: 0 0 64px;
-    font-size: 12px;
-    opacity: 0.8;
-  }
-  input,
-  select {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-  &--wide {
-    grid-column: 1 / -1;
-  }
-  &--cost {
-    select {
-      flex: 0 0 84px;
+.magicalogia {
+  .mg-item {
+    position: relative;
+    width: 100%;
+    background: var(--mg-paper);
+    border: 2px solid var(--mg-gold);
+    border-radius: 4px;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 1px solid var(--mg-gold);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 5;
     }
-    input {
-      flex: 0 0 56px;
+
+    &__bar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--mg-bar);
+      border-bottom: 2px solid var(--mg-gold);
+      padding: 8px 12px;
+    }
+
+    &__sigil {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid var(--mg-gold);
+      background: rgba(0, 0, 0, 0.12);
+      color: var(--mg-bar-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 14px;
+        height: 14px;
+        display: block;
+      }
+    }
+
+    &__name {
+      flex: 1;
+      min-width: 0;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--mg-bar-ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__ctrls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--mg-bar-ink);
+      opacity: 0.72;
+      font-size: 13px;
+
+      span {
+        cursor: default;
+      }
+    }
+
+    &__body {
+      position: relative;
+      z-index: 2;
+      padding: 14px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+  }
+
+  // ---- Field rows ----
+  .mg-iform {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mg-irow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+  }
+
+  .mg-ifield {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+
+    &__label {
+      flex: none;
+      min-width: 48px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mg-soft);
+      white-space: nowrap;
+
+      &--wide {
+        min-width: 54px;
+      }
+    }
+  }
+
+  // ---- Controls ----
+  .mg-input,
+  .mg-select,
+  .mg-area {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    background: var(--mg-field);
+    border: 1px solid var(--mg-line);
+    border-radius: 3px;
+    color: var(--mg-field-ink);
+    font-family: "Pretendard", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 9px;
+    transition:
+      border-color 0.12s,
+      box-shadow 0.12s;
+  }
+
+  .mg-input::placeholder,
+  .mg-area::placeholder {
+    color: var(--mg-faint);
+    font-weight: 500;
+  }
+
+  .mg-input:focus,
+  .mg-select:focus,
+  .mg-area:focus {
+    outline: none;
+    border-color: var(--mg-gold);
+    box-shadow: 0 0 0 2px var(--mg-hi);
+  }
+
+  .mg-input--name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--mg-gold);
+  }
+
+  .mg-num {
+    flex: none;
+    width: 62px;
+    text-align: center;
+  }
+
+  .mg-select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 26px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6'%3E%3Cpath fill='%23e0c074' d='M0 0h8L4 6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+
+    option {
+      background: var(--mg-panel);
+      color: var(--mg-ink);
+    }
+  }
+
+  .mg-cost {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+
+    .mg-select {
+      flex: 1;
+    }
+  }
+
+  .mg-area {
+    flex: 1;
+    width: 100%;
+    resize: vertical;
+    min-height: 58px;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  // ---- Checkbox rows ----
+  .mg-checkrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--mg-soft);
+    cursor: pointer;
+    user-select: none;
+
+    &:hover .mg-check {
+      border-color: var(--mg-gold);
+    }
+
+    .han {
+      color: var(--mg-faint);
+      font-weight: 500;
+      margin-left: 1px;
+    }
+  }
+
+  .mg-check {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--mg-line);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    line-height: 1;
+    color: transparent;
+    transition:
+      background 0.12s,
+      border-color 0.12s,
+      color 0.12s;
+
+    &.is-on {
+      background: var(--mg-check);
+      border-color: var(--mg-check);
+      color: var(--mg-panel);
+    }
+  }
+
+  // ---- Divider + section label ----
+  .mg-idiv {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 1px 0;
+
+    &__rule {
+      flex: 1;
+      height: 1px;
+      background: var(--mg-line);
+    }
+
+    &__rule--l {
+      background: linear-gradient(90deg, transparent, var(--mg-gold));
+    }
+
+    &__rule--r {
+      background: linear-gradient(90deg, var(--mg-gold), transparent);
+    }
+
+    &__label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: var(--mg-bar-ink);
+      background: var(--mg-bar);
+      border: 1px solid var(--mg-gold);
+      border-radius: 2px;
+      padding: 2px 12px;
+    }
+  }
+
+  // ---- Prose (서술 / 설정) ----
+  .mg-prose {
+    &__head {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 5px;
+    }
+
+    &__title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mg-soft);
+    }
+
+    &__box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      border: 1px dashed var(--mg-line);
+      border-radius: 4px;
+      background: var(--mg-field);
+      padding: 8px 10px;
+      color: var(--mg-faint);
+      font-size: 12px;
+      font-style: italic;
+      cursor: text;
+
+      svg {
+        flex: none;
+        width: 14px;
+        height: 14px;
+        color: var(--mg-gold);
+      }
+
+      &:hover {
+        border-color: var(--mg-gold);
+      }
     }
   }
 }
-.mg-icheck {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
+
+// Light theme caret override for .mg-select
+.magicalogia.theme-light {
+  .mg-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6'%3E%3Cpath fill='%239a7430' d='M0 0h8L4 6z'/%3E%3C/svg%3E");
+  }
 }
