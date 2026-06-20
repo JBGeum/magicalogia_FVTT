@@ -1,5 +1,6 @@
 import { computeTable } from "../system/specialty-table.mjs";
 import { rollSpecialty } from "../system/specialty-roll.mjs";
+import { applyTheme } from "../helpers/theme.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -9,7 +10,7 @@ const CHARGE_SLOTS = 6;
 
 export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
-    classes: ["magicalogia", "sheet", "actor", "theme-dark"],
+    classes: ["magicalogia", "sheet", "actor"],
     position: { width: 860, height: 920 },
     window: { resizable: true },
     form: {
@@ -250,6 +251,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
         ?.closest(".mg-accordion")
         ?.classList.toggle("is-open", this._accOpen[key]);
     }
+    applyTheme(this.element);
   }
 
   static async #onSubmit(_event, _form, formData) {

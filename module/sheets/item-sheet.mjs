@@ -1,3 +1,5 @@
+import { applyTheme } from "../helpers/theme.mjs";
+
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -54,6 +56,11 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
       context.anchorAttrs = CONFIG.MAGICALOGIA.anchorAttrs;
     }
     return context;
+  }
+
+  _onRender(context, options) {
+    super._onRender?.(context, options);
+    applyTheme(this.element);
   }
 
   static async #onSubmit(_event, _form, formData) {

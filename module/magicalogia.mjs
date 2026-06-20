@@ -15,6 +15,7 @@ import { MagicalogiaItemSheet } from "./sheets/item-sheet.mjs";
 // Helpers
 import { MAGICALOGIA } from "./helpers/config.mjs";
 import { preloadHandlebarsTemplates, registerHandlebarsHelpers } from "./helpers/templates.mjs";
+import { registerThemeSetting } from "./helpers/theme.mjs";
 
 Hooks.once("init", async function () {
   game.magicalogia = {
@@ -45,6 +46,7 @@ Hooks.once("init", async function () {
   ItemsCls.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
   ItemsCls.registerSheet("magicalogia", MagicalogiaItemSheet, { makeDefault: true });
 
+  registerThemeSetting();
   registerHandlebarsHelpers();
   return preloadHandlebarsTemplates();
 });
