@@ -137,7 +137,7 @@
           <span class="mg-status__title"><span class="mark">❖</span>상태이상</span>
           <span class="mg-status__list">
             {{#each statuses}}
-            <span class="mg-status__chip {{#if this.active}}is-active{{/if}}" data-action="toggleStatus" data-status="{{this.key}}">{{this.label}}</span>
+            <span class="mg-status__chip {{#if this.active}}is-active{{/if}}" data-action="toggleStatus" data-status="{{this.key}}"><span class="mg-status__mark">✓</span>{{this.label}}</span>
             {{/each}}
           </span>
         </div>
