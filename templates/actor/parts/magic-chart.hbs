@@ -11,7 +11,7 @@
     {{#unless @first}}<div class="mg-chart__gap"></div>{{/unless}}
     <div class="mg-chart__col{{#if (eq this.key ../system.domain)}} is-domain{{/if}}">
       <div class="mg-chart__head">
-        <span class="ico">{{> mg-svg-chart-icon key=this.key}}</span>
+        <span class="ico">{{> "systems/magicalogia/templates/actor/parts/mg-svg-chart-icon.hbs" key=this.key}}</span>
         <span class="num">{{this.num}}</span>
         <span class="title">{{this.title}}</span>
       </div>
@@ -27,7 +27,7 @@
   </div>
 
   <div class="mg-chart__footer">
-    <label><span class="mg-flourish">{{> mg-svg-miniflr}}</span>소속영역
+    <label><span class="mg-flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs"}}</span>소속영역
       <select name="system.domain">
         <option value="" {{selected (eq system.domain "")}}>—</option>
         {{#each attributes}}
@@ -35,6 +35,6 @@
         {{/each}}
       </select>
     </label>
-    <label><span class="mg-flourish">{{> mg-svg-miniflr}}</span>혼의 특기 <input type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
+    <label><span class="mg-flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs"}}</span>혼의 특기 <input type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
   </div>
 </div>
