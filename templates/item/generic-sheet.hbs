@@ -1,5 +1,10 @@
 <div class="{{cssClass}}">
-  <section class="sheet-body">
+  <section class="sheet-body mg-item-form">
+    <div class="mg-item-grid">
+      <label class="mg-ifield mg-ifield--wide"><span>이름</span>
+        <input type="text" name="name" value="{{item.name}}" placeholder="이름" />
+      </label>
+    </div>
     <div class="description">
       <label>{{localize "MAGICALOGIA.item.description"}}</label>
       {{editor enrichedDescription target="system.description" button=true editable=editable}}
