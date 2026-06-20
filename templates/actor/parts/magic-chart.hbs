@@ -11,6 +11,7 @@
     {{#unless @first}}<div class="mg-chart__gap"></div>{{/unless}}
     <div class="mg-chart__col{{#if (eq this.key ../system.domain)}} is-domain{{/if}}">
       <div class="mg-chart__head">
+        <span class="ico">{{> mg-svg-chart-icon key=this.key}}</span>
         <span class="num">{{this.num}}</span>
         <span class="title">{{this.title}}</span>
       </div>
