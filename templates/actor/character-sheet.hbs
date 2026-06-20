@@ -155,7 +155,11 @@
           <div class="mg-belowgrid">
             <div class="mg-memo">
               <span class="mg-memo__label">메 모</span>
-              {{editor enrichedBiography target="system.biography" button=true editable=editable}}
+              {{#if editable}}
+                <prose-mirror name="system.biography" button="true" editable="{{editable}}" toggled="false" value="{{system.biography}}">{{{enrichedBiography}}}</prose-mirror>
+              {{else}}
+                {{{enrichedBiography}}}
+              {{/if}}
             </div>
             <div>
               <div class="mg-banner mg-banner--inline" style="margin-bottom: 6px">

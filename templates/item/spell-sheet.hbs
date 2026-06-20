@@ -36,7 +36,11 @@
     </div>
     <div class="description">
       <label>서술</label>
-      {{editor enrichedDescription target="system.description" button=true editable=editable}}
+      {{#if editable}}
+        <prose-mirror name="system.description" button="true" editable="{{editable}}" toggled="false" value="{{system.description}}">{{{enrichedDescription}}}</prose-mirror>
+      {{else}}
+        {{{enrichedDescription}}}
+      {{/if}}
     </div>
   </section>
 </div>
