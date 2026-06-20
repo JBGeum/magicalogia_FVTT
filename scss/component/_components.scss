@@ -145,6 +145,7 @@
     font-weight: $mg-tile-head-fw;
     letter-spacing: $mg-tile-head-ls;
     line-height: 1;
+    text-align: center;
     white-space: nowrap;
     padding: 0 6px;
   }
@@ -188,9 +189,6 @@
   .mg-rank {
     text-align: center;
 
-    &__label {
-      // 통일 strip 규칙으로 이미 처리됨 — 레거시 override 없음
-    }
     &__body {
       flex: 1;
       display: flex;
@@ -231,9 +229,6 @@
 
   // ---- Resource gauge (마력 value/max, 일시 마력) — 세로 타일(헤더 위/본문 아래) ----
   .mg-gauge {
-    &__head {
-      // 통일 strip 규칙으로 처리됨. (옛 flex:1/height:100% override 삭제)
-    }
     &__icon {
       display: flex;
       align-items: center;
