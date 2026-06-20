@@ -1,46 +1,58 @@
 <div class="{{cssClass}}">
-  <section class="sheet-body mg-item-form">
-    <div class="mg-item-grid">
-      <label class="mg-ifield mg-ifield--wide"><span>이름</span>
-        <input type="text" name="name" value="{{item.name}}" placeholder="이름" />
-      </label>
-      <label class="mg-ifield"><span>타입</span>
-        <select name="system.type">
-          <option value="" {{selected (eq system.type "")}}>—</option>
-          {{#each spellTypes}}<option value="{{this}}" {{selected (eq ../system.type this)}}>{{this}}</option>{{/each}}
-        </select>
-      </label>
-      <label class="mg-ifield"><span>지정특기</span>
-        <input type="text" name="system.skill" value="{{system.skill}}" />
-      </label>
-      <label class="mg-ifield"><span>목표</span>
-        <input type="text" name="system.target" value="{{system.target}}" />
-      </label>
-      <div class="mg-ifield mg-ifield--cost"><span>코스트</span>
-        <select name="system.cost.area">
-          {{#each costAreas}}<option value="{{this.value}}" {{selected (eq ../system.cost.area this.value)}}>{{this.label}}</option>{{/each}}
-        </select>
-        <input type="number" name="system.cost.count" value="{{system.cost.count}}" min="0" />
-      </div>
-      <label class="mg-ifield"><span>충전</span>
-        <input type="number" name="system.charge" value="{{system.charge}}" min="0" max="6" />
-      </label>
-      <label class="mg-ifield"><span>수정</span>
-        <input type="number" name="system.mod" value="{{system.mod}}" />
-      </label>
-      <label class="mg-icheck"><input type="checkbox" name="system.active" {{checked system.active}} /><span>장비/유효</span></label>
-      <label class="mg-icheck"><input type="checkbox" name="system.recite" {{checked system.recite}} /><span>주구</span></label>
-      <label class="mg-ifield mg-ifield--wide"><span>효과</span>
-        <input type="text" name="system.effect" value="{{system.effect}}" />
-      </label>
+  <div class="mg-item">
+    <div class="mg-item__bar">
+      <span class="mg-item__sigil"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 3.6C6.6 2.6 3.7 2.6 2.2 3.1v9.3c1.5-.5 4.4-.5 5.8.5 1.4-1 4.3-1 5.8-.5V3.1C12.3 2.6 9.4 2.6 8 3.6z"/><path d="M8 3.6v9.3"/></svg></span>
+      <span class="mg-item__name">{{item.name}}</span>
     </div>
-    <div class="description">
-      <label>서술</label>
+    <div class="mg-item__body">
+      <div class="mg-iform">
+        <div class="mg-ifield mg-ifield--full">
+          <span class="mg-ifield__label">이름</span>
+          <input class="mg-input mg-input--name" type="text" name="name" value="{{item.name}}" placeholder="마법 이름" />
+        </div>
+        <div class="mg-irow">
+          <div class="mg-ifield"><span class="mg-ifield__label">타입</span>
+            <select class="mg-select" name="system.type">
+              <option value="" {{selected (eq system.type "")}}>—</option>
+              {{#each spellTypes}}<option value="{{this}}" {{selected (eq ../system.type this)}}>{{this}}</option>{{/each}}
+            </select>
+          </div>
+          <div class="mg-ifield"><span class="mg-ifield__label">지정특기</span>
+            <input class="mg-input" type="text" name="system.skill" value="{{system.skill}}" placeholder="—" />
+          </div>
+          <div class="mg-ifield"><span class="mg-ifield__label">목표</span>
+            <input class="mg-input" type="text" name="system.target" value="{{system.target}}" placeholder="—" />
+          </div>
+          <div class="mg-ifield"><span class="mg-ifield__label">코스트</span>
+            <div class="mg-cost">
+              <select class="mg-select" name="system.cost.area">
+                {{#each costAreas}}<option value="{{this.value}}" {{selected (eq ../system.cost.area this.value)}}>{{this.label}}</option>{{/each}}
+              </select>
+              <input class="mg-input mg-num" type="number" name="system.cost.count" value="{{system.cost.count}}" min="0" />
+            </div>
+          </div>
+          <div class="mg-ifield"><span class="mg-ifield__label">충전</span>
+            <input class="mg-input mg-num" type="number" name="system.charge" value="{{system.charge}}" min="0" max="6" />
+          </div>
+          <div class="mg-ifield"><span class="mg-ifield__label">수정</span>
+            <input class="mg-input mg-num" type="number" name="system.mod" value="{{system.mod}}" />
+          </div>
+        </div>
+        <div class="mg-irow">
+          <label class="mg-checkrow"><span class="mg-check {{#if system.active}}is-on{{/if}}" data-action="toggle-field" data-field="system.active">{{#if system.active}}✓{{/if}}</span>장비/유효</label>
+          <label class="mg-checkrow"><span class="mg-check {{#if system.recite}}is-on{{/if}}" data-action="toggle-field" data-field="system.recite">{{#if system.recite}}✓{{/if}}</span>주구</label>
+        </div>
+        <div class="mg-ifield mg-ifield--full" style="align-items: flex-start">
+          <span class="mg-ifield__label" style="margin-top: 6px">효과</span>
+          <textarea class="mg-area" name="system.effect" placeholder="마법 효과 ……">{{system.effect}}</textarea>
+        </div>
+      </div>
+      <div class="mg-idiv"><span class="mg-idiv__rule mg-idiv__rule--l"></span><span class="mg-idiv__label">서 술</span><span class="mg-idiv__rule mg-idiv__rule--r"></span></div>
       {{#if editable}}
         <prose-mirror name="system.description" button="true" editable="{{editable}}" toggled="false" value="{{system.description}}">{{{enrichedDescription}}}</prose-mirror>
       {{else}}
         {{{enrichedDescription}}}
       {{/if}}
     </div>
-  </section>
+  </div>
 </div>

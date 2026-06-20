@@ -1,17 +1,38 @@
 <div class="{{cssClass}}">
-  <section class="sheet-body mg-item-form">
-    <div class="mg-item-grid">
-      <label class="mg-ifield mg-ifield--wide"><span>이름</span>
-        <input type="text" name="name" value="{{item.name}}" placeholder="이름" />
-      </label>
+  <div class="mg-item">
+    <div class="mg-item__bar">
+      <span class="mg-item__sigil">❖</span>
+      <span class="mg-item__name">{{item.name}}</span>
     </div>
-    <div class="description">
-      <label>{{localize "MAGICALOGIA.item.description"}}</label>
+    <div class="mg-item__body">
+      <div class="mg-iform">
+        <div class="mg-ifield mg-ifield--full">
+          <span class="mg-ifield__label">이름</span>
+          <input
+            class="mg-input mg-input--name"
+            type="text"
+            name="name"
+            value="{{item.name}}"
+            placeholder="아이템 이름"
+          />
+        </div>
+      </div>
+      <div class="mg-idiv"><span class="mg-idiv__rule mg-idiv__rule--l"></span><span
+          class="mg-idiv__label"
+        >{{localize "MAGICALOGIA.item.description"}}</span><span
+          class="mg-idiv__rule mg-idiv__rule--r"
+        ></span></div>
       {{#if editable}}
-        <prose-mirror name="system.description" button="true" editable="{{editable}}" toggled="false" value="{{system.description}}">{{{enrichedDescription}}}</prose-mirror>
+        <prose-mirror
+          name="system.description"
+          button="true"
+          editable="{{editable}}"
+          toggled="false"
+          value="{{system.description}}"
+        >{{{enrichedDescription}}}</prose-mirror>
       {{else}}
         {{{enrichedDescription}}}
       {{/if}}
     </div>
-  </section>
+  </div>
 </div>
