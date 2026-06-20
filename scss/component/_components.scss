@@ -250,34 +250,44 @@
     }
   }
 
-  // ---- Counter pill (공적점 / 마화) ----
+  // ---- Counter tile (공적점 / 마화) — 시안: 골드 헤더 + 값 2분할(stat 타일과 동형) ----
   .mg-counter {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 4px 0;
-    background: var(--mg-field);
-    border: 1px solid var(--mg-line);
+    flex: 1;
+    min-height: 42px;
+    border: 1px solid var(--mg-gold);
     border-radius: $mg-radius-sm;
+    overflow: hidden;
 
     &__label {
-      font-size: 9.5px;
-      color: var(--mg-soft);
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--mg-head-bg);
+      color: var(--mg-head-ink);
+      text-align: center;
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.1;
+      padding: 1px 0;
     }
+    // value 는 <input>(시안에선 <div>) — 기본 배경/테두리/패딩을 제거해 평면 텍스트로.
     &__value {
+      flex: 1;
       width: 100%;
       min-width: 0;
       text-align: center;
-      font-family: $mg-font-display;
-      font-size: 15px;
-      font-weight: 700;
+      background: var(--mg-field);
+      border: 0;
+      padding: 0;
       color: var(--mg-gold);
+      font-family: $mg-font-body;
+      font-size: 16px;
+      font-weight: 800;
     }
-    // 약화(공적점/마화).
-    &--muted {
-      opacity: 0.7;
-    }
+    // 약화(공적점/마화): 골드 헤더 타일은 유지하고 값 색만 죽인다.
     &--muted .mg-counter__value {
       color: var(--mg-soft);
     }
