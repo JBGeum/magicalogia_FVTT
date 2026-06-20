@@ -69,3 +69,34 @@ export async function rollSpecialty(actor, colKey, rowIndex) {
     rolls: [roll],
   });
 }
+
+/**
+ * 혼의 특기 2d6 판정 — 목표치 6 고정의 특수 특기로 간주. 챗카드 출력.
+ * @param {Actor} actor
+ */
+export async function rollSoulSkill(actor) {
+  const SOUL_TN = 6;
+  const name = actor.system.soulSkill?.trim() || "혼의 특기";
+
+  const roll = await new Roll("2d6").evaluate();
+  const [d1, d2] = roll.dice[0].results.map((r) => r.result);
+  const result = classifyRoll(d1, d2, SOUL_TN);
+
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/specialty-roll.hbs",
+    {
+      specialty: name,
+      column: "혼의 특기",
+      tn: SOUL_TN,
+      d1,
+      d2,
+      result,
+    },
+  );
+
+  await ChatMessage.create({
+    speaker: ChatMessage.getSpeaker({ actor }),
+    content,
+    rolls: [roll],
+  });
+}

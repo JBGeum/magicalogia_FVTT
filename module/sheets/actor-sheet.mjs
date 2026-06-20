@@ -1,5 +1,5 @@
 import { computeTable } from "../system/specialty-table.mjs";
-import { rollSpecialty } from "../system/specialty-roll.mjs";
+import { rollSpecialty, rollSoulSkill } from "../system/specialty-roll.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
@@ -21,6 +21,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     actions: {
       toggleSkill: MagicalogiaActorSheet.#onToggleSkill,
       rollSpecialty: MagicalogiaActorSheet.#onRollSpecialty,
+      "roll-soul": MagicalogiaActorSheet.#onRollSoul,
       editImg: MagicalogiaActorSheet.#onEditImg,
       toggleStatus: MagicalogiaActorSheet.#onToggleStatus,
       toggleTrueForm: MagicalogiaActorSheet.#onToggleTrueForm,
@@ -191,6 +192,11 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
 
   static async #onRollSpecialty(_event, target) {
     await rollSpecialty(this.actor, target.dataset.col, Number(target.dataset.index));
+  }
+
+  /** 혼의 특기 클릭 → 목표치 6 고정의 2d6 판정. */
+  static async #onRollSoul() {
+    await rollSoulSkill(this.actor);
   }
 
   /** 초상화 클릭 → FilePicker로 액터 이미지 교체. */
