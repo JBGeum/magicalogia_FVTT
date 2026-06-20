@@ -31,6 +31,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      // 값은 <input>(시안에선 <span>) — Foundry 기본 배경/테두리/높이를 제거해 평면
+      // 텍스트로. 필드 밑줄은 .mg-field 행의 border-bottom이 담당한다.
+      background: transparent;
+      border: 0;
+      padding: 0;
+      height: auto;
+      line-height: 1.4;
     }
     &__value--empty {
       color: var(--mg-faint);
