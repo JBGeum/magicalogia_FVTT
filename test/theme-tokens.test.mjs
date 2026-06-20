@@ -22,11 +22,12 @@ describe("테마 토큰 완전성", () => {
   const text = readFileSync(tokensPath, "utf8");
 
   it(".magicalogia.theme-light 블록이 존재한다", () => {
-    expect(text).toContain(".magicalogia.theme-light");
+    expect(text).toContain(".magicalogia.theme-light {");
   });
 
   it("라이트가 다크의 모든 색상 토큰을 오버라이드한다", () => {
-    const idx = text.indexOf(".magicalogia.theme-light");
+    // 셀렉터의 여는 중괄호까지 앵커로 잡아 주석에 같은 문자열이 있어도 오분할되지 않게 한다.
+    const idx = text.indexOf(".magicalogia.theme-light {");
     const darkKeys = tokenKeys(text.slice(0, idx));
     const lightKeys = tokenKeys(text.slice(idx));
     const missing = [...darkKeys].filter((k) => !NON_COLOR.has(k) && !lightKeys.has(k));
