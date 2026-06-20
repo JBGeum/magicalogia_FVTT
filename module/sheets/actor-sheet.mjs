@@ -29,16 +29,13 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       "add-anchor": MagicalogiaActorSheet.#onAddAnchor,
       "toggle-anchor": MagicalogiaActorSheet.#onToggleAnchor,
       "toggle-scar": MagicalogiaActorSheet.#onToggleScar,
+      "toggle-accordion": MagicalogiaActorSheet.#onToggleAccordion,
     },
   };
 
   static TABS = {
     primary: {
-      tabs: [
-        { id: "main", label: "캐릭터 시트" },
-        { id: "grimoire", label: "장서" },
-        { id: "relations", label: "관계" },
-      ],
+      tabs: [{ id: "main", label: "캐릭터 시트" }],
       initial: "main",
     },
   };
@@ -126,18 +123,6 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     const activeTab = this.tabGroups.primary ?? "main";
     context.tabs = {
       main: { id: "main", group: "primary", label: "캐릭터 시트", active: activeTab === "main" },
-      grimoire: {
-        id: "grimoire",
-        group: "primary",
-        label: "장서",
-        active: activeTab === "grimoire",
-      },
-      relations: {
-        id: "relations",
-        group: "primary",
-        label: "관계",
-        active: activeTab === "relations",
-      },
     };
     return context;
   }
@@ -226,6 +211,14 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     });
   }
 
+  /** 장서/관계 아코디언 펼침 토글 — 인스턴스 상태로 보관(리렌더 견딤, 저장 안 함). */
+  static async #onToggleAccordion(_event, target) {
+    const key = target.dataset.acc; // "grimoire" | "relations"
+    this._accOpen ??= { grimoire: false, relations: false };
+    this._accOpen[key] = !this._accOpen[key];
+    this.render();
+  }
+
   /** 렌더 후: 장서/관계 행 더블클릭→시트 열기, 우클릭→삭제. */
   _onRender(context, options) {
     super._onRender?.(context, options);
@@ -241,6 +234,13 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
         [{ name: "삭제", icon: '<i class="fa-solid fa-trash"></i>', callback: del }],
         { jQuery: false },
       );
+    }
+    this._accOpen ??= { grimoire: false, relations: false };
+    for (const key of ["grimoire", "relations"]) {
+      this.element
+        .querySelector(`[data-acc="${key}"]`)
+        ?.closest(".mg-accordion")
+        ?.classList.toggle("is-open", this._accOpen[key]);
     }
   }
 

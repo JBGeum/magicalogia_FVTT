@@ -15,9 +15,7 @@
 
     <nav class="mg-tabs tabs" data-group="primary">
       <a class="mg-tab {{#if tabs.main.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="main">캐릭터 시트</a>
-      <a class="mg-tab {{#if tabs.grimoire.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="grimoire">장서</a>
-      <a class="mg-tab {{#if tabs.relations.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="relations">관계</a>
-      <a class="mg-tab is-disabled" title="준비 중">개요·정보</a>
+      <a class="mg-tab is-disabled" title="준비 중">정보</a>
       <a class="mg-tab is-disabled" title="준비 중">속성·능력</a>
     </nav>
 
@@ -177,15 +175,29 @@
             </div>
           </div>
         </div>
+
+        <div class="mg-accordion">
+          <div class="mg-accordion__head" data-action="toggle-accordion" data-acc="grimoire">
+            <span class="mg-accordion__caret">▸</span>
+            <span class="mg-accordion__title">장서</span>
+            <span class="mg-accordion__count">{{spells.length}}권</span>
+          </div>
+          <div class="mg-accordion__body">
+            {{> "systems/magicalogia/templates/actor/parts/grimoire.hbs"}}
+          </div>
+        </div>
+        <div class="mg-accordion">
+          <div class="mg-accordion__head" data-action="toggle-accordion" data-acc="relations">
+            <span class="mg-accordion__caret">▸</span>
+            <span class="mg-accordion__title">관계</span>
+            <span class="mg-accordion__count">{{anchors.length}}명</span>
+          </div>
+          <div class="mg-accordion__body">
+            {{> "systems/magicalogia/templates/actor/parts/relations.hbs"}}
+          </div>
+        </div>
       </div>
 
-      <div class="tab mg-panel-body {{#if tabs.grimoire.active}}active{{/if}}" data-tab="grimoire" data-group="primary">
-        {{> "systems/magicalogia/templates/actor/parts/grimoire.hbs"}}
-      </div>
-
-      <div class="tab mg-panel-body {{#if tabs.relations.active}}active{{/if}}" data-tab="relations" data-group="primary">
-        {{> "systems/magicalogia/templates/actor/parts/relations.hbs"}}
-      </div>
     </section>
   </div>
 </div>
