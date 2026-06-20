@@ -24,9 +24,8 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
-    // deco was on ::before; merged into background so ::before/::after
-    // are free to draw the new double gold inset frame lines.
-    background: var(--mg-deco), var(--mg-paper);
+    // 배경은 그라데이션(--mg-paper)만 — 마법진/텍스처(--mg-deco)는 새 핸드오프에서 제거.
+    background: var(--mg-paper);
     border: 1px solid var(--mg-gold);
 
     // Double gold inset frame lines
