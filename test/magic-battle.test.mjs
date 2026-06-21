@@ -3,6 +3,7 @@ import {
   resolveExchange,
   renderBattleDie,
   buildBattleCard,
+  buildBoostCard,
 } from "../module/system/magic-battle.mjs";
 
 describe("resolveExchange", () => {
@@ -99,5 +100,25 @@ describe("buildBattleCard", () => {
     expect(c.attackDiceHtml).toContain("mg-die--cancel");
     expect(c.defenseDiceHtml).toContain("mg-die--cancel");
     expect(c.defenseDiceHtml).toContain("is-leftover");
+  });
+});
+
+describe("buildBoostCard", () => {
+  it("struck 1:1 소거: dice [5,3], struck [3] → 3=cancel, 5=valid", () => {
+    const c = buildBoostCard({ who: "이졸데", n: 2, dice: [5, 3], struck: [3] });
+    expect(c.dice).toEqual([
+      { v: 5, st: "valid" },
+      { v: 3, st: "cancel" },
+    ]);
+    expect(c.who).toBe("이졸데");
+    expect(c.n).toBe(2);
+    expect(c).not.toHaveProperty("sum");
+  });
+  it("중복 struck: dice [4,4,2], struck [4,4] → 4·4 cancel, 2 valid", () => {
+    const c = buildBoostCard({ who: "x", n: 3, dice: [4, 4, 2], struck: [4, 4] });
+    expect(c.dice.map((d) => d.st)).toEqual(["cancel", "cancel", "valid"]);
+  });
+  it("n 미지정 시 dice.length", () => {
+    expect(buildBoostCard({ who: "x", dice: [1, 2] }).n).toBe(2);
   });
 });

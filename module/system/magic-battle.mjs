@@ -59,3 +59,25 @@ export function buildBattleCard({ round, exchange, attacker, defender, attack, d
     defenseDiceHtml: defenseMarks.map((m) => renderBattleDie(m.v, m.st)).join(""),
   };
 }
+
+/**
+ * 부스트 카드 데이터(순pure, 표시 전용). dice=굴린 nD6, struck=상대 잔여(1:1 소거).
+ * 시안 buildBoostCard 이식. 자동 합산/합계 없음.
+ */
+export function buildBoostCard({ who, n, dice, struck = [] }) {
+  const used = [...struck];
+  const marked = dice.map((v) => {
+    const k = used.indexOf(v);
+    if (k > -1) {
+      used.splice(k, 1);
+      return { v, st: "cancel" };
+    }
+    return { v, st: "valid" };
+  });
+  return {
+    who,
+    n: n ?? dice.length,
+    dice: marked,
+    diceHtml: marked.map((d) => renderBattleDie(d.v, d.st)).join(""),
+  };
+}
