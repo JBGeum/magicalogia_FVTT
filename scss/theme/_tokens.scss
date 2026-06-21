@@ -32,6 +32,9 @@
   // S2/S3에서 스탯 타일·차트 헤더가 소비. S1은 정의만.
   --mg-head-bg: linear-gradient(180deg, #e8d196, #d2b061);
   --mg-head-ink: #241544;
+  --mg-bad: #ef9393;
+  --mg-bad-bg: #9c3a4a3d;
+  --mg-bad-line: #c0566a8c;
 }
 
 // 라이트(양피지) 테마 — 다크 토큰을 덮어쓴다. 출처: 시안 example.html .magicalogia.theme-light
@@ -55,6 +58,9 @@
   --mg-dark-ink: #9c5a3a;
   --mg-head-bg: linear-gradient(180deg, #b58a3e, #9c7430);
   --mg-head-ink: #fbf3dc;
+  --mg-bad: #a3343f;
+  --mg-bad-bg: #a3343f24;
+  --mg-bad-line: #a3343f7a;
   --mg-deco:
     repeating-linear-gradient(112deg, #5a3d240d 0 2px, transparent 2px 8px),
     repeating-linear-gradient(28deg, #5a3d240a 0 2px, transparent 2px 9px),
