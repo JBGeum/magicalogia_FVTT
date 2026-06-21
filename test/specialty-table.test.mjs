@@ -3,6 +3,7 @@ import {
   computeTable,
   findSpecialtyCoord,
   SPECIALTY_NAMES,
+  specialtyGrid,
 } from "../module/system/specialty-table.mjs";
 
 // 빈 보유 맵
@@ -103,5 +104,20 @@ describe("findSpecialtyCoord 차트 역매핑", () => {
   });
   it("차트에 없는 이름은 null", () => {
     expect(findSpecialtyCoord("없는특기")).toBeNull();
+  });
+});
+
+describe("specialtyGrid 전치", () => {
+  it("11행 × 각 6셀, 출목 라벨 2..12", () => {
+    const g = specialtyGrid();
+    expect(g).toHaveLength(11);
+    expect(g[0].num).toBe(2);
+    expect(g[10].num).toBe(12);
+    for (const row of g) expect(row.cells).toHaveLength(6);
+  });
+  it("셀 위치가 차트와 일치 (이야기=row0 song, 죽음=row10 dark)", () => {
+    const g = specialtyGrid();
+    expect(g[0].cells[3]).toEqual({ col: "song", name: "이야기" });
+    expect(g[10].cells[5]).toEqual({ col: "dark", name: "죽음" });
   });
 });

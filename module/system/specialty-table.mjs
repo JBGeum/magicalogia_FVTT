@@ -101,3 +101,11 @@ export function findSpecialtyCoord(name) {
 
 /** 차트 전체 특기명 평면 배열(시트 datalist용). */
 export const SPECIALTY_NAMES = MAGICALOGIA.attributes.flatMap((a) => MAGICALOGIA.chart[a.key]);
+
+/** picker용: 열 우선 chart를 11행×6열(행 우선)로 전치. */
+export function specialtyGrid() {
+  return MAGICALOGIA.rows.map((num, i) => ({
+    num,
+    cells: MAGICALOGIA.attributes.map((a) => ({ col: a.key, name: MAGICALOGIA.chart[a.key][i] })),
+  }));
+}
