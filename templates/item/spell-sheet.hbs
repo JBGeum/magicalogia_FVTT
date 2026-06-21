@@ -18,7 +18,17 @@
             </select>
           </div>
           <div class="mg-ifield"><span class="mg-ifield__label">지정특기</span>
-            <input class="mg-input" type="text" name="system.skill" value="{{system.skill}}" placeholder="—" />
+            <input
+              class="mg-input"
+              type="text"
+              name="system.skill"
+              value="{{system.skill}}"
+              placeholder="—"
+              list="mg-specialties"
+            />
+          </div>
+          <div class="mg-ifield"><span class="mg-ifield__label">목표값</span>
+            <input class="mg-input mg-num" type="number" name="system.tn" value="{{system.tn}}" min="2" />
           </div>
           <div class="mg-ifield"><span class="mg-ifield__label">목표</span>
             <input class="mg-input" type="text" name="system.target" value="{{system.target}}" placeholder="—" />
@@ -46,6 +56,7 @@
           <span class="mg-ifield__label" style="margin-top: 6px">효과</span>
           <textarea class="mg-area" name="system.effect" placeholder="마법 효과 ……">{{system.effect}}</textarea>
         </div>
+        <datalist id="mg-specialties">{{#each specialtyNames}}<option value="{{this}}"></option>{{/each}}</datalist>
       </div>
       <div class="mg-idiv"><span class="mg-idiv__rule mg-idiv__rule--l"></span><span class="mg-idiv__label">서 술</span><span class="mg-idiv__rule mg-idiv__rule--r"></span></div>
       {{#if editable}}

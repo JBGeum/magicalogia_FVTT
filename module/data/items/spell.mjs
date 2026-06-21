@@ -18,6 +18,7 @@ export class SpellDataModel extends BaseItemModel {
       }),
       skill: new fields.StringField({ initial: "" }),
       target: new fields.StringField({ initial: "" }),
+      tn: new fields.NumberField({ initial: 5, min: 2, integer: true }),
       cost: new fields.SchemaField({
         // ""(미선택)을 허용해야 하므로 blank:true.
         area: new fields.StringField({

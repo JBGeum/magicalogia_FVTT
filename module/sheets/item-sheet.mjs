@@ -1,4 +1,5 @@
 import { applyTheme } from "../helpers/theme.mjs";
+import { SPECIALTY_NAMES } from "../system/specialty-table.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ItemSheetV2 } = foundry.applications.sheets;
@@ -55,6 +56,7 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
     if (this.item.type === "spell") {
       context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
       context.costAreas = CONFIG.MAGICALOGIA.COST_AREAS;
+      context.specialtyNames = SPECIALTY_NAMES;
     } else if (this.item.type === "anchor") {
       context.anchorAttrs = CONFIG.MAGICALOGIA.anchorAttrs;
     }

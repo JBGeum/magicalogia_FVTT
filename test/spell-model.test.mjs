@@ -39,6 +39,7 @@ describe("SpellDataModel", () => {
       "type",
       "skill",
       "target",
+      "tn",
       "cost",
       "charge",
       "mod",
@@ -72,5 +73,10 @@ describe("SpellDataModel", () => {
   it("name 필드는 system에 두지 않는다", async () => {
     const { SpellDataModel } = await import("../module/data/items/spell.mjs");
     expect(Object.keys(SpellDataModel.defineSchema())).not.toContain("name");
+  });
+  it("tn 기본값은 5다", async () => {
+    const { SpellDataModel } = await import("../module/data/items/spell.mjs");
+    const s = SpellDataModel.defineSchema();
+    expect(s.tn.options.initial).toBe(5);
   });
 });
