@@ -52,6 +52,11 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   static PARTS = {
     character: {
       template: "systems/magicalogia/templates/actor/character-sheet.hbs",
+      // submitOnChange로 매 편집마다 part 전체가 재렌더되어 스크롤이 초기화되는 문제 방지.
+      // ApplicationV2(HandlebarsApplicationMixin)는 part의 scrollable 셀렉터의 스크롤 위치를
+      // 렌더 전후로 자동 저장/복원한다. ""(빈 문자열)=part 루트(= .window-content > div,
+      // overflow-y:auto 스크롤 컨테이너). 장서·관계 등 내부 콘텐츠 스크롤이 유지된다.
+      scrollable: [""],
     },
   };
 
