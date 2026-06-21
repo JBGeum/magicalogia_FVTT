@@ -507,7 +507,7 @@
     gap: 8px;
   }
   .mg-cc__detail {
-    flex: 0 0 auto;
+    flex: 1 0 auto; // grow=1: 남는 폭을 채워 delta를 우측 끝으로. shrink=0: 안 맞으면 통째로 다음 줄.
     max-width: 100%; // 단독 줄에서 컨테이너 초과 방지
     display: inline-flex;
     align-items: center;
@@ -592,6 +592,7 @@
 
   .mg-cc__delta {
     flex: none;
+    margin-left: auto; // detail 그룹 안에서 우측 끝으로(그룹이 폭을 채우므로 카드 우측 끝).
     display: inline-flex;
     align-items: center;
     gap: 3px;
