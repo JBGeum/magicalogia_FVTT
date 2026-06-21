@@ -106,3 +106,15 @@ MAGICALOGIA.EFFECT_TYPES = ["없음", "지속", "순간", "장면"];
 
 // 테마 루트 클래스 (클라이언트 설정으로 선택).
 MAGICALOGIA.themes = { dark: "theme-dark", light: "theme-light" };
+
+// 코스트 표시 라벨: {area,count} → "별×2" / "노래" / "—".
+const COST_AREA_LABELS = Object.fromEntries(MAGICALOGIA.COST_AREAS.map((a) => [a.value, a.label]));
+
+/** 장서 코스트를 표시 문자열로. area 미선택이면 "—". */
+export function formatCost(cost) {
+  const area = cost?.area ?? "";
+  if (!area) return "—";
+  const label = COST_AREA_LABELS[area] ?? area;
+  const count = cost?.count ?? 0;
+  return count ? `${label}×${count}` : label;
+}

@@ -1,6 +1,7 @@
 import { computeTable } from "../system/specialty-table.mjs";
 import { rollSpecialty, rollSoulSkill } from "../system/specialty-roll.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
+import { formatCost } from "../helpers/config.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -92,18 +93,13 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     }));
 
     // 장서 — spell 아이템 + 충전 슬롯(rings)/코스트 라벨 표시 데이터.
-    const costAreaLabels = Object.fromEntries(
-      CONFIG.MAGICALOGIA.COST_AREAS.map((a) => [a.value, a.label]),
-    );
     context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
     context.spells = this.actor.itemTypes.spell.map((it) => {
-      const area = it.system.cost?.area ?? "";
-      const count = it.system.cost?.count ?? 0;
       return {
         id: it.id,
         name: it.name,
         system: it.system,
-        costLabel: area ? `${costAreaLabels[area] ?? area}${count ? "×" + count : ""}` : "—",
+        costLabel: formatCost(it.system.cost),
         rings: Array.from({ length: CHARGE_SLOTS }, (_, r) => ({
           n: r + 1,
           on: r + 1 <= (it.system.charge ?? 0),
