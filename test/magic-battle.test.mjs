@@ -143,10 +143,65 @@ describe("buildBattleCard", () => {
       defender: "고블린",
       damage: 2,
     });
+    expect(c.focus).toEqual([]);
     expect(c.attackDiceHtml).toContain("mg-die--valid");
     expect(c.attackDiceHtml).toContain("mg-die--cancel");
     expect(c.defenseDiceHtml).toContain("mg-die--cancel");
     expect(c.defenseDiceHtml).toContain("is-leftover");
+  });
+});
+
+describe("buildBattleCard — 입회인", () => {
+  it("입회 없음: 기존과 동일(focus [], witnessSummary [])", () => {
+    const c = buildBattleCard({
+      round: 1,
+      exchange: 1,
+      attacker: "이졸데",
+      defender: "고블린",
+      attack: [4, 4, 2],
+      defense: [4, 5],
+    });
+    expect(c.damage).toBe(2);
+    expect(c.focus).toEqual([]);
+    expect(c.witnessSummary).toEqual([]);
+    expect(c.hasWitness).toBe(false);
+    expect(c.attackDiceHtml).not.toContain("mg-die--witness");
+  });
+
+  it("입회 공격 가산: attack [4] + 입회공격 [6] vs [4] → damage 1, 6에 witness 표식", () => {
+    const c = buildBattleCard({
+      round: 1,
+      exchange: 1,
+      attacker: "A",
+      defender: "B",
+      attack: [4],
+      defense: [4],
+      witnesses: [{ actorId: "x", name: "케이", side: "attack", dice: [6] }],
+    });
+    expect(c.damage).toBe(1); // 4 상쇄, 6 유효
+    expect(c.attackDiceHtml).toContain("mg-die--witness");
+    expect(c.witnessSummary).toEqual([
+      { name: "케이", side: "attack", dice: [{ v: 6, st: "valid" }] },
+    ]);
+    expect(c.hasWitness).toBe(true);
+  });
+
+  it("입회 방어 + 집중: attack [4,4,6] vs 집중[4,0] + 입회방어 [6] → 4·4 focus, 6 1:1 → damage 0", () => {
+    const c = buildBattleCard({
+      round: 1,
+      exchange: 1,
+      attacker: "A",
+      defender: "B",
+      attack: [4, 4, 6],
+      defense: [4, 0],
+      witnesses: [{ actorId: "y", name: "미라", side: "defense", dice: [6] }],
+    });
+    expect(c.focus).toEqual([4]);
+    expect(c.damage).toBe(0);
+    expect(c.defenseDiceHtml).toContain("mg-die--witness");
+    expect(c.witnessSummary).toEqual([
+      { name: "미라", side: "defense", dice: [{ v: 6, st: "cancel" }] },
+    ]);
   });
 });
 

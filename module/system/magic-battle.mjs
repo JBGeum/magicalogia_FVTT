@@ -73,18 +73,69 @@ export function resolveExchange(attack, defense) {
   return { attackMarks, defenseMarks, surviving, damage: surviving.length, focus: focusValues };
 }
 
-/** 전투 카드 템플릿 데이터(순수). 공개 시 발행 전제. */
-export function buildBattleCard({ round, exchange, attacker, defender, attack, defense }) {
-  const { attackMarks, defenseMarks, damage, focus } = resolveExchange(attack, defense);
+/**
+ * 전투 카드 템플릿 데이터(순수). 공개 시 발행 전제.
+ * witnesses: [{actorId, name, side:"attack"|"defense", dice:number[]}] — 측 풀 뒤에 합산.
+ */
+export function buildBattleCard({
+  round,
+  exchange,
+  attacker,
+  defender,
+  attack,
+  defense,
+  witnesses = [],
+}) {
+  const attackW = witnesses.filter((w) => w.side === "attack");
+  const defenseW = witnesses.filter((w) => w.side === "defense");
+  const attackPool = [...attack, ...attackW.flatMap((w) => w.dice)];
+  const defensePool = [...defense, ...defenseW.flatMap((w) => w.dice)];
+  const { attackMarks, defenseMarks, damage, focus } = resolveExchange(attackPool, defensePool);
+
+  const atkBase = attack.length; // 공격 전투원 mark 수
+  const defBase = defense.filter((v) => v !== 0).length; // 방어 전투원 mark 수(0 마커 제외)
+
+  const attackDiceHtml = attackMarks
+    .map((m, i) => renderBattleDie(m.v, m.st, i >= atkBase))
+    .join("");
+  const defenseDiceHtml = defenseMarks
+    .map((m, i) => renderBattleDie(m.v, m.st, i >= defBase))
+    .join("");
+
+  // 입회 요약: 합산 순서대로 각 입회 기여의 mark 슬라이스 추출.
+  const witnessSummary = [];
+  let aCur = atkBase;
+  for (const w of attackW) {
+    const slice = attackMarks.slice(aCur, aCur + w.dice.length);
+    witnessSummary.push({
+      name: w.name,
+      side: "attack",
+      dice: slice.map((m) => ({ v: m.v, st: m.st })),
+    });
+    aCur += w.dice.length;
+  }
+  let dCur = defBase;
+  for (const w of defenseW) {
+    const slice = defenseMarks.slice(dCur, dCur + w.dice.length);
+    witnessSummary.push({
+      name: w.name,
+      side: "defense",
+      dice: slice.map((m) => ({ v: m.v, st: m.st })),
+    });
+    dCur += w.dice.length;
+  }
+
   return {
     round,
     exchange,
     attacker,
     defender,
     damage,
-    focus, // 집중 방어 시 대상 눈(number), 아니면 null
-    attackDiceHtml: attackMarks.map((m) => renderBattleDie(m.v, m.st)).join(""),
-    defenseDiceHtml: defenseMarks.map((m) => renderBattleDie(m.v, m.st)).join(""),
+    focus, // 배열(0~2)
+    attackDiceHtml,
+    defenseDiceHtml,
+    witnessSummary,
+    hasWitness: witnessSummary.length > 0,
   };
 }
 
