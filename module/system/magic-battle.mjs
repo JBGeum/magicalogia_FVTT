@@ -142,13 +142,13 @@ export function buildBattleCard({
 /**
  * 부스트 카드 데이터(순수, 표시 전용). dice=굴린 nD6.
  * - struck=상대 잔여(1:1 소거).
- * - focus=상대가 집중 방어 중인 눈(number|null) → 그 눈은 개수 무관 전부 상쇄(struck 미소비).
+ * - focus=상대가 집중 방어 중인 눈 배열 → 그 눈들은 개수 무관 전부 상쇄(struck 미소비).
  * 시안 buildBoostCard 이식. 자동 합산/합계 없음.
  */
-export function buildBoostCard({ who, n, dice, struck = [], focus = null }) {
+export function buildBoostCard({ who, n, dice, struck = [], focus = [] }) {
   const used = [...struck];
   const marked = dice.map((v) => {
-    if (focus !== null && v === focus) return { v, st: "cancel" }; // 집중 방어: 무제한 상쇄
+    if ((focus ?? []).includes(v)) return { v, st: "cancel" }; // 집중 방어: 무제한 상쇄
     const k = used.indexOf(v);
     if (k > -1) {
       used.splice(k, 1);
