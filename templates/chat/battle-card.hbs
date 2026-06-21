@@ -19,7 +19,7 @@
       <div class="mg-side">
         <span class="mg-side__tag">방어</span>
         <span class="mg-side__name">{{defender}}</span>
-        {{#if focus}}<span class="mg-side__focus">집중 ✦{{focus}}</span>{{/if}}
+        {{#each focus}}<span class="mg-side__focus">집중 ✦{{this}}</span>{{/each}}
         <span class="mg-side__dice">{{{defenseDiceHtml}}}</span>
       </div>
       <div class="mg-result">
@@ -29,6 +29,16 @@
         <span><b>{{damage}}</b> 대미지</span>
         <button type="button" class="mg-apply" data-action="apply-battle-damage">적용</button>
       </div>
+      {{#if hasWitness}}
+      <div class="mg-battle-witness">
+        <span class="mg-battle-witness__label">입회</span>
+        {{#each witnessSummary}}
+        <span class="mg-battle-witness__item">{{name}} {{#if (eq side "attack")}}공격{{else}}방어{{/if}}
+          {{#each dice}}<b class="{{#if (eq st "cancel")}}is-struck{{/if}}">{{v}}</b>{{/each}}
+        </span>
+        {{/each}}
+      </div>
+      {{/if}}
     </div>
   </div>
 </div>

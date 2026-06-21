@@ -757,6 +757,41 @@
     padding: 2px 8px;
   }
 
+  .mg-die--witness {
+    border-style: dotted;
+    box-shadow: 0 0 0 2px var(--mg-soft) inset;
+  }
+
+  .mg-battle-witness {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--mg-soft);
+    border-top: 1px dashed var(--mg-line);
+    padding-top: 6px;
+
+    &__label {
+      font-weight: 800;
+      color: var(--mg-faint);
+    }
+    &__item {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+
+      b {
+        color: var(--mg-gold);
+        font-weight: 800;
+      }
+      b.is-struck {
+        color: var(--mg-faint);
+        text-decoration: line-through;
+      }
+    }
+  }
+
   .mg-result {
     display: flex;
     align-items: center;
