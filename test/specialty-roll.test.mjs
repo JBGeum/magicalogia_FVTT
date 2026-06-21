@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { classifyRoll } from "../module/system/specialty-roll.mjs";
+import { classifyRoll, renderDie } from "../module/system/specialty-roll.mjs";
 
 describe("classifyRoll", () => {
   it("(1,1)은 펌블 = 자동 실패", () => {
@@ -29,5 +29,24 @@ describe("classifyRoll", () => {
   });
   it("total은 두 눈의 합", () => {
     expect(classifyRoll(2, 5, 5).total).toBe(7);
+  });
+});
+
+describe("renderDie", () => {
+  const pips = (html) => (html.match(/<i><\/i>/g) || []).length;
+  const cells = (html) => (html.match(/<i><\/i>|<span><\/span>/g) || []).length;
+
+  it("1면은 pip 1개", () => {
+    expect(pips(renderDie(1, false))).toBe(1);
+  });
+  it("6면은 pip 6개", () => {
+    expect(pips(renderDie(6, false))).toBe(6);
+  });
+  it("항상 9칸(pip + 빈칸)을 출력", () => {
+    expect(cells(renderDie(3, false))).toBe(9);
+  });
+  it("match=true면 is-match 클래스, false면 없음", () => {
+    expect(renderDie(2, true)).toContain("is-match");
+    expect(renderDie(2, false)).not.toContain("is-match");
   });
 });

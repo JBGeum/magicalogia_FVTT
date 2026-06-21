@@ -1,5 +1,22 @@
 import { computeTable } from "./specialty-table.mjs";
 
+// d6 pip 배치(0..8 = 3×3 셀 인덱스).
+const PIPS = {
+  1: [4],
+  2: [0, 8],
+  3: [0, 4, 8],
+  4: [0, 2, 6, 8],
+  5: [0, 2, 4, 6, 8],
+  6: [0, 2, 3, 5, 6, 8],
+};
+
+/** d6 한 면을 pip 그리드 markup으로. match=true면 골드 강조(더블릿). */
+export function renderDie(value, match) {
+  let cells = "";
+  for (let i = 0; i < 9; i++) cells += PIPS[value].includes(i) ? "<i></i>" : "<span></span>";
+  return `<span class="mg-die ${match ? "is-match" : ""}">${cells}</span>`;
+}
+
 /**
  * 2d6 특기 판정 분류 (순수).
  *   (1,1) = 펌블(자동 실패), (6,6) = 스페셜(자동 성공),
