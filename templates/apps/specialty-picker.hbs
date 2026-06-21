@@ -1,0 +1,14 @@
+<div class="mg-picker">
+  <div class="mg-picker__row mg-picker__row--head">
+    <span class="mg-picker__num"></span>
+    {{#each columns}}<span class="mg-picker__col">{{this.title}}</span>{{/each}}
+  </div>
+  {{#each rows}}
+  <div class="mg-picker__row">
+    <span class="mg-picker__num">{{this.num}}</span>
+    {{#each this.cells}}
+    <button type="button" class="mg-picker__cell{{#if (eq this.name ../../current)}} is-selected{{/if}}" data-action="pick" data-skill="{{this.name}}">{{this.name}}</button>
+    {{/each}}
+  </div>
+  {{/each}}
+</div>
