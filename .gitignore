@@ -31,3 +31,7 @@ Thumbs.db
 
 # 디자인 작업 파일 (디자이너 시안 — 코드 외부 관리)
 docs/design/
+
+# 스펙/플랜 문서 (룰이 평문으로 담김 — 외부 유출 방지, 로컬만 보관)
+docs/superpowers/specs/
+docs/superpowers/plans/
