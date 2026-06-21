@@ -34,37 +34,42 @@ export function renderBattleDie(v, st) {
 
 /**
  * 공격/방어 상쇄.
- * - 일반: 1:1 비대칭(소모된 방어 인덱스 추적, 중복 눈도 정확히 1:1 소거).
- * - 집중 방어: defense에 0 마커가 있으면 나머지 한 눈(focus)을 공격에서 개수 무관 전부 상쇄.
- * @returns {{attackMarks, defenseMarks, surviving:number[], damage:number, focus:number|null}}
+ * 인코딩: defense에 0(집중 마커)이 있으면 0 "앞" 값들=집중 대상 눈(focus, 0~2개, 각 무제한 상쇄),
+ *   0 "뒤" 값들=일반 1:1 다이스(방어자 잔여/입회인 가산). 0이 없으면 전부 1:1.
+ * @returns {{attackMarks, defenseMarks, surviving:number[], damage:number, focus:number[]}}
  */
 export function resolveExchange(attack, defense) {
-  // 집중 방어: [0, X] → 공격의 눈 X 전부 상쇄, 나머지 유효.
-  if (defense.includes(0)) {
-    const focus = defense.find((v) => v !== 0) ?? null;
-    const attackMarks = attack.map((v) => ({
-      v,
-      st: focus !== null && v === focus ? "cancel" : "valid",
-    }));
-    const surviving = attackMarks.filter((m) => m.st === "valid").map((m) => m.v);
-    const defenseMarks = focus !== null ? [{ v: focus, st: "focus" }] : [];
-    return { attackMarks, defenseMarks, surviving, damage: surviving.length, focus };
-  }
+  const zeroIdx = defense.indexOf(0);
+  const focusValues = zeroIdx > -1 ? defense.slice(0, zeroIdx) : [];
+  const normalDef = zeroIdx > -1 ? defense.slice(zeroIdx + 1) : defense;
+  const focusSet = new Set(focusValues);
+  const usedIdx = new Set(); // normalDef 인덱스 소비 추적
 
-  const usedIdx = new Set();
   const attackMarks = attack.map((v) => {
-    const i = defense.findIndex((dv, idx) => dv === v && !usedIdx.has(idx));
+    if (focusSet.has(v)) return { v, st: "cancel" }; // 집중: 해당 눈 전부 상쇄
+    const i = normalDef.findIndex((dv, idx) => dv === v && !usedIdx.has(idx));
     if (i > -1) {
       usedIdx.add(i);
-      return { v, st: "cancel" };
+      return { v, st: "cancel" }; // 일반 1:1
     }
     return { v, st: "valid" };
   });
-  const defenseMarks = defense.map((v, idx) =>
-    usedIdx.has(idx) ? { v, st: "cancel" } : { v, st: "leftover" },
-  );
+
+  // 방어 표시: 원본 defense 순서(0 마커 제외). 0 앞=focus, 0 뒤=normal(cancel/leftover).
+  let nd = 0;
+  const defenseMarks = [];
+  defense.forEach((v, i) => {
+    if (i === zeroIdx) return;
+    if (zeroIdx > -1 && i < zeroIdx) {
+      defenseMarks.push({ v, st: "focus" });
+      return;
+    }
+    defenseMarks.push({ v, st: usedIdx.has(nd) ? "cancel" : "leftover" });
+    nd += 1;
+  });
+
   const surviving = attackMarks.filter((m) => m.st === "valid").map((m) => m.v);
-  return { attackMarks, defenseMarks, surviving, damage: surviving.length, focus: null };
+  return { attackMarks, defenseMarks, surviving, damage: surviving.length, focus: focusValues };
 }
 
 /** 전투 카드 템플릿 데이터(순수). 공개 시 발행 전제. */
