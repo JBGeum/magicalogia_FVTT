@@ -127,7 +127,8 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
       ui.notifications.warn("대상 액터를 찾을 수 없습니다. 마법전을 다시 개시하세요.");
       return;
     }
-    const max = actor.system.abilities.source ?? 0;
+    // role("attack"/"defense")이 능력치 키와 일치 → 공격=공격력, 방어=방어력.
+    const max = actor.system.abilities?.[role] ?? 0;
     const prompt = `${actor.name} — ${role === "attack" ? "공격" : "방어"} 다이스`;
     const owner = this._ownerUser(actor);
     if (owner) {
@@ -212,13 +213,13 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
         reqId,
         userId: owner.id,
         side,
-        max: actor.system.abilities.source ?? 0,
+        max: 0, // 부스트는 상한 없음 — 다이얼로그 boost 모드의 n 스테퍼는 max 미사용
         prompt: `${actor.name} 부스트`,
       });
     } else {
       new BattleDiceDialog({
         mode: "boost",
-        max: actor.system.abilities.source ?? 0,
+        max: 0, // 부스트는 상한 없음 — 다이얼로그 boost 모드의 n 스테퍼는 max 미사용
         prompt: `${actor.name} 부스트`,
         onSubmit: async (dice, n) => {
           await postBoostCard(actor, { n: n ?? dice.length, dice, struck });
