@@ -17,7 +17,7 @@
   {{/if}}
   <div class="mg-bdd__faces">
     {{#each faces}}
-    <button type="button" class="mg-bdd__face" data-action="addDie" data-value="{{this}}" {{#if ../atMax}}disabled{{/if}}>{{this}}</button>
+    <button type="button" class="mg-bdd__face" data-action="addDie" data-value="{{this}}" {{#if ../atMax}}{{#unless ../isFocus}}disabled{{/unless}}{{/if}}>{{this}}</button>
     {{/each}}
     {{#if allowFocus}}
     <button type="button" class="mg-bdd__face mg-bdd__face--focus{{#if isFocus}} is-on{{/if}}" data-action="addDie" data-value="0" title="집중 방어">집중</button>
