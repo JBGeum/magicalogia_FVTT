@@ -82,3 +82,22 @@ export function computeTable(state) {
     };
   });
 }
+
+// 차트 특기명 → 좌표 역매핑. 66 이름은 모두 고유(specialty-table.test가 가드).
+const SPECIALTY_INDEX = (() => {
+  const idx = {};
+  for (const a of MAGICALOGIA.attributes) {
+    MAGICALOGIA.chart[a.key].forEach((name, row) => {
+      idx[name] = { col: a.key, row };
+    });
+  }
+  return idx;
+})();
+
+/** 차트 특기명 → {col,row}(없으면 null). */
+export function findSpecialtyCoord(name) {
+  return SPECIALTY_INDEX[name] ?? null;
+}
+
+/** 차트 전체 특기명 평면 배열(시트 datalist용). */
+export const SPECIALTY_NAMES = MAGICALOGIA.attributes.flatMap((a) => MAGICALOGIA.chart[a.key]);

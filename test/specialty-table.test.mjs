@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { computeTable } from "../module/system/specialty-table.mjs";
+import {
+  computeTable,
+  findSpecialtyCoord,
+  SPECIALTY_NAMES,
+} from "../module/system/specialty-table.mjs";
 
 // 빈 보유 맵
 const noOwn = () => ({});
@@ -83,5 +87,21 @@ describe("computeTable 거리/TN", () => {
       wrap: true,
     });
     expect(cell(t, "dark", 0).tn).toBe(7);
+  });
+});
+
+describe("findSpecialtyCoord 차트 역매핑", () => {
+  it("차트 66특기명은 모두 고유하다", () => {
+    expect(SPECIALTY_NAMES.length).toBe(66);
+    expect(new Set(SPECIALTY_NAMES).size).toBe(66);
+  });
+  it("이름을 좌표로 매핑한다 (이야기 → song/0)", () => {
+    expect(findSpecialtyCoord("이야기")).toEqual({ col: "song", row: 0 });
+  });
+  it("마지막 어둠 특기 (죽음 → dark/10)", () => {
+    expect(findSpecialtyCoord("죽음")).toEqual({ col: "dark", row: 10 });
+  });
+  it("차트에 없는 이름은 null", () => {
+    expect(findSpecialtyCoord("없는특기")).toBeNull();
   });
 });
