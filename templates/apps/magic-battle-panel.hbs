@@ -1,0 +1,34 @@
+<div class="mg-mbp">
+  {{#unless started}}
+  <label class="mg-mbp__field">
+    <span>선공</span>
+    <select name="first">
+      <option value="">—</option>
+      {{#each actors}}<option value="{{id}}" {{selected (eq id ../firstId)}}>{{name}}</option>{{/each}}
+    </select>
+  </label>
+  <label class="mg-mbp__field">
+    <span>후공</span>
+    <select name="second">
+      <option value="">—</option>
+      {{#each actors}}<option value="{{id}}" {{selected (eq id ../secondId)}}>{{name}}</option>{{/each}}
+    </select>
+  </label>
+  <button type="button" class="mg-mbp__btn mg-mbp__btn--go" data-action="start">개시</button>
+  {{else}}
+  <div class="mg-mbp__round">{{round}}라운드 · 교전{{exchange}}</div>
+  <div class="mg-mbp__roles">공격 <b>{{attacker}}</b> · 방어 <b>{{defender}}</b></div>
+  <div class="mg-mbp__chips">
+    <span class="mg-mbp__chip {{#if attackReady}}is-done{{/if}}">공격 {{#if attackReady}}제출✓{{else}}대기…{{/if}}{{#unless attackReady}}<button type="button" data-action="requestPick" data-role="attack">재요청</button>{{/unless}}</span>
+    <span class="mg-mbp__chip {{#if defenseReady}}is-done{{/if}}">방어 {{#if defenseReady}}제출✓{{else}}대기…{{/if}}{{#unless defenseReady}}<button type="button" data-action="requestPick" data-role="defense">재요청</button>{{/unless}}</span>
+  </div>
+  {{#unless revealed}}
+  <button type="button" class="mg-mbp__btn mg-mbp__btn--go" data-action="reveal" {{#unless bothReady}}disabled{{/unless}}>공개</button>
+  {{else}}
+  <div class="mg-mbp__after">
+    <button type="button" class="mg-mbp__btn" data-action="nextExchange">{{#if (eq exchange 1)}}다음 교전{{else}}다음 라운드{{/if}}</button>
+  </div>
+  {{/unless}}
+  <button type="button" class="mg-mbp__btn mg-mbp__btn--end" data-action="end">종료</button>
+  {{/unless}}
+</div>
