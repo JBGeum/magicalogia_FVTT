@@ -122,6 +122,10 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
   }
 
   async _requestPick(role, actor) {
+    if (!actor) {
+      ui.notifications.warn("대상 액터를 찾을 수 없습니다. 마법전을 다시 개시하세요.");
+      return;
+    }
     const max = actor.system.abilities.source ?? 0;
     const prompt = `${actor.name} — ${role === "attack" ? "공격" : "방어"} 다이스`;
     const owner = this._ownerUser(actor);
@@ -163,6 +167,10 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     if (this.picks.attack === null || this.picks.defense === null) return;
     const attacker = this._attacker;
     const defender = this._defender;
+    if (!attacker || !defender) {
+      ui.notifications.warn("대상 액터를 찾을 수 없습니다. 마법전을 다시 개시하세요.");
+      return;
+    }
     await postBattleCard(attacker, defender, {
       round: this.round,
       exchange: this.exchange,
