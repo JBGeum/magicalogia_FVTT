@@ -52,11 +52,6 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   static PARTS = {
     character: {
       template: "systems/magicalogia/templates/actor/character-sheet.hbs",
-      // submitOnChange로 매 편집마다 part 전체가 재렌더되어 스크롤이 초기화되는 문제 방지.
-      // ApplicationV2(HandlebarsApplicationMixin)는 part의 scrollable 셀렉터의 스크롤 위치를
-      // 렌더 전후로 자동 저장/복원한다. ""(빈 문자열)=part 루트(= .window-content > div,
-      // overflow-y:auto 스크롤 컨테이너). 장서·관계 등 내부 콘텐츠 스크롤이 유지된다.
-      scrollable: [""],
     },
   };
 
@@ -269,6 +264,20 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
         ?.closest(".mg-accordion")
         ?.classList.toggle("is-open", this._accOpen[key]);
     }
+
+    // 스크롤 위치 보존: 충전 변경/submitOnChange 등으로 재렌더되면 part 루트(스크롤 컨테이너
+    // .window-content > div)가 새 DOM으로 교체되어 scrollTop이 0이 된다. Foundry의 part
+    // scrollable 옵션이 이 빌드에서 동작하지 않아, 직접 직전 위치를 복원하고 이후 스크롤을
+    // 추적해 둔다(요소가 매 렌더 교체되므로 리스너 누수 없음).
+    this._scrollTop ??= 0;
+    const scroller = this.element.querySelector(".window-content > div");
+    if (scroller) {
+      if (this._scrollTop) scroller.scrollTop = this._scrollTop;
+      scroller.addEventListener("scroll", () => (this._scrollTop = scroller.scrollTop), {
+        passive: true,
+      });
+    }
+
     applyTheme(this.element);
   }
 
