@@ -19,6 +19,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/magicalogia/templates/item/spell-sheet.hbs",
     "systems/magicalogia/templates/item/anchor-sheet.hbs",
     "systems/magicalogia/templates/chat/specialty-roll.hbs",
+    "systems/magicalogia/templates/chat/spell-card.hbs",
   ]);
 };
 

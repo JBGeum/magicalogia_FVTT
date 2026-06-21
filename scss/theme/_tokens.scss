@@ -35,6 +35,9 @@
   --mg-bad: #ef9393;
   --mg-bad-bg: #9c3a4a3d;
   --mg-bad-line: #c0566a8c;
+  --mg-good: #86d6a3;
+  --mg-good-bg: #2f7d4e3d;
+  --mg-good-line: #5cae7f8c;
 }
 
 // 라이트(양피지) 테마 — 다크 토큰을 덮어쓴다. 출처: 시안 example.html .magicalogia.theme-light
@@ -61,6 +64,9 @@
   --mg-bad: #a3343f;
   --mg-bad-bg: #a3343f24;
   --mg-bad-line: #a3343f7a;
+  --mg-good: #2f7d4e;
+  --mg-good-bg: #2f7d4e1f;
+  --mg-good-line: #2f7d4e7a;
   --mg-deco:
     repeating-linear-gradient(112deg, #5a3d240d 0 2px, transparent 2px 8px),
     repeating-linear-gradient(28deg, #5a3d240a 0 2px, transparent 2px 9px),
