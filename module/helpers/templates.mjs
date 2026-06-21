@@ -12,6 +12,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/magicalogia/templates/actor/parts/mg-svg-rankflr.hbs",
     "systems/magicalogia/templates/actor/parts/mg-svg-chart-icon.hbs",
     "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs",
+    "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs",
     "systems/magicalogia/templates/actor/parts/grimoire.hbs",
     "systems/magicalogia/templates/actor/parts/relations.hbs",
     "systems/magicalogia/templates/item/generic-sheet.hbs",
