@@ -712,6 +712,34 @@
     font-weight: 800;
   }
 
+  // 집중 방어 — focus 다이스(이중 골드 링) + 배지
+  .mg-die--focus {
+    border-color: var(--mg-gold);
+    background: var(--mg-hi);
+    box-shadow:
+      0 0 0 2px var(--mg-gold) inset,
+      0 0 0 1.5px var(--mg-gold);
+
+    i {
+      background: var(--mg-gold);
+    }
+  }
+  .mg-die-wrap.is-focus .mg-die-num {
+    color: var(--mg-gold);
+    font-weight: 800;
+  }
+  .mg-side__focus {
+    flex: none;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--mg-bar-ink);
+    background: var(--mg-bar);
+    border: 1px solid var(--mg-gold);
+    border-radius: 999px;
+    padding: 2px 8px;
+  }
+
   .mg-result {
     display: flex;
     align-items: center;

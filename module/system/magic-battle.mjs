@@ -21,15 +21,36 @@ const PIPS = {
 export function renderBattleDie(v, st) {
   let cells = "";
   for (let i = 0; i < 9; i++) cells += PIPS[v].includes(i) ? "<i></i>" : "<span></span>";
-  const mod = st === "valid" ? " mg-die--valid" : st === "cancel" ? " mg-die--cancel" : "";
+  const mod =
+    st === "valid"
+      ? " mg-die--valid"
+      : st === "cancel"
+        ? " mg-die--cancel"
+        : st === "focus"
+          ? " mg-die--focus"
+          : "";
   return `<span class="mg-die-wrap is-${st}"><span class="mg-die${mod}">${cells}</span><span class="mg-die-num">${v}</span></span>`;
 }
 
 /**
- * 1:1 비대칭 상쇄. 소모된 방어 인덱스를 추적해 중복 눈도 정확히 1:1 소거.
- * @returns {{attackMarks:{v:number,st:string}[], defenseMarks:{v:number,st:string}[], surviving:number[], damage:number}}
+ * 공격/방어 상쇄.
+ * - 일반: 1:1 비대칭(소모된 방어 인덱스 추적, 중복 눈도 정확히 1:1 소거).
+ * - 집중 방어: defense에 0 마커가 있으면 나머지 한 눈(focus)을 공격에서 개수 무관 전부 상쇄.
+ * @returns {{attackMarks, defenseMarks, surviving:number[], damage:number, focus:number|null}}
  */
 export function resolveExchange(attack, defense) {
+  // 집중 방어: [0, X] → 공격의 눈 X 전부 상쇄, 나머지 유효.
+  if (defense.includes(0)) {
+    const focus = defense.find((v) => v !== 0) ?? null;
+    const attackMarks = attack.map((v) => ({
+      v,
+      st: focus !== null && v === focus ? "cancel" : "valid",
+    }));
+    const surviving = attackMarks.filter((m) => m.st === "valid").map((m) => m.v);
+    const defenseMarks = focus !== null ? [{ v: focus, st: "focus" }] : [];
+    return { attackMarks, defenseMarks, surviving, damage: surviving.length, focus };
+  }
+
   const usedIdx = new Set();
   const attackMarks = attack.map((v) => {
     const i = defense.findIndex((dv, idx) => dv === v && !usedIdx.has(idx));
@@ -43,18 +64,19 @@ export function resolveExchange(attack, defense) {
     usedIdx.has(idx) ? { v, st: "cancel" } : { v, st: "leftover" },
   );
   const surviving = attackMarks.filter((m) => m.st === "valid").map((m) => m.v);
-  return { attackMarks, defenseMarks, surviving, damage: surviving.length };
+  return { attackMarks, defenseMarks, surviving, damage: surviving.length, focus: null };
 }
 
 /** 전투 카드 템플릿 데이터(순수). 공개 시 발행 전제. */
 export function buildBattleCard({ round, exchange, attacker, defender, attack, defense }) {
-  const { attackMarks, defenseMarks, damage } = resolveExchange(attack, defense);
+  const { attackMarks, defenseMarks, damage, focus } = resolveExchange(attack, defense);
   return {
     round,
     exchange,
     attacker,
     defender,
     damage,
+    focus, // 집중 방어 시 대상 눈(number), 아니면 null
     attackDiceHtml: attackMarks.map((m) => renderBattleDie(m.v, m.st)).join(""),
     defenseDiceHtml: defenseMarks.map((m) => renderBattleDie(m.v, m.st)).join(""),
   };

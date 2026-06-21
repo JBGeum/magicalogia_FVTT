@@ -4,8 +4,17 @@ import { MagicBattlePanel } from "../apps/magic-battle-panel.mjs";
 export const CHANNEL = "system.magicalogia";
 
 /** GM → PL: 다이스 선택 요청. */
-export function requestPick({ reqId, userId, actorId, role, max, prompt }) {
-  game.socket.emit(CHANNEL, { t: "battle:pick", reqId, userId, actorId, role, max, prompt });
+export function requestPick({ reqId, userId, actorId, role, max, allowFocus, prompt }) {
+  game.socket.emit(CHANNEL, {
+    t: "battle:pick",
+    reqId,
+    userId,
+    actorId,
+    role,
+    max,
+    allowFocus,
+    prompt,
+  });
 }
 
 /** GM → PL: 부스트 요청. */
@@ -31,6 +40,7 @@ function onSocket(msg) {
         new BattleDiceDialog({
           mode: msg.role,
           max: msg.max,
+          allowFocus: msg.allowFocus,
           prompt: msg.prompt,
           onSubmit: (dice) => sendPickResult({ reqId: msg.reqId, dice }),
         }).render(true);

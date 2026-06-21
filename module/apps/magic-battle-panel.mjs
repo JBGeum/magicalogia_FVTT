@@ -129,17 +129,20 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     }
     // role("attack"/"defense")이 능력치 키와 일치 → 공격=공격력, 방어=방어력.
     const max = actor.system.abilities?.[role] ?? 0;
+    // 집중 방어: 방어 역할 & 방어력 3 이상일 때만 0(집중) 허용.
+    const allowFocus = role === "defense" && (actor.system.abilities?.defense ?? 0) >= 3;
     const prompt = `${actor.name} — ${role === "attack" ? "공격" : "방어"} 다이스`;
     const owner = this._ownerUser(actor);
     if (owner) {
       const reqId = foundry.utils.randomID();
       this.reqs[role] = reqId;
-      requestPick({ reqId, userId: owner.id, actorId: actor.id, role, max, prompt });
+      requestPick({ reqId, userId: owner.id, actorId: actor.id, role, max, allowFocus, prompt });
     } else {
       this.reqs[role] = "local";
       new BattleDiceDialog({
         mode: role,
         max,
+        allowFocus,
         prompt,
         onSubmit: (dice) => this._setPick(role, dice),
       }).render(true);

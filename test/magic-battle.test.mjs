@@ -58,6 +58,44 @@ describe("resolveExchange", () => {
   });
 });
 
+describe("resolveExchange — 집중 방어 (defense에 0 마커)", () => {
+  it("[4,4,4,2] vs [0,4] → 눈4 전부 상쇄, 유효 [2], 대미지 1, focus 4", () => {
+    const r = resolveExchange([4, 4, 4, 2], [0, 4]);
+    expect(r.focus).toBe(4);
+    expect(r.surviving).toEqual([2]);
+    expect(r.damage).toBe(1);
+    expect(r.attackMarks).toEqual([
+      { v: 4, st: "cancel" },
+      { v: 4, st: "cancel" },
+      { v: 4, st: "cancel" },
+      { v: 2, st: "valid" },
+    ]);
+    expect(r.defenseMarks).toEqual([{ v: 4, st: "focus" }]);
+  });
+
+  it("빗나감: [1,2,3] vs [0,5] → 상쇄 없음, 대미지 3, focus 5", () => {
+    const r = resolveExchange([1, 2, 3], [0, 5]);
+    expect(r.focus).toBe(5);
+    expect(r.damage).toBe(3);
+    expect(r.surviving).toEqual([1, 2, 3]);
+  });
+
+  it("전부 상쇄: [6,6] vs [0,6] → 대미지 0", () => {
+    expect(resolveExchange([6, 6], [0, 6]).damage).toBe(0);
+  });
+
+  it("focus 미지정([0]만) → 상쇄 없음, focus null", () => {
+    const r = resolveExchange([3, 4], [0]);
+    expect(r.focus).toBe(null);
+    expect(r.damage).toBe(2);
+    expect(r.defenseMarks).toEqual([]);
+  });
+
+  it("일반 모드는 focus null", () => {
+    expect(resolveExchange([4, 4, 2], [4, 5]).focus).toBe(null);
+  });
+});
+
 describe("renderBattleDie", () => {
   it("valid: 골드 클래스 + pip 개수(4→4개)", () => {
     const h = renderBattleDie(4, "valid");
