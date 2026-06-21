@@ -1,0 +1,29 @@
+// =============================================================
+//  Foundry chrome 통합 (앱 셸·채팅 메시지)
+//  · 다이얼로그 앱: window-content 기본 패딩 제거 — 콘텐츠(.mg-bdd/.mg-mbp/.mg-picker)가
+//    자체 패딩을 가지므로 Foundry 기본 패딩(`var(--paddingY) var(--paddingX)`)과 겹쳐 떠 보임.
+//  · 우리 카드(.mg-card/.mg-cc/.mg-mpd)가 든 채팅 메시지: 기본 패딩/보더/배경/헤더 제거 →
+//    카드가 메시지 영역을 꽉 채우고(edge-to-edge), 카드 자체 헤더(.mg-card__head)가 화자/시간 역할.
+//    삭제·복사 등은 메시지 우클릭 컨텍스트 메뉴로 계속 가능(V13 _getEntryContextOptions).
+//  ※ 토큰/폰트 이식 없음. :has()는 V13 Chromium에서 지원.
+// =============================================================
+
+// ── 다이얼로그(시트 외 magicalogia 앱)의 window-content 패딩 제거 ──
+// 시트(.magicalogia.sheet)는 sheet/_sheet.scss에서 별도 레이아웃 처리.
+.magicalogia:not(.sheet) .window-content {
+  padding: 0;
+}
+
+// ── 우리 카드가 든 채팅 메시지: edge-to-edge + Foundry 기본 헤더 숨김 ──
+.chat-message:has(.mg-card),
+.chat-message:has(.mg-cc),
+.chat-message:has(.mg-mpd) {
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+
+  > .message-header {
+    display: none;
+  }
+}
