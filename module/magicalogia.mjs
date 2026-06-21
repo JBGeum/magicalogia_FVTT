@@ -17,6 +17,8 @@ import { MAGICALOGIA } from "./helpers/config.mjs";
 import { preloadHandlebarsTemplates, registerHandlebarsHelpers } from "./helpers/templates.mjs";
 import { registerThemeSetting } from "./helpers/theme.mjs";
 import { bindBattleCardActions } from "./system/magic-battle.mjs";
+import { registerBattleSocket } from "./system/battle-socket.mjs";
+import { MagicBattlePanel } from "./apps/magic-battle-panel.mjs";
 
 Hooks.once("init", async function () {
   game.magicalogia = {
@@ -55,4 +57,21 @@ Hooks.once("init", async function () {
 // 채팅 카드 적용 버튼 위임 바인딩. V13: renderChatMessageHTML(html=HTMLElement).
 Hooks.on("renderChatMessageHTML", (message, html) => {
   bindBattleCardActions(message, html);
+});
+
+Hooks.once("ready", registerBattleSocket);
+
+// 씬 컨트롤 GM 전용 마법전 버튼. V13: controls/tools는 객체(Record).
+Hooks.on("getSceneControlButtons", (controls) => {
+  if (!game.user.isGM) return;
+  const tokens = controls.tokens ?? controls.token;
+  if (!tokens?.tools) return;
+  tokens.tools.magicBattle = {
+    name: "magicBattle",
+    title: "마법전",
+    icon: "fa-solid fa-dice-d6",
+    button: true,
+    order: 90,
+    onChange: () => new MagicBattlePanel().render(true),
+  };
 });
