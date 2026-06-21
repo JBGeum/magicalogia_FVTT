@@ -1,5 +1,5 @@
 import { applyTheme } from "../helpers/theme.mjs";
-import { SPECIALTY_NAMES } from "../system/specialty-table.mjs";
+import { SpecialtyPickerApp } from "../apps/specialty-picker.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ItemSheetV2 } = foundry.applications.sheets;
@@ -16,6 +16,7 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
     },
     actions: {
       "toggle-field": MagicalogiaItemSheet.#onToggleField,
+      "pick-specialty": MagicalogiaItemSheet.#onPickSpecialty,
     },
   };
 
@@ -56,7 +57,6 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
     if (this.item.type === "spell") {
       context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
       context.costAreas = CONFIG.MAGICALOGIA.COST_AREAS;
-      context.specialtyNames = SPECIALTY_NAMES;
     } else if (this.item.type === "anchor") {
       context.anchorAttrs = CONFIG.MAGICALOGIA.anchorAttrs;
     }
@@ -76,5 +76,13 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
   static async #onToggleField(_event, target) {
     const field = target.dataset.field;
     await this.item.update({ [field]: !foundry.utils.getProperty(this.item, field) });
+  }
+
+  /** 「표에서 선택」 → 특기표 picker 다이얼로그를 열고 선택 시 system.skill 갱신. */
+  static async #onPickSpecialty() {
+    new SpecialtyPickerApp({
+      current: this.item.system.skill,
+      onPick: (name) => this.item.update({ "system.skill": name }),
+    }).render(true);
   }
 }
