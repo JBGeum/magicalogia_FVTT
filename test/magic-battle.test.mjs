@@ -159,4 +159,19 @@ describe("buildBoostCard", () => {
   it("n 미지정 시 dice.length", () => {
     expect(buildBoostCard({ who: "x", dice: [1, 2] }).n).toBe(2);
   });
+
+  it("집중방어 focus: dice [4,4,2], focus 4 → 눈4 전부 cancel(무제한), 2 valid", () => {
+    const c = buildBoostCard({ who: "x", n: 3, dice: [4, 4, 2], struck: [], focus: 4 });
+    expect(c.dice.map((d) => d.st)).toEqual(["cancel", "cancel", "valid"]);
+  });
+
+  it("focus + struck 혼합: dice [4,5,5], struck [5], focus 4 → 4 focus·5 struck1:1 cancel, 5 valid", () => {
+    const c = buildBoostCard({ who: "x", n: 3, dice: [4, 5, 5], struck: [5], focus: 4 });
+    expect(c.dice.map((d) => d.st)).toEqual(["cancel", "cancel", "valid"]);
+  });
+
+  it("focus는 struck 항목을 소비하지 않음: dice [4,4], struck [4], focus 4 → 둘 다 focus로 cancel(struck 미소비)", () => {
+    const c = buildBoostCard({ who: "x", n: 2, dice: [4, 4], struck: [4], focus: 4 });
+    expect(c.dice.map((d) => d.st)).toEqual(["cancel", "cancel"]);
+  });
 });

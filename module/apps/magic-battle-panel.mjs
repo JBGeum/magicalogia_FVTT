@@ -200,18 +200,20 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
   static async #onBoost(_event, target) {
     if (!this.lastResult || !this.lastRoles) return;
     const side = target.dataset.side; // "attack" | "defense"
-    // 상대 잔여: 공격측 부스트→방어 leftover, 방어측 부스트→공격 surviving
+    // 상대 잔여: 공격측 부스트→방어 leftover(+상대 집중방어면 focus 무제한 상쇄),
+    //            방어측 부스트→공격 surviving(1:1).
     const struck =
       side === "attack"
         ? this.lastResult.defenseMarks.filter((m) => m.st === "leftover").map((m) => m.v)
         : [...this.lastResult.surviving];
+    const focus = side === "attack" ? this.lastResult.focus : null;
     const actorId = side === "attack" ? this.lastRoles.attackerId : this.lastRoles.defenderId;
     const actor = game.actors.get(actorId);
     if (!actor) return;
     const owner = this._ownerUser(actor);
     if (owner) {
       const reqId = foundry.utils.randomID();
-      this._boostCtx = { reqId, actorId, struck };
+      this._boostCtx = { reqId, actorId, struck, focus };
       requestBoost({
         reqId,
         userId: owner.id,
@@ -225,7 +227,7 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
         max: 0, // 부스트는 상한 없음 — 다이얼로그 boost 모드의 n 스테퍼는 max 미사용
         prompt: `${actor.name} 부스트`,
         onSubmit: async (dice, n) => {
-          await postBoostCard(actor, { n: n ?? dice.length, dice, struck });
+          await postBoostCard(actor, { n: n ?? dice.length, dice, struck, focus });
         },
       }).render(true);
     }
@@ -235,7 +237,13 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     const ctx = this._boostCtx;
     if (!ctx || ctx.reqId !== msg.reqId) return;
     const actor = game.actors.get(ctx.actorId);
-    if (actor) await postBoostCard(actor, { n: msg.n, dice: msg.dice, struck: ctx.struck });
+    if (actor)
+      await postBoostCard(actor, {
+        n: msg.n,
+        dice: msg.dice,
+        struck: ctx.struck,
+        focus: ctx.focus,
+      });
     this._boostCtx = null;
   }
 
