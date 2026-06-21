@@ -1,0 +1,20 @@
+{{!
+  마법전 부스트 카드 (표시 전용·라이트 고정). 데이터: buildBoostCard()
+  +nD6 가산 다이스. 이전 결과 상대 잔여와 1:1 상쇄(cancel) 표시. 합계 없음.
+}}
+<div class="magicalogia theme-light">
+  <div class="mg-card">
+    <div class="mg-card__head">
+      <span class="mg-card__sigil"><svg viewBox="0 0 16 16" fill="currentColor"><path
+            d="M9.5 1L3 9h3.2l-1 6 6.3-9H8.3z"
+          /></svg></span>
+      <span class="mg-card__who">{{who}} · 부스트</span>
+    </div>
+    <div class="mg-card__body">
+      <div class="mg-side">
+        <span class="mg-side__tag mg-side__tag--pc">+{{n}}D6</span>
+        <span class="mg-side__dice">{{{diceHtml}}}</span>
+      </div>
+    </div>
+  </div>
+</div>
