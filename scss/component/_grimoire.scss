@@ -132,4 +132,17 @@
       background: var(--mg-gold);
     }
   }
+
+  // 장서 행 시전 아이콘(✦) — col-name 앞
+  .mg-spell-cast {
+    color: var(--mg-gold);
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 11px;
+    opacity: 0.85;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }

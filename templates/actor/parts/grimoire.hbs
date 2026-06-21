@@ -9,7 +9,7 @@
       <span class="col-check">
         <span class="mg-check {{#if this.system.active}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="active" data-item-id="{{this.id}}">{{#if this.system.active}}✓{{/if}}</span>
       </span>
-      <span class="col-name {{#unless this.name}}col-empty{{/unless}}">{{#if this.name}}{{this.name}}{{else}}—{{/if}}</span>
+      <span class="col-name {{#unless this.name}}col-empty{{/unless}}"><span class="mg-spell-cast" data-action="cast-spell" data-item-id="{{this.id}}" title="시전">✦</span>{{#if this.name}}{{this.name}}{{else}}—{{/if}}</span>
       <span class="col-faint">{{this.system.type}}</span>
       <span>{{this.system.skill}}</span>
       <span>{{this.costLabel}}</span>
