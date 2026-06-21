@@ -115,7 +115,7 @@
     white-space: normal;
   }
 
-  // 충전 슬롯(동그라미) — 클릭으로 충전수 증감
+  // 충전 슬롯(마름모) — 클릭으로 충전수 증감
   .mg-rings {
     display: flex;
     gap: 3px;
@@ -123,10 +123,10 @@
     align-items: center;
   }
   .mg-ring {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
+    width: 9px;
+    height: 9px;
     border: 1.5px solid var(--mg-gold);
+    transform: rotate(45deg);
     cursor: pointer;
     &.is-on {
       background: var(--mg-gold);

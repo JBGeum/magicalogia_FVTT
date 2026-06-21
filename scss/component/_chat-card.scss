@@ -478,3 +478,134 @@
     }
   }
 }
+
+// =============================================================
+//  Charge-change card (.mg-cc) — compact one-line, light-fixed
+//  Source: docs/design/장서충전/styles/magicalogia-chargecard.css
+//  Token blocks / font @import excluded (reuse _tokens.scss).
+// =============================================================
+.magicalogia {
+  .mg-cc {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    background: var(--mg-paper);
+    border: 1.5px solid var(--mg-gold);
+    border-radius: 5px;
+    padding: 7px 11px;
+    color: var(--mg-ink);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.16);
+  }
+
+  .mg-cc__sigil {
+    flex: none;
+    display: flex;
+    align-items: center;
+    color: var(--mg-gold);
+
+    svg {
+      width: 14px;
+      height: 14px;
+      display: block;
+    }
+  }
+
+  .mg-cc__who {
+    flex: none;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--mg-ink);
+    white-space: nowrap;
+  }
+
+  .mg-cc__spell {
+    flex: none;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--mg-gold);
+    white-space: nowrap;
+
+    &::before {
+      content: "「";
+    }
+    &::after {
+      content: "」";
+    }
+  }
+
+  .mg-cc__charge {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mg-soft);
+    white-space: nowrap;
+
+    .lbl {
+      color: var(--mg-faint);
+      font-size: 11px;
+      font-weight: 700;
+    }
+  }
+
+  .mg-cc__n {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--mg-soft);
+    font-variant-numeric: tabular-nums;
+
+    &--after {
+      color: var(--mg-gold);
+    }
+  }
+
+  .mg-cc__arrow {
+    color: var(--mg-faint);
+    font-weight: 800;
+  }
+
+  .mg-cc__max {
+    color: var(--mg-faint);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .mg-cc__delta {
+    flex: none;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 2px 9px;
+    border: 1px solid;
+    white-space: nowrap;
+
+    &--up {
+      color: var(--mg-good);
+      background: var(--mg-good-bg);
+      border-color: var(--mg-good-line);
+    }
+    &--down {
+      color: var(--mg-bad);
+      background: var(--mg-bad-bg);
+      border-color: var(--mg-bad-line);
+    }
+  }
+
+  .mg-cc__ready {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--mg-good);
+    white-space: nowrap;
+  }
+}
