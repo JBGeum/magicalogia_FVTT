@@ -32,6 +32,16 @@ export function sendBoostResult({ reqId, n, dice }) {
   game.socket.emit(CHANNEL, { t: "battle:boost-result", reqId, n, dice });
 }
 
+/** GM → PL: 입회 요청. */
+export function requestWitness({ reqId, userId, actorId, name, prompt }) {
+  game.socket.emit(CHANNEL, { t: "battle:witness", reqId, userId, actorId, name, prompt });
+}
+
+/** PL → GM: 입회 결과. */
+export function sendWitnessResult({ reqId, side, dice }) {
+  game.socket.emit(CHANNEL, { t: "battle:witness-result", reqId, side, dice });
+}
+
 /** 수신 디스패치. PL은 본인 userId 요청만 다이얼로그, GM은 결과만 수신. */
 function onSocket(msg) {
   switch (msg?.t) {
@@ -61,6 +71,19 @@ function onSocket(msg) {
       break;
     case "battle:boost-result":
       if (game.user.isGM) MagicBattlePanel.deliverBoost(msg);
+      break;
+    case "battle:witness":
+      if (game.user.id === msg.userId) {
+        new BattleDiceDialog({
+          mode: "witness",
+          prompt: msg.prompt,
+          onSubmit: (dice, extra) =>
+            sendWitnessResult({ reqId: msg.reqId, side: extra?.side ?? "defense", dice }),
+        }).render(true);
+      }
+      break;
+    case "battle:witness-result":
+      if (game.user.isGM) MagicBattlePanel.deliverWitness(msg);
       break;
   }
 }

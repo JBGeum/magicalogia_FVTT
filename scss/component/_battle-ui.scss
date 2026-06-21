@@ -229,6 +229,26 @@
       cursor: pointer;
     }
   }
+  &__witness {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  &__wchip {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--mg-soft);
+    background: var(--mg-field);
+    border: 1px solid var(--mg-line);
+    border-radius: 999px;
+    padding: 2px 8px;
+
+    &.is-done {
+      color: var(--mg-good);
+      border-color: var(--mg-good-line);
+      background: var(--mg-good-bg);
+    }
+  }
   &__after {
     display: flex;
     gap: 8px;

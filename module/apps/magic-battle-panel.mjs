@@ -1,7 +1,7 @@
 import { applyTheme } from "../helpers/theme.mjs";
 import { resolveExchange, postBattleCard, postBoostCard } from "../system/magic-battle.mjs";
 import { BattleDiceDialog } from "./battle-dice-dialog.mjs";
-import { requestPick, requestBoost } from "../system/battle-socket.mjs";
+import { requestPick, requestBoost, requestWitness } from "../system/battle-socket.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -36,6 +36,9 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
   static deliverBoost(msg) {
     MagicBattlePanel._active?._receiveBoost?.(msg);
   }
+  static deliverWitness(msg) {
+    MagicBattlePanel._active?._receiveWitness?.(msg);
+  }
 
   constructor(options = {}) {
     super(options);
@@ -53,6 +56,8 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     this.reqs = { attack: null, defense: null };
     this.lastResult = null;
     this.lastRoles = null;
+    this.witnessReqs = {};
+    this.witnessPicks = [];
   }
 
   get _attacker() {
@@ -85,6 +90,14 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
       attackReady: this.picks.attack !== null,
       defenseReady: this.picks.defense !== null,
       bothReady: this.picks.attack !== null && this.picks.defense !== null,
+      witnessStatus: Object.values(this.witnessReqs).map((r) => {
+        const w = this.witnessPicks.find((p) => p.actorId === r.actorId);
+        return {
+          name: r.name,
+          submitted: !!w,
+          sideLabel: w ? (w.side === "attack" ? "공격" : "방어") : "",
+        };
+      }),
     };
   }
 
@@ -120,6 +133,9 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     this.render();
     await this._requestPick("attack", this._attacker);
     await this._requestPick("defense", this._defender);
+    this.witnessReqs = {};
+    this.witnessPicks = [];
+    this._requestWitnesses();
   }
 
   async _requestPick(role, actor) {
@@ -149,6 +165,40 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     }
   }
 
+  _requestWitnesses() {
+    const combatants = new Set([this.firstId, this.secondId]);
+    for (const actor of game.actors) {
+      if (actor.type !== "character" || combatants.has(actor.id)) continue;
+      const owner = this._ownerUser(actor);
+      if (!owner) continue; // 활성 비-GM 소유자 없는 PC/NPC 제외
+      const reqId = foundry.utils.randomID();
+      this.witnessReqs[reqId] = { actorId: actor.id, name: actor.name };
+      requestWitness({
+        reqId,
+        userId: owner.id,
+        actorId: actor.id,
+        name: actor.name,
+        prompt: `${actor.name} 입회`,
+      });
+    }
+  }
+
+  _receiveWitness(msg) {
+    const req = this.witnessReqs[msg.reqId];
+    if (!req) return;
+    this.witnessPicks = this.witnessPicks.filter((w) => w.actorId !== req.actorId); // 덮어쓰기
+    const dice = Array.isArray(msg.dice) ? msg.dice.slice(0, 2) : [];
+    if (dice.length) {
+      this.witnessPicks.push({
+        actorId: req.actorId,
+        name: req.name,
+        side: msg.side === "attack" ? "attack" : "defense",
+        dice,
+      });
+    }
+    this.render();
+  }
+
   _receivePick(msg) {
     for (const role of ["attack", "defense"]) {
       if (this.reqs[role] && this.reqs[role] === msg.reqId) {
@@ -176,13 +226,20 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
       ui.notifications.warn("대상 액터를 찾을 수 없습니다. 마법전을 다시 개시하세요.");
       return;
     }
+    const witnesses = this.witnessPicks;
     await postBattleCard(attacker, defender, {
       round: this.round,
       exchange: this.exchange,
       attack: this.picks.attack,
       defense: this.picks.defense,
+      witnesses,
     });
-    this.lastResult = resolveExchange(this.picks.attack, this.picks.defense);
+    const aW = witnesses.filter((w) => w.side === "attack").flatMap((w) => w.dice);
+    const dW = witnesses.filter((w) => w.side === "defense").flatMap((w) => w.dice);
+    this.lastResult = resolveExchange(
+      [...this.picks.attack, ...aW],
+      [...this.picks.defense, ...dW],
+    );
     this.lastRoles = { attackerId: attacker.id, defenderId: defender.id };
     this.revealed = true;
     this.render();

@@ -22,6 +22,13 @@
     <span class="mg-mbp__chip {{#if attackReady}}is-done{{/if}}">공격 {{#if attackReady}}제출✓{{else}}대기…{{/if}}{{#unless attackReady}}<button type="button" data-action="requestPick" data-role="attack">재요청</button>{{/unless}}</span>
     <span class="mg-mbp__chip {{#if defenseReady}}is-done{{/if}}">방어 {{#if defenseReady}}제출✓{{else}}대기…{{/if}}{{#unless defenseReady}}<button type="button" data-action="requestPick" data-role="defense">재요청</button>{{/unless}}</span>
   </div>
+  {{#if witnessStatus.length}}
+  <div class="mg-mbp__witness">
+    {{#each witnessStatus}}
+    <span class="mg-mbp__wchip {{#if submitted}}is-done{{/if}}">{{name}} {{#if submitted}}{{sideLabel}}✓{{else}}대기{{/if}}</span>
+    {{/each}}
+  </div>
+  {{/if}}
   {{#unless revealed}}
   <button type="button" class="mg-mbp__btn mg-mbp__btn--go" data-action="reveal" {{#unless bothReady}}disabled{{/unless}}>공개</button>
   {{else}}

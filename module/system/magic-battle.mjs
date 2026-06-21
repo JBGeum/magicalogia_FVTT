@@ -170,7 +170,7 @@ export function buildBoostCard({ who, n, dice, struck = [], focus = [] }) {
 export async function postBattleCard(
   attackerActor,
   defenderActor,
-  { round, exchange, attack, defense },
+  { round, exchange, attack, defense, witnesses = [] },
 ) {
   const speaker = ChatMessage.getSpeaker({ actor: attackerActor });
   const data = buildBattleCard({
@@ -180,6 +180,7 @@ export async function postBattleCard(
     defender: defenderActor.name,
     attack,
     defense,
+    witnesses,
   });
   const content = await foundry.applications.handlebars.renderTemplate(
     "systems/magicalogia/templates/chat/battle-card.hbs",
