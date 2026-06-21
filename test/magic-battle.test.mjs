@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveExchange } from "../module/system/magic-battle.mjs";
+import { resolveExchange, renderBattleDie } from "../module/system/magic-battle.mjs";
 
 describe("resolveExchange", () => {
   it("기본: [4,4,2] vs [4,5] → 유효 [4,2], 대미지 2", () => {
@@ -50,5 +50,26 @@ describe("resolveExchange", () => {
     const r = resolveExchange([], [3]);
     expect(r.damage).toBe(0);
     expect(r.attackMarks).toEqual([]);
+  });
+});
+
+describe("renderBattleDie", () => {
+  it("valid: 골드 클래스 + pip 개수(4→4개)", () => {
+    const h = renderBattleDie(4, "valid");
+    expect(h).toContain("mg-die--valid");
+    expect(h).toContain("is-valid");
+    expect((h.match(/<i><\/i>/g) || []).length).toBe(4);
+    expect(h).toContain(">4</span>");
+  });
+  it("cancel: 상쇄 클래스", () => {
+    const h = renderBattleDie(3, "cancel");
+    expect(h).toContain("mg-die--cancel");
+    expect(h).toContain("is-cancel");
+  });
+  it("leftover: 모디파이어 없는 플레인 면", () => {
+    const h = renderBattleDie(5, "leftover");
+    expect(h).toContain("is-leftover");
+    expect(h).not.toContain("mg-die--valid");
+    expect(h).not.toContain("mg-die--cancel");
   });
 });
