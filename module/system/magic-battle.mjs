@@ -81,3 +81,77 @@ export function buildBoostCard({ who, n, dice, struck = [] }) {
     diceHtml: marked.map((d) => renderBattleDie(d.v, d.st)).join(""),
   };
 }
+
+/* ===== Foundry 의존부 (F5 육안) ===== */
+
+/** 공개된 전투 카드를 채팅에 발행. 라이트 고정. 적용 버튼용 flag 포함. */
+export async function postBattleCard(
+  attackerActor,
+  defenderActor,
+  { round, exchange, attack, defense },
+) {
+  const speaker = ChatMessage.getSpeaker({ actor: attackerActor });
+  const data = buildBattleCard({
+    round,
+    exchange,
+    attacker: attackerActor.name,
+    defender: defenderActor.name,
+    attack,
+    defense,
+  });
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/battle-card.hbs",
+    data,
+  );
+  await ChatMessage.create({
+    speaker,
+    content,
+    flags: {
+      magicalogia: {
+        battle: { defenderId: defenderActor.id, damage: data.damage, applied: false },
+      },
+    },
+  });
+}
+
+/** 부스트 카드 발행(표시 전용). */
+export async function postBoostCard(actor, { n, dice, struck }) {
+  const speaker = ChatMessage.getSpeaker({ actor });
+  const data = buildBoostCard({ who: actor.name, n, dice, struck });
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/boost-card.hbs",
+    data,
+  );
+  await ChatMessage.create({ speaker, content });
+}
+
+/** 전투 카드 대미지를 방어측 생명력에 적용(멱등). GM만 호출. */
+export async function applyBattleDamage(message) {
+  const f = message.getFlag("magicalogia", "battle");
+  if (!f || f.applied) return;
+  const actor = game.actors.get(f.defenderId);
+  if (!actor) {
+    ui.notifications.warn("대미지 적용 대상 액터를 찾을 수 없습니다.");
+    return;
+  }
+  const cur = actor.system.health.value ?? 0;
+  await actor.update({ "system.health.value": Math.max(0, cur - f.damage) });
+  await message.setFlag("magicalogia", "battle", { ...f, applied: true });
+}
+
+/** 채팅 카드의 적용 버튼 바인딩(renderChatMessageHTML 훅에서 호출). */
+export function bindBattleCardActions(message, html) {
+  const btn = html.querySelector('[data-action="apply-battle-damage"]');
+  if (!btn) return;
+  if (!game.user.isGM) {
+    btn.style.display = "none";
+    return;
+  }
+  const f = message.getFlag("magicalogia", "battle");
+  if (f?.applied) {
+    btn.textContent = "적용됨";
+    btn.disabled = true;
+    return;
+  }
+  btn.addEventListener("click", () => applyBattleDamage(message));
+}
