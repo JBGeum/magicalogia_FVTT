@@ -45,3 +45,17 @@ export function resolveExchange(attack, defense) {
   const surviving = attackMarks.filter((m) => m.st === "valid").map((m) => m.v);
   return { attackMarks, defenseMarks, surviving, damage: surviving.length };
 }
+
+/** 전투 카드 템플릿 데이터(순수). 공개 시 발행 전제. */
+export function buildBattleCard({ round, exchange, attacker, defender, attack, defense }) {
+  const { attackMarks, defenseMarks, damage } = resolveExchange(attack, defense);
+  return {
+    round,
+    exchange,
+    attacker,
+    defender,
+    damage,
+    attackDiceHtml: attackMarks.map((m) => renderBattleDie(m.v, m.st)).join(""),
+    defenseDiceHtml: defenseMarks.map((m) => renderBattleDie(m.v, m.st)).join(""),
+  };
+}

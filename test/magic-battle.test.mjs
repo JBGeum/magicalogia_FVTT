@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { resolveExchange, renderBattleDie } from "../module/system/magic-battle.mjs";
+import {
+  resolveExchange,
+  renderBattleDie,
+  buildBattleCard,
+} from "../module/system/magic-battle.mjs";
 
 describe("resolveExchange", () => {
   it("기본: [4,4,2] vs [4,5] → 유효 [4,2], 대미지 2", () => {
@@ -71,5 +75,29 @@ describe("renderBattleDie", () => {
     expect(h).toContain("is-leftover");
     expect(h).not.toContain("mg-die--valid");
     expect(h).not.toContain("mg-die--cancel");
+  });
+});
+
+describe("buildBattleCard", () => {
+  it("[4,4,2] vs [4,5]: damage 2, 라벨 패스스루, dieHtml 클래스", () => {
+    const c = buildBattleCard({
+      round: 1,
+      exchange: 1,
+      attacker: "이졸데",
+      defender: "고블린",
+      attack: [4, 4, 2],
+      defense: [4, 5],
+    });
+    expect(c).toMatchObject({
+      round: 1,
+      exchange: 1,
+      attacker: "이졸데",
+      defender: "고블린",
+      damage: 2,
+    });
+    expect(c.attackDiceHtml).toContain("mg-die--valid");
+    expect(c.attackDiceHtml).toContain("mg-die--cancel");
+    expect(c.defenseDiceHtml).toContain("mg-die--cancel");
+    expect(c.defenseDiceHtml).toContain("is-leftover");
   });
 });
