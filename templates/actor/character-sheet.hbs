@@ -36,12 +36,12 @@
               {{/if}}
             </div>
             <div class="mg-counter-row">
-              <label class="mg-counter mg-counter--muted"><span class="mg-counter__label">공적점</span><input
+              <label class="mg-counter"><span class="mg-counter__label"><span class="mg-lbl-fl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span>공적점<span class="mg-lbl-fl mg-lbl-fl--r">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span></span><input
                   class="mg-counter__value"
                   name="system.achievement"
                   value="{{system.achievement}}"
                 /></label>
-              <label class="mg-counter mg-counter--muted"><span class="mg-counter__label">마화</span><input
+              <label class="mg-counter"><span class="mg-counter__label"><span class="mg-lbl-fl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span>마화<span class="mg-lbl-fl mg-lbl-fl--r">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span></span><input
                   class="mg-counter__value"
                   name="system.mabloom"
                   value="{{system.mabloom}}"
@@ -90,17 +90,17 @@
 
           <div class="mg-statrail">
             <div class="mg-stat-row">
-              <label class="mg-stat mg-stat--key"><span class="mg-stat__label">공격</span><input
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-khanda"></i></span>공격력</span><input
                   class="mg-stat__value"
                   name="system.abilities.attack"
                   value="{{system.abilities.attack}}"
                 /></label>
-              <label class="mg-stat mg-stat--key"><span class="mg-stat__label">방어</span><input
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-shield-halved"></i></span>방어력</span><input
                   class="mg-stat__value"
                   name="system.abilities.defense"
                   value="{{system.abilities.defense}}"
                 /></label>
-              <label class="mg-stat mg-stat--key"><span class="mg-stat__label">근원</span><input
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-hourglass-half"></i></span>근원력</span><input
                   class="mg-stat__value"
                   name="system.abilities.source"
                   value="{{system.abilities.source}}"
@@ -123,7 +123,7 @@
               </div>
             </div>
             <div class="mg-rank">
-              <div class="mg-rank__label">계제</div>
+              <div class="mg-rank__label"><span class="mg-lbl-fl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span>계제<span class="mg-lbl-fl mg-lbl-fl--r">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span></div>
               <div class="mg-rank__body">
                 <div class="mg-rank__flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-rankflr.hbs"}}</div>
                 <input class="mg-rank__value" name="system.rank" value="{{system.rank}}" />

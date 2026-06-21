@@ -272,9 +272,37 @@
       color: var(--mg-gold);
       font-size: 16px;
     }
-    // 약화(공적점/마화): 골드 헤더 타일은 유지하고 값 색만 죽인다.
-    &--muted .mg-counter__value {
-      color: var(--mg-soft);
+  }
+
+  // ---- 골드 헤더 라벨 장식: FA 아이콘(스탯) / 플로리시(카운터·계제) ----
+  .mg-lbl-ico {
+    display: inline-flex;
+    align-items: center;
+    color: var(--mg-head-ink);
+
+    i {
+      font-size: 11px;
+      line-height: 1;
+    }
+    svg {
+      display: block;
+      width: 11px;
+      height: 11px;
+    }
+  }
+  .mg-lbl-fl {
+    display: inline-flex;
+    align-items: center;
+    color: var(--mg-head-ink);
+    opacity: 0.75;
+
+    svg {
+      display: block;
+      width: 15px;
+      height: 7px;
+    }
+    &--r {
+      transform: scaleX(-1);
     }
   }
 
