@@ -1,0 +1,33 @@
+{{!
+  마법전 다이스 대결 카드 (공개·라이트 고정). 데이터: buildBattleCard()
+  공격(red)/방어(gold) 양측 다이스 + 유효 공격 수 = 대미지 + GM 적용 버튼.
+}}
+<div class="magicalogia theme-light">
+  <div class="mg-card">
+    <div class="mg-card__head">
+      <span class="mg-card__sigil"><svg viewBox="0 0 16 16" fill="currentColor"><path
+            d="M9.5 1L3 9h3.2l-1 6 6.3-9H8.3z"
+          /></svg></span>
+      <span class="mg-card__who">마법전 · {{round}}라운드 · 교전{{exchange}}</span>
+    </div>
+    <div class="mg-card__body">
+      <div class="mg-side">
+        <span class="mg-side__tag mg-side__tag--atk">공격</span>
+        <span class="mg-side__name">{{attacker}}</span>
+        <span class="mg-side__dice">{{{attackDiceHtml}}}</span>
+      </div>
+      <div class="mg-side">
+        <span class="mg-side__tag">방어</span>
+        <span class="mg-side__name">{{defender}}</span>
+        <span class="mg-side__dice">{{{defenseDiceHtml}}}</span>
+      </div>
+      <div class="mg-result">
+        <span class="mg-result__icon"><svg viewBox="0 0 16 16" fill="currentColor"><path
+              d="M8 1l1.7 4 4.3.3-3.3 2.8 1 4.2L8 12.2 4.3 12.3l1-4.2L2 5.3 6.3 5z"
+            /></svg></span>
+        <span>공격 유효 <b>{{damage}}</b> → {{defender}}에게 <b>{{damage}}</b> 대미지</span>
+        <button type="button" class="mg-apply" data-action="apply-battle-damage">적용</button>
+      </div>
+    </div>
+  </div>
+</div>
