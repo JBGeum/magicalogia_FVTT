@@ -1,11 +1,39 @@
-<div class="magicalogia mg-roll-card">
-  <header class="mg-roll-card__head">{{column}} · {{specialty}} (목표 {{tn}})</header>
-  <div class="mg-roll-card__dice">🎲 {{d1}} + {{d2}} = {{result.total}}</div>
-  <div class="mg-roll-card__result">
-    {{#if result.fumble}}<strong>펌블! (실패)</strong>
-    {{else if result.special}}<strong>스페셜! (성공)</strong>
-    {{else if result.success}}<strong>성공</strong>
-    {{else}}<strong>실패</strong>{{/if}}
-    {{#if result.doublet}}<span class="mg-roll-card__doublet">· 더블릿</span>{{/if}}
+<div class="magicalogia theme-light">
+  <div class="mg-card">
+    <div class="mg-card__head">
+      <span class="mg-card__sigil"><svg viewBox="0 0 16 16" fill="currentColor"><path
+            d="M8 1l1.7 4 4.3.3-3.3 2.8 1 4.2L8 12.2 4.3 12.3l1-4.2L2 5.3 6.3 5z"
+          /></svg></span>
+      <span class="mg-card__who">{{who}}</span>
+    </div>
+    <div class="mg-card__body">
+      <div class="mg-roll-title">
+        <span class="mg-roll-title__skill"><span class="dom">{{domain}}</span> · {{skill}}</span>
+        <span class="mg-roll-title__target">목표 <b>{{target}}</b></span>
+      </div>
+      <div class="mg-roll-dice">
+        {{{dieHtml}}}
+        <span class="mg-roll-eq">=</span>
+        <span class="mg-roll-sum">{{sum}}</span>
+        <span class="mg-roll-detail">2D6 · {{dice.[0]}} + {{dice.[1]}}</span>
+      </div>
+      {{#if success}}
+        <div class="mg-outcome mg-outcome--success">
+          <span class="mg-outcome__mark">✦</span>
+          <span class="mg-outcome__text">{{#if special}}스페셜!{{else}}성공{{/if}}</span>
+          {{#if doublet}}<span class="mg-outcome__tag">✦ 더블릿</span>{{/if}}
+        </div>
+      {{else}}
+        <div class="mg-outcome mg-outcome--fail">
+          <span class="mg-outcome__mark">✕</span>
+          <span class="mg-outcome__text">{{#if fumble}}펌블!{{else}}실패{{/if}}</span>
+          {{#if doublet}}<span class="mg-outcome__tag">✦ 더블릿</span>{{/if}}
+        </div>
+      {{/if}}
+      {{#if doublet}}
+        <div class="mg-note"><span class="mg-note__icon">✦</span><span><b>{{masoDomain}}</b>의 영역
+            마소가 발생합니다</span></div>
+      {{/if}}
+    </div>
   </div>
 </div>

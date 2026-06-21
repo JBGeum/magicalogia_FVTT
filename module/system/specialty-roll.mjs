@@ -39,6 +39,35 @@ export function classifyRoll(d1, d2, tn) {
   return { total, success, special, fumble, doublet };
 }
 
+/** 2d6 판정 후 .mg-card 채팅 카드 출력(특기·혼의특기 공용). 라이트 테마 고정. */
+async function postRollCard(actor, { domain, skill, tn }) {
+  const roll = await new Roll("2d6").evaluate();
+  const [d1, d2] = roll.dice[0].results.map((r) => r.result);
+  const result = classifyRoll(d1, d2, tn);
+  const dieHtml =
+    renderDie(d1, result.doublet) +
+    '<span class="mg-roll-eq">+</span>' +
+    renderDie(d2, result.doublet);
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/specialty-roll.hbs",
+    {
+      who: ChatMessage.getSpeaker({ actor }).alias,
+      domain,
+      skill,
+      target: tn,
+      dice: [d1, d2],
+      sum: result.total,
+      success: result.success,
+      special: result.special,
+      fumble: result.fumble,
+      doublet: result.doublet,
+      masoDomain: result.doublet ? CONFIG.MAGICALOGIA.attributes[d1 - 1].title : null,
+      dieHtml,
+    },
+  );
+  await ChatMessage.create({ speaker: ChatMessage.getSpeaker({ actor }), content, rolls: [roll] });
+}
+
 /**
  * 특기 셀로 2d6 판정 후 챗카드 출력.
  * @param {Actor} actor
@@ -64,27 +93,7 @@ export async function rollSpecialty(actor, colKey, rowIndex) {
     return;
   }
 
-  const roll = await new Roll("2d6").evaluate();
-  const [d1, d2] = roll.dice[0].results.map((r) => r.result);
-  const result = classifyRoll(d1, d2, cell.tn);
-
-  const content = await foundry.applications.handlebars.renderTemplate(
-    "systems/magicalogia/templates/chat/specialty-roll.hbs",
-    {
-      specialty: cell.name,
-      column: column.title,
-      tn: cell.tn,
-      d1,
-      d2,
-      result,
-    },
-  );
-
-  await ChatMessage.create({
-    speaker: ChatMessage.getSpeaker({ actor }),
-    content,
-    rolls: [roll],
-  });
+  await postRollCard(actor, { domain: column.title, skill: cell.name, tn: cell.tn });
 }
 
 /**
@@ -92,28 +101,6 @@ export async function rollSpecialty(actor, colKey, rowIndex) {
  * @param {Actor} actor
  */
 export async function rollSoulSkill(actor) {
-  const SOUL_TN = 6;
-  const name = actor.system.soulSkill?.trim() || "혼의 특기";
-
-  const roll = await new Roll("2d6").evaluate();
-  const [d1, d2] = roll.dice[0].results.map((r) => r.result);
-  const result = classifyRoll(d1, d2, SOUL_TN);
-
-  const content = await foundry.applications.handlebars.renderTemplate(
-    "systems/magicalogia/templates/chat/specialty-roll.hbs",
-    {
-      specialty: name,
-      column: "혼의 특기",
-      tn: SOUL_TN,
-      d1,
-      d2,
-      result,
-    },
-  );
-
-  await ChatMessage.create({
-    speaker: ChatMessage.getSpeaker({ actor }),
-    content,
-    rolls: [roll],
-  });
+  const skill = actor.system.soulSkill?.trim() || "혼의 특기";
+  await postRollCard(actor, { domain: "혼의 특기", skill, tn: 6 });
 }
