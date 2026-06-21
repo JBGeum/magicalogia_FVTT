@@ -8,6 +8,7 @@
 @use "component/item-sheet";
 @use "component/chat-card";
 @use "component/specialty-picker";
+@use "component/battle-ui";
 
 // 폰트 — 본문/디스플레이 Pretendard, 라틴 강조 Cinzel.
 // 오프라인/사설 서버용 @font-face 번들은 후속 작업(지금은 CDN).

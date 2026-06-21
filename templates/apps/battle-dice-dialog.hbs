@@ -1,0 +1,28 @@
+<div class="mg-bdd">
+  <div class="mg-bdd__label">{{label}}</div>
+  {{#if prompt}}<div class="mg-bdd__prompt">{{prompt}}</div>{{/if}}
+
+  {{#if isBoost}}
+  <div class="mg-bdd__boost">
+    <button type="button" class="mg-bdd__step" data-action="decN">−</button>
+    <span class="mg-bdd__n">{{n}}D6</span>
+    <button type="button" class="mg-bdd__step" data-action="incN">＋</button>
+  </div>
+  {{else}}
+  <div class="mg-bdd__faces">
+    {{#each faces}}
+    <button type="button" class="mg-bdd__face" data-action="addDie" data-value="{{this}}" {{#if ../atMax}}disabled{{/if}}>{{this}}</button>
+    {{/each}}
+  </div>
+  <div class="mg-bdd__chosen">
+    {{#each dice}}
+    <button type="button" class="mg-bdd__chip" data-action="removeDie" data-index="{{@index}}">{{this}} ✕</button>
+    {{else}}
+    <span class="mg-bdd__empty">선택한 다이스 없음</span>
+    {{/each}}
+  </div>
+  <div class="mg-bdd__count">{{count}} / {{max}}</div>
+  {{/if}}
+
+  <button type="button" class="mg-bdd__submit" data-action="submit">확정</button>
+</div>
