@@ -2,6 +2,11 @@
 
 > 시안: `docs/design/마법전/`(README·`example-battle.html`·`chat-battle-card.hbs`·`chat-boost-card.hbs`·`magicalogia-battlecard.css`·`scripts/chat-card-helpers.js`).
 > 워크플로: brainstorming → **이 spec** → writing-plans → subagent-driven-development.
+>
+> **⚠️ 정정 (2026-06-21 F5 후, 커밋 `3385f15`)**: 본문은 "다이스 수 = 근원력(`abilities.source`)"으로
+> 기술하나, F5에서 **공격 다이스 수 = 공격력(`abilities.attack`), 방어 다이스 수 = 방어력(`abilities.defense`)**
+> 로 정정함. **부스트 n은 상한 없음(자유 입력)** — `abilities.source`는 마법전에서 미사용.
+> 아래 §1·§2·§3·§4·§5.3·§9의 "근원력/source" 언급은 이 정정으로 대체됨.
 
 ## 1. 목표
 
