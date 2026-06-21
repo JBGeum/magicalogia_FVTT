@@ -153,5 +153,8 @@ export function bindBattleCardActions(message, html) {
     btn.disabled = true;
     return;
   }
-  btn.addEventListener("click", () => applyBattleDamage(message));
+  btn.addEventListener("click", () => {
+    btn.disabled = true;
+    applyBattleDamage(message);
+  });
 }
