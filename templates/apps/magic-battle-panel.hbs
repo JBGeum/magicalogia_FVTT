@@ -28,6 +28,10 @@
   <div class="mg-mbp__after">
     <button type="button" class="mg-mbp__btn" data-action="nextExchange">{{#if (eq exchange 1)}}다음 교전{{else}}다음 라운드{{/if}}</button>
   </div>
+  <div class="mg-mbp__boostbar">
+    <button type="button" data-action="boost" data-side="attack">공격 부스트</button>
+    <button type="button" data-action="boost" data-side="defense">방어 부스트</button>
+  </div>
   {{/unless}}
   <button type="button" class="mg-mbp__btn mg-mbp__btn--end" data-action="end">종료</button>
   {{/unless}}

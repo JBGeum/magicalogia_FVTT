@@ -1,7 +1,7 @@
 import { applyTheme } from "../helpers/theme.mjs";
-import { resolveExchange, postBattleCard } from "../system/magic-battle.mjs";
+import { resolveExchange, postBattleCard, postBoostCard } from "../system/magic-battle.mjs";
 import { BattleDiceDialog } from "./battle-dice-dialog.mjs";
-import { requestPick } from "../system/battle-socket.mjs";
+import { requestPick, requestBoost } from "../system/battle-socket.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -20,6 +20,7 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
       reveal: MagicBattlePanel.#onReveal,
       requestPick: MagicBattlePanel.#onRequestPick,
       nextExchange: MagicBattlePanel.#onNextExchange,
+      boost: MagicBattlePanel.#onBoost,
       end: MagicBattlePanel.#onEnd,
     },
   };
@@ -190,6 +191,48 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
       this.round += 1;
       await this._beginExchange(1);
     }
+  }
+
+  static async #onBoost(_event, target) {
+    if (!this.lastResult || !this.lastRoles) return;
+    const side = target.dataset.side; // "attack" | "defense"
+    // 상대 잔여: 공격측 부스트→방어 leftover, 방어측 부스트→공격 surviving
+    const struck =
+      side === "attack"
+        ? this.lastResult.defenseMarks.filter((m) => m.st === "leftover").map((m) => m.v)
+        : [...this.lastResult.surviving];
+    const actorId = side === "attack" ? this.lastRoles.attackerId : this.lastRoles.defenderId;
+    const actor = game.actors.get(actorId);
+    if (!actor) return;
+    const owner = this._ownerUser(actor);
+    if (owner) {
+      const reqId = foundry.utils.randomID();
+      this._boostCtx = { reqId, actorId, struck };
+      requestBoost({
+        reqId,
+        userId: owner.id,
+        side,
+        max: actor.system.abilities.source ?? 0,
+        prompt: `${actor.name} 부스트`,
+      });
+    } else {
+      new BattleDiceDialog({
+        mode: "boost",
+        max: actor.system.abilities.source ?? 0,
+        prompt: `${actor.name} 부스트`,
+        onSubmit: async (dice, n) => {
+          await postBoostCard(actor, { n: n ?? dice.length, dice, struck });
+        },
+      }).render(true);
+    }
+  }
+
+  async _receiveBoost(msg) {
+    const ctx = this._boostCtx;
+    if (!ctx || ctx.reqId !== msg.reqId) return;
+    const actor = game.actors.get(ctx.actorId);
+    if (actor) await postBoostCard(actor, { n: msg.n, dice: msg.dice, struck: ctx.struck });
+    this._boostCtx = null;
   }
 
   static async #onEnd() {
