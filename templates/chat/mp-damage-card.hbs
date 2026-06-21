@@ -1,0 +1,11 @@
+{{!--
+  마법전 마력 감소 compact 한줄 카드 (라이트 고정).
+  데이터: { who, amount, before, after } — applyBattleDamage → postMpDamageCard.
+--}}
+<div class="magicalogia theme-light">
+  <div class="mg-mpd">
+    <span class="mg-mpd__sigil"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M9.5 1L3 9h3.2l-1 6 6.3-9H8.3z"/></svg></span>
+    <span class="mg-mpd__text"><b class="mg-mpd__who">{{who}}</b>의 마력 <b class="mg-mpd__amt">{{amount}}</b> 감소</span>
+    <span class="mg-mpd__range">{{before}} → {{after}}</span>
+  </div>
+</div>

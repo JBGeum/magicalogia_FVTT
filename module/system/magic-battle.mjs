@@ -125,7 +125,7 @@ export async function postBoostCard(actor, { n, dice, struck }) {
   await ChatMessage.create({ speaker, content });
 }
 
-/** 전투 카드 대미지를 방어측 생명력에 적용(멱등). GM만 호출. */
+/** 전투 카드 대미지를 방어측 마력에 적용(멱등) + 마력 감소 카드 발행. GM만 호출. */
 export async function applyBattleDamage(message) {
   const f = message.getFlag("magicalogia", "battle");
   if (!f || f.applied) return;
@@ -134,9 +134,21 @@ export async function applyBattleDamage(message) {
     ui.notifications.warn("대미지 적용 대상 액터를 찾을 수 없습니다.");
     return;
   }
-  const cur = actor.system.health.value ?? 0;
-  await actor.update({ "system.health.value": Math.max(0, cur - f.damage) });
+  const before = actor.system.mp?.value ?? 0;
+  const after = Math.max(0, before - f.damage);
+  await actor.update({ "system.mp.value": after });
   await message.setFlag("magicalogia", "battle", { ...f, applied: true });
+  await postMpDamageCard(actor, f.damage, before, after);
+}
+
+/** 마력 감소 compact 한줄 카드 발행. 라이트 고정. */
+export async function postMpDamageCard(actor, amount, before, after) {
+  const speaker = ChatMessage.getSpeaker({ actor });
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/mp-damage-card.hbs",
+    { who: actor.name, amount, before, after },
+  );
+  await ChatMessage.create({ speaker, content });
 }
 
 /** 채팅 카드의 적용 버튼 바인딩(renderChatMessageHTML 훅에서 호출). */

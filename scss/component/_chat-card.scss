@@ -765,3 +765,61 @@
     }
   }
 }
+
+// =============================================================
+//  MP-damage card (.mg-mpd) — compact one-line, light-fixed
+//  Posted by applyBattleDamage → postMpDamageCard.
+// =============================================================
+.magicalogia {
+  .mg-mpd {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    background: var(--mg-paper);
+    border: 1.5px solid var(--mg-gold);
+    border-radius: 5px;
+    padding: 6px 11px;
+    color: var(--mg-ink);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.16);
+  }
+
+  .mg-mpd__sigil {
+    flex: none;
+    display: flex;
+    align-items: center;
+    color: var(--mg-gold);
+
+    svg {
+      width: 14px;
+      height: 14px;
+      display: block;
+    }
+  }
+
+  .mg-mpd__text {
+    flex: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--mg-soft);
+  }
+
+  .mg-mpd__who {
+    color: var(--mg-ink);
+    font-weight: 800;
+  }
+
+  .mg-mpd__amt {
+    color: var(--mg-bad);
+    font-weight: 800;
+  }
+
+  .mg-mpd__range {
+    flex: none;
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--mg-faint);
+    font-variant-numeric: tabular-nums;
+  }
+}
