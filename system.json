@@ -12,6 +12,7 @@
   "esmodules": ["module/magicalogia.mjs"],
   "styles": ["magicalogia.css"],
   "scripts": [],
+  "socket": true,
   "packs": [],
   "documentTypes": {
     "Actor": {
