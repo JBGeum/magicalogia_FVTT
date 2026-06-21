@@ -116,6 +116,14 @@ describe("renderBattleDie", () => {
     expect(h).not.toContain("mg-die--valid");
     expect(h).not.toContain("mg-die--cancel");
   });
+  it("witness 표식: renderBattleDie(4,'valid',true) → mg-die--witness 포함", () => {
+    const h = renderBattleDie(4, "valid", true);
+    expect(h).toContain("mg-die--witness");
+    expect(h).toContain("mg-die--valid");
+  });
+  it("witness 기본 false: 표식 없음", () => {
+    expect(renderBattleDie(4, "valid")).not.toContain("mg-die--witness");
+  });
 });
 
 describe("buildBattleCard", () => {

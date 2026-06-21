@@ -15,10 +15,10 @@ const PIPS = {
 };
 
 /**
- * 다이스 한 면을 pip 그리드 markup으로. st: "valid"|"cancel"|"leftover".
- * leftover=중립 플레인 면(.mg-die만). 공개 카드 전용(시안 "back"은 v1 미사용).
+ * 다이스 한 면을 pip 그리드 markup으로. st: "valid"|"cancel"|"leftover"|"focus".
+ * witness=true면 입회인 가산 다이스 표식(mg-die--witness)을 상태와 병기.
  */
-export function renderBattleDie(v, st) {
+export function renderBattleDie(v, st, witness = false) {
   let cells = "";
   for (let i = 0; i < 9; i++) cells += PIPS[v].includes(i) ? "<i></i>" : "<span></span>";
   const mod =
@@ -29,7 +29,8 @@ export function renderBattleDie(v, st) {
         : st === "focus"
           ? " mg-die--focus"
           : "";
-  return `<span class="mg-die-wrap is-${st}"><span class="mg-die${mod}">${cells}</span><span class="mg-die-num">${v}</span></span>`;
+  const w = witness ? " mg-die--witness" : "";
+  return `<span class="mg-die-wrap is-${st}"><span class="mg-die${mod}${w}">${cells}</span><span class="mg-die-num">${v}</span></span>`;
 }
 
 /**
