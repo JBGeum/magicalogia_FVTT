@@ -1,13 +1,14 @@
 import { computeTable } from "../system/specialty-table.mjs";
 import { rollSpecialty, rollSoulSkill } from "../system/specialty-roll.mjs";
 import { castSpell } from "../system/spell-cast.mjs";
+import { postChargeCard } from "../system/spell-charge.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 import { formatCost } from "../helpers/config.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
 
-// 장서 충전 슬롯(동그라미) 개수. charge 0..CHARGE_SLOTS.
+// 장서 충전 슬롯(마름모) 개수. charge 0..CHARGE_SLOTS.
 const CHARGE_SLOTS = 6;
 
 export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
@@ -157,13 +158,16 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     await item.update({ [`system.${flag}`]: !item.system[flag] });
   }
 
-  /** 장서 충전 슬롯 클릭 — 별점식 증감(현재 값과 같은 칸 클릭 시 -1). */
+  /** 장서 충전 슬롯 클릭 — 별점식 증감(현재 값과 같은 칸 클릭 시 -1). 변동 시 채팅 카드 발행. */
   static async #onSetCharge(_event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
     if (!item) return;
     const ring = Number(target.dataset.ring);
-    const charge = item.system.charge === ring ? ring - 1 : ring;
-    await item.update({ "system.charge": charge });
+    const before = item.system.charge ?? 0;
+    const after = item.system.charge === ring ? ring - 1 : ring;
+    if (after === before) return;
+    await item.update({ "system.charge": after });
+    await postChargeCard(this.actor, item, before, after, CHARGE_SLOTS);
   }
 
   /** 관계 추가 — anchor 아이템 생성 후 시트를 연다. */

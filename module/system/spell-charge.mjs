@@ -20,3 +20,14 @@ export function buildChargeCard({ who, name, max, before, after }) {
     spent: delta < 0,
   };
 }
+
+/** 충전 변동 카드 채팅 발행(Foundry 의존). 라이트 고정. */
+export async function postChargeCard(actor, spell, before, after, max) {
+  const speaker = ChatMessage.getSpeaker({ actor });
+  const data = buildChargeCard({ who: speaker.alias, name: spell.name, max, before, after });
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/charge-card.hbs",
+    data,
+  );
+  await ChatMessage.create({ speaker, content });
+}
