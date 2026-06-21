@@ -278,21 +278,6 @@
     }
   }
 
-  // ---- Baroque divider (교체 가능 이미지 자산) ----
-  .mg-divider {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 6px 0 4px;
-
-    img {
-      display: block;
-      width: 100%;
-      max-width: 560px;
-      height: auto;
-    }
-  }
-
   // ---- Status-ailment strip (상태이상) ----
   .mg-status {
     display: flex;
@@ -313,9 +298,10 @@
       margin-right: 5px;
     }
     &__list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 9px;
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: 6px 13px;
+      justify-content: start;
     }
     &__chip {
       display: inline-flex;
@@ -358,6 +344,79 @@
       background: var(--mg-check);
       border-color: var(--mg-check);
       color: var(--mg-panel); // reveal ✓
+    }
+  }
+
+  // ---- 상태이상 + 각종 표 toolbar 가로 배치 ----
+  .mg-statusbar {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+
+    > .mg-status {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  // ---- 각종 표 toolbar (상태이상 우측, 현재는 시각 placeholder) ----
+  .mg-toolbar {
+    flex: none;
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .mg-toolbtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 60px;
+    padding: 6px 12px;
+    background: var(--mg-panel-2);
+    border: 1px solid var(--mg-gold);
+    border-radius: $mg-radius;
+    cursor: pointer;
+    transition:
+      background 0.12s,
+      box-shadow 0.12s;
+
+    &:hover {
+      background: var(--mg-hi);
+      box-shadow: inset 0 0 0 1px var(--mg-gold);
+    }
+    &__label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--mg-soft);
+      white-space: nowrap;
+    }
+    &__val {
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--mg-gold);
+    }
+    &__val--icon {
+      font-size: 13px;
+    }
+  }
+
+  // ---- 얇은 플로리시 가로 라인(상태이상 위/아래, 교체 가능 이미지) ----
+  .mg-hline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px 0;
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 580px;
+      height: auto;
+      opacity: 0.9;
     }
   }
 
@@ -579,52 +638,6 @@
     flex-direction: column;
     gap: 8px;
     max-width: 420px;
-  }
-
-  // ---- Dice & tables grid (주사위 및 각종 표) ----
-  .mg-tables {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    gap: 5px;
-  }
-  .mg-tablecard {
-    display: flex;
-    flex-direction: column;
-    &__head {
-      padding: 3px;
-      text-align: center;
-      font-size: 10.5px;
-      font-weight: 700;
-      color: var(--mg-bar-ink);
-      background: var(--mg-panel-2);
-      border: 1px solid var(--mg-line);
-    }
-    &__body {
-      padding: 4px 7px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--mg-field-ink);
-      background: var(--mg-field);
-      border: 1px solid var(--mg-line);
-      border-top: 0;
-    }
-    &__body--roll {
-      font-family: $mg-font-display;
-      font-size: 13px;
-      color: var(--mg-ink);
-    }
-    &__body--btn {
-      color: var(--mg-gold);
-      cursor: pointer;
-    } // ⚙
-    &__body--select {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .caret {
-      color: var(--mg-gold);
-    }
   }
 
   // 데이터 테이블(.mg-table, 장서/관계)은 scss/component/_grimoire.scss로 일원화.

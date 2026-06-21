@@ -116,7 +116,7 @@
                 </div>
               </div>
               <div class="mg-gauge">
-                <div class="mg-gauge__head"><span class="mg-gauge__icon">◇</span>일시 마력</div>
+                <div class="mg-gauge__head">일시적 마력</div>
                 <div class="mg-gauge__body">
                   <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
                 </div>
@@ -133,16 +133,28 @@
           </div>
         </div>
 
-        <div class="mg-divider"><img src="systems/magicalogia/assets/divider.png" alt="" /></div>
+        <div class="mg-hline"><img src="systems/magicalogia/assets/flourish-line.png" alt="" /></div>
 
-        <div class="mg-status">
-          <span class="mg-status__title"><span class="mark">❖</span>상태이상</span>
-          <span class="mg-status__list">
-            {{#each statuses}}
-            <span class="mg-status__chip {{#if this.active}}is-active{{/if}}" data-action="toggleStatus" data-status="{{this.key}}"><span class="mg-status__mark">✓</span>{{this.label}}</span>
-            {{/each}}
-          </span>
+        <div class="mg-statusbar">
+          <div class="mg-status">
+            <span class="mg-status__title"><span class="mark">❖</span>상태이상</span>
+            <span class="mg-status__list">
+              {{#each statuses}}
+              <span class="mg-status__chip {{#if this.active}}is-active{{/if}}" data-action="toggleStatus" data-status="{{this.key}}"><span class="mg-status__mark">✓</span>{{this.label}}</span>
+              {{/each}}
+            </span>
+          </div>
+          <div class="mg-toolbar">
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">가변특기</span><span class="mg-toolbtn__val">{{#if system.variableSkill}}{{system.variableSkill}}{{else}}노래{{/if}}</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">운명 변전</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">장면 표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">펌블 표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">사건 표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">주사위</span><span class="mg-toolbtn__val">{{#if system.dice}}{{system.dice}}{{else}}D6{{/if}}</span></button>
+          </div>
         </div>
+
+        <div class="mg-hline"><img src="systems/magicalogia/assets/flourish-line.png" alt="" /></div>
 
         <div class="mg-shared">
           <div class="mg-subtabs">
@@ -151,37 +163,6 @@
           </div>
 
           {{> "systems/magicalogia/templates/actor/parts/magic-chart.hbs"}}
-
-          <div class="mg-belowgrid">
-            <div class="mg-memo">
-              <span class="mg-memo__label">메 모</span>
-              {{#if editable}}
-                <prose-mirror name="system.biography" button="true" editable="{{editable}}" toggled="false" value="{{system.biography}}">{{{enrichedBiography}}}</prose-mirror>
-              {{else}}
-                {{{enrichedBiography}}}
-              {{/if}}
-            </div>
-            <div>
-              <div class="mg-banner mg-banner--inline" style="margin-bottom: 6px">
-                <span class="mg-banner__rule mg-banner__rule--l"></span>
-                <span class="mg-banner__label">주사위 및 각종 표</span>
-                <span class="mg-banner__rule mg-banner__rule--r"></span>
-              </div>
-              <div class="mg-tables">
-                <div class="mg-tablecard">
-                  <div class="mg-tablecard__head">가변특기</div>
-                  <div class="mg-tablecard__body mg-tablecard__body--select">
-                    <input class="mg-field__value" type="text" name="system.variableSkill" value="{{system.variableSkill}}" placeholder="—" /><span class="caret">▾</span>
-                  </div>
-                </div>
-                <div class="mg-tablecard"><div class="mg-tablecard__head">운명 변전</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
-                <div class="mg-tablecard"><div class="mg-tablecard__head">장면 표</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
-                <div class="mg-tablecard"><div class="mg-tablecard__head">주사위</div><div class="mg-tablecard__body mg-tablecard__body--roll">D6</div></div>
-                <div class="mg-tablecard"><div class="mg-tablecard__head">펌블 표</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
-                <div class="mg-tablecard"><div class="mg-tablecard__head">사건 표</div><div class="mg-tablecard__body mg-tablecard__body--btn">⚙</div></div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="mg-accordion">
@@ -217,6 +198,14 @@
           {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="신분" name="system.socialStatus" value=system.socialStatus}}
           {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="성별" name="system.gender" value=system.gender}}
           {{> "systems/magicalogia/templates/actor/parts/mg-field.hbs" label="연령" name="system.age" value=system.age}}
+        </div>
+        <div class="mg-memo" style="margin-top: 14px">
+          <span class="mg-memo__label">메 모</span>
+          {{#if editable}}
+            <prose-mirror name="system.biography" button="true" editable="{{editable}}" toggled="false" value="{{system.biography}}">{{{enrichedBiography}}}</prose-mirror>
+          {{else}}
+            {{{enrichedBiography}}}
+          {{/if}}
         </div>
       </div>
 
