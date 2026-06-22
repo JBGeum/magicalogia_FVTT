@@ -6,7 +6,6 @@ export default defineConfig({
     globals: true,
     environment: "node",
     include: ["test/**/*.{test,spec}.{js,mjs,ts,mts}"],
-    setupFiles: ["test/setup.mjs"],
     coverage: {
       reporter: ["text", "html"],
       include: ["module/**/*.{js,mjs,ts,mts}"],

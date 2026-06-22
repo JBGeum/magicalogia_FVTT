@@ -4,9 +4,6 @@
  * 남은(매칭 안 된) 공격 다이스 수 = 방어측 대미지.
  */
 
-import { BattleDiceDialog } from "../apps/battle-dice-dialog.mjs";
-import { sendWitnessResult } from "./battle-socket.mjs";
-
 // d6 pip 배치 (0..8 = 3×3 셀 인덱스). 시안 chat-card-helpers.js와 동일.
 const PIPS = {
   1: [4],
@@ -292,7 +289,9 @@ export function bindWitnessCardActions(message, html) {
     btn.disabled = true;
     return;
   }
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", async () => {
+    const { BattleDiceDialog } = await import("../apps/battle-dice-dialog.mjs");
+    const { sendWitnessResult } = await import("./battle-socket.mjs");
     const owned = game.actors.filter(
       (a) => a.type === "character" && a.testUserPermission(game.user, "OWNER"),
     );
