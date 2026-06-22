@@ -34,5 +34,8 @@
   {{#unless isFocus}}{{#unless isWitness}}<div class="mg-bdd__count">{{count}} / {{max}}</div>{{/unless}}{{/unless}}
   {{/if}}
 
+  {{#if showRandomSubmit}}
+  <button type="button" class="mg-bdd__random" data-action="randomSubmit" {{#if randomDisabled}}disabled{{/if}}>랜덤</button>
+  {{/if}}
   <button type="button" class="mg-bdd__submit" data-action="submit">확정</button>
 </div>

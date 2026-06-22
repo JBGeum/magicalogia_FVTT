@@ -22,6 +22,7 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       decN: BattleDiceDialog.#onDecN,
       setSide: BattleDiceDialog.#onSetSide,
       submit: BattleDiceDialog.#onSubmit,
+      randomSubmit: BattleDiceDialog.#onRandomSubmit,
     },
   };
 
@@ -51,6 +52,12 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
   get cap() {
     return this.focusMode || this.isWitness ? 2 : this.max;
   }
+  get showRandomSubmit() {
+    return this.mode === "attack" || this.mode === "defense";
+  }
+  get randomDisabled() {
+    return this.showRandomSubmit && this.max <= 0;
+  }
 
   get label() {
     if (this.isBoost) return "부스트 — 추가 다이스";
@@ -74,6 +81,8 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       max: this.max,
       atMax: !this.isBoost && this.dice.length >= this.cap,
       n: this.n,
+      showRandomSubmit: this.showRandomSubmit,
+      randomDisabled: this.randomDisabled,
     };
   }
 
@@ -142,6 +151,15 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       result = this.dice;
     }
     await this.onSubmit?.(result, extra);
+    this.close();
+  }
+
+  static async #onRandomSubmit() {
+    const n = this.max; // attack/defense 전용
+    if (n <= 0) return; // 능력치 0 이중 가드(버튼도 비활성)
+    const roll = await new Roll(`${n}d6`).evaluate();
+    const dice = roll.dice[0]?.results.map((r) => r.result) ?? [];
+    await this.onSubmit?.(dice); // focus 인코딩 없음, 순수 눈 배열
     this.close();
   }
 }
