@@ -207,6 +207,20 @@ export async function postBattleCard(
   });
 }
 
+/** 입회 가능 카드 발행(공개·라이트 고정). 교전 식별·전투원·closed flag 포함. */
+export async function postWitnessCard({ round, exchange, combatants }) {
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/witness-card.hbs",
+    { round, exchange },
+  );
+  return ChatMessage.create({
+    content,
+    flags: {
+      magicalogia: { witness: { round, exchange, combatants, closed: false } },
+    },
+  });
+}
+
 /** 부스트 카드 발행(표시 전용). focus=상대 집중 방어 눈(공격측 부스트 시). */
 export async function postBoostCard(actor, { n, dice, struck, focus = null }) {
   const speaker = ChatMessage.getSpeaker({ actor });

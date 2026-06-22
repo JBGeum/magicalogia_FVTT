@@ -1,0 +1,14 @@
+{{!
+  입회 가능 카드 (공개 발행·라이트 고정). 데이터: postWitnessCard()
+  '입회 참여' 버튼 → bindWitnessCardActions. closed면 비활성("마감").
+}}
+<div class="magicalogia theme-light">
+  <div class="mg-card mg-witness-card">
+    <div class="mg-card__head">
+      <span class="mg-card__who">입회 가능 · {{round}}라운드 · 교전{{exchange}}</span>
+    </div>
+    <div class="mg-card__body">
+      <button type="button" class="mg-apply" data-action="witness-join">입회 참여</button>
+    </div>
+  </div>
+</div>
