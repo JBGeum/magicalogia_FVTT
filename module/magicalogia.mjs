@@ -16,7 +16,7 @@ import { MagicalogiaItemSheet } from "./sheets/item-sheet.mjs";
 import { MAGICALOGIA } from "./helpers/config.mjs";
 import { preloadHandlebarsTemplates, registerHandlebarsHelpers } from "./helpers/templates.mjs";
 import { registerThemeSetting } from "./helpers/theme.mjs";
-import { bindBattleCardActions } from "./system/magic-battle.mjs";
+import { bindBattleCardActions, bindWitnessCardActions } from "./system/magic-battle.mjs";
 import { registerBattleSocket } from "./system/battle-socket.mjs";
 import { MagicBattlePanel } from "./apps/magic-battle-panel.mjs";
 
@@ -57,6 +57,7 @@ Hooks.once("init", async function () {
 // 채팅 카드 적용 버튼 위임 바인딩. V13: renderChatMessageHTML(html=HTMLElement).
 Hooks.on("renderChatMessageHTML", (message, html) => {
   bindBattleCardActions(message, html);
+  bindWitnessCardActions(message, html);
 });
 
 Hooks.once("ready", registerBattleSocket);

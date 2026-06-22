@@ -4,6 +4,9 @@
  * 남은(매칭 안 된) 공격 다이스 수 = 방어측 대미지.
  */
 
+import { BattleDiceDialog } from "../apps/battle-dice-dialog.mjs";
+import { sendWitnessResult } from "./battle-socket.mjs";
+
 // d6 pip 배치 (0..8 = 3×3 셀 인덱스). 시안 chat-card-helpers.js와 동일.
 const PIPS = {
   1: [4],
@@ -275,5 +278,41 @@ export function bindBattleCardActions(message, html) {
   btn.addEventListener("click", () => {
     btn.disabled = true;
     applyBattleDamage(message);
+  });
+}
+
+/** 입회 카드의 '입회 참여' 버튼 바인딩(renderChatMessageHTML 훅에서 호출). */
+export function bindWitnessCardActions(message, html) {
+  const btn = html.querySelector('[data-action="witness-join"]');
+  if (!btn) return;
+  const f = message.getFlag("magicalogia", "witness");
+  if (!f) return;
+  if (f.closed) {
+    btn.textContent = "마감";
+    btn.disabled = true;
+    return;
+  }
+  btn.addEventListener("click", () => {
+    const owned = game.actors.filter(
+      (a) => a.type === "character" && a.testUserPermission(game.user, "OWNER"),
+    );
+    const actor = eligibleWitnessActor(f.combatants, owned);
+    if (!actor) {
+      ui.notifications.warn("입회 가능한 캐릭터가 없습니다.");
+      return;
+    }
+    new BattleDiceDialog({
+      mode: "witness",
+      prompt: `${actor.name} 입회`,
+      onSubmit: (dice, extra) =>
+        sendWitnessResult({
+          round: f.round,
+          exchange: f.exchange,
+          actorId: actor.id,
+          name: actor.name,
+          side: extra?.side ?? "defense",
+          dice,
+        }),
+    }).render(true);
   });
 }
