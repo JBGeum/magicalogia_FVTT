@@ -22,11 +22,14 @@
     {{#if allowFocus}}
     <button type="button" class="mg-bdd__face mg-bdd__face--focus{{#if isFocus}} is-on{{/if}}" data-action="addDie" data-value="0" title="집중 방어">집중</button>
     {{/if}}
+    {{#if showRandomAdd}}
+    <button type="button" class="mg-bdd__face mg-bdd__face--random" data-action="addRandomDie" {{#if atMax}}disabled{{/if}}>랜덤</button>
+    {{/if}}
   </div>
   {{#if isFocus}}<div class="mg-bdd__focushint">집중 방어 — 상쇄할 눈 최대 2개(그 눈은 전부 상쇄)</div>{{/if}}
   <div class="mg-bdd__chosen">
     {{#each dice}}
-    <button type="button" class="mg-bdd__chip" data-action="removeDie" data-index="{{@index}}">{{this}} ✕</button>
+    <button type="button" class="mg-bdd__chip" data-action="removeDie" data-index="{{@index}}">{{#if hidden}}[랜덤 {{order}}]{{else}}{{v}}{{/if}} ✕</button>
     {{else}}
     <span class="mg-bdd__empty">선택한 다이스 없음</span>
     {{/each}}

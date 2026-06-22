@@ -23,6 +23,7 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       setSide: BattleDiceDialog.#onSetSide,
       submit: BattleDiceDialog.#onSubmit,
       randomSubmit: BattleDiceDialog.#onRandomSubmit,
+      addRandomDie: BattleDiceDialog.#onAddRandomDie,
     },
   };
 
@@ -38,6 +39,7 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
     this.onSubmit = options.onSubmit ?? null;
     this.allowFocus = options.allowFocus ?? false;
     this.dice = []; // 일반/입회: 선택 눈; 집중: 대상 눈(0 마커 제외)
+    this.hidden = []; // this.dice와 인덱스 동기: true=랜덤(값 숨김)
     this.n = 1;
     this.focusMode = false;
     this.side = "defense"; // witness 기본
@@ -58,6 +60,9 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
   get randomDisabled() {
     return this.showRandomSubmit && this.max <= 0;
   }
+  get showRandomAdd() {
+    return this.isWitness;
+  }
 
   get label() {
     if (this.isBoost) return "부스트 — 추가 다이스";
@@ -76,7 +81,14 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       label: this.label,
       prompt: this.prompt,
       faces: [1, 2, 3, 4, 5, 6],
-      dice: this.dice,
+      dice: (() => {
+        let order = 0;
+        return this.dice.map((v, i) => {
+          const hidden = this.hidden[i] ?? false;
+          return { v, hidden, order: hidden ? (order += 1) : 0 };
+        });
+      })(),
+      showRandomAdd: this.showRandomAdd,
       count: this.dice.length,
       max: this.max,
       atMax: !this.isBoost && this.dice.length >= this.cap,
@@ -97,6 +109,7 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       // 집중 방어 토글
       this.focusMode = !this.focusMode;
       this.dice = [];
+      this.hidden = [];
       this.render();
       return;
     }
@@ -110,11 +123,23 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
     if (this.isBoost) return;
     if (this.dice.length >= this.cap) return;
     this.dice.push(v);
+    this.hidden.push(false);
+    this.render();
+  }
+
+  static async #onAddRandomDie() {
+    if (this.dice.length >= this.cap) return; // witness cap=2
+    const roll = await new Roll("1d6").evaluate();
+    const v = roll.dice[0]?.results[0]?.result ?? 1;
+    this.dice.push(v);
+    this.hidden.push(true); // 값 숨김
     this.render();
   }
 
   static #onRemoveDie(_event, target) {
-    this.dice.splice(Number(target.dataset.index), 1);
+    const i = Number(target.dataset.index);
+    this.dice.splice(i, 1);
+    this.hidden.splice(i, 1);
     this.render();
   }
 
