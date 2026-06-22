@@ -1,5 +1,10 @@
 import { applyTheme } from "../helpers/theme.mjs";
-import { resolveExchange, postBattleCard, postBoostCard } from "../system/magic-battle.mjs";
+import {
+  resolveExchange,
+  postBattleCard,
+  postBoostCard,
+  postWitnessCard,
+} from "../system/magic-battle.mjs";
 import { BattleDiceDialog } from "./battle-dice-dialog.mjs";
 import { requestPick, requestBoost } from "../system/battle-socket.mjs";
 
@@ -56,8 +61,8 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     this.reqs = { attack: null, defense: null };
     this.lastResult = null;
     this.lastRoles = null;
-    this.witnessReqs = {};
     this.witnessPicks = [];
+    this.witnessCardId = null;
   }
 
   get _attacker() {
@@ -90,14 +95,10 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
       attackReady: this.picks.attack !== null,
       defenseReady: this.picks.defense !== null,
       bothReady: this.picks.attack !== null && this.picks.defense !== null,
-      witnessStatus: Object.values(this.witnessReqs).map((r) => {
-        const w = this.witnessPicks.find((p) => p.actorId === r.actorId);
-        return {
-          name: r.name,
-          submitted: !!w,
-          sideLabel: w ? (w.side === "attack" ? "공격" : "방어") : "",
-        };
-      }),
+      witnessStatus: this.witnessPicks.map((w) => ({
+        name: w.name,
+        sideLabel: w.side === "attack" ? "공격" : "방어",
+      })),
     };
   }
 
@@ -133,8 +134,13 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     this.render();
     await this._requestPick("attack", this._attacker);
     await this._requestPick("defense", this._defender);
-    this.witnessReqs = {};
     this.witnessPicks = [];
+    const card = await postWitnessCard({
+      round: this.round,
+      exchange: n,
+      combatants: [this.firstId, this.secondId],
+    });
+    this.witnessCardId = card?.id ?? null;
   }
 
   async _requestPick(role, actor) {
@@ -165,14 +171,14 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
   }
 
   _receiveWitness(msg) {
-    const req = this.witnessReqs[msg.reqId];
-    if (!req) return;
-    this.witnessPicks = this.witnessPicks.filter((w) => w.actorId !== req.actorId); // 덮어쓰기
+    // 현 교전 & 미공개일 때만 수용. 마감 후·타 교전 제출은 무시(미선택 = GM 재량 pass와 정합).
+    if (msg.round !== this.round || msg.exchange !== this.exchange || this.revealed) return;
+    this.witnessPicks = this.witnessPicks.filter((w) => w.actorId !== msg.actorId); // 덮어쓰기
     const dice = Array.isArray(msg.dice) ? msg.dice.slice(0, 2) : [];
     if (dice.length) {
       this.witnessPicks.push({
-        actorId: req.actorId,
-        name: req.name,
+        actorId: msg.actorId,
+        name: msg.name,
         side: msg.side === "attack" ? "attack" : "defense",
         dice,
       });
@@ -206,6 +212,13 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     if (!attacker || !defender) {
       ui.notifications.warn("대상 액터를 찾을 수 없습니다. 마법전을 다시 개시하세요.");
       return;
+    }
+    if (this.witnessCardId) {
+      const card = game.messages.get(this.witnessCardId);
+      if (card) {
+        const wf = card.getFlag("magicalogia", "witness");
+        await card.setFlag("magicalogia", "witness", { ...wf, closed: true });
+      }
     }
     const witnesses = this.witnessPicks;
     await postBattleCard(attacker, defender, {
