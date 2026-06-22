@@ -305,6 +305,41 @@ export function bindWitnessCardActions(message, html) {
   btn.addEventListener("click", async () => {
     const { BattleDiceDialog } = await import("../apps/battle-dice-dialog.mjs");
     const { sendWitnessResult } = await import("./battle-socket.mjs");
+    if (game.user.isGM) {
+      // GM: 소유자 없는 비전투 character 중 선택.
+      const actors = game.actors
+        .filter((a) => a.type === "character")
+        .map((a) => ({
+          id: a.id,
+          name: a.name,
+          hasPlayerOwner: game.users.some(
+            (u) => u.active && !u.isGM && a.testUserPermission(u, "OWNER"),
+          ),
+        }));
+      const candidates = npcWitnessCandidates(f.combatants, actors);
+      if (!candidates.length) {
+        ui.notifications.warn("입회 가능한 NPC/미할당 PC가 없습니다.");
+        return;
+      }
+      new BattleDiceDialog({
+        mode: "witness",
+        prompt: "NPC 입회",
+        actors: candidates,
+        onSubmit: (dice, extra) => {
+          const a = candidates.find((c) => c.id === extra?.actorId) ?? candidates[0];
+          sendWitnessResult({
+            round: f.round,
+            exchange: f.exchange,
+            actorId: a.id,
+            name: a.name,
+            side: extra?.side ?? "defense",
+            dice,
+          });
+        },
+      }).render(true);
+      return;
+    }
+    // PL: 본인 소유 비전투 character 첫 1명 자동.
     const owned = game.actors.filter(
       (a) => a.type === "character" && a.testUserPermission(game.user, "OWNER"),
     );
