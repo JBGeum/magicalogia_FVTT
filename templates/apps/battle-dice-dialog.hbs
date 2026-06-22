@@ -22,8 +22,11 @@
     {{#if allowFocus}}
     <button type="button" class="mg-bdd__face mg-bdd__face--focus{{#if isFocus}} is-on{{/if}}" data-action="addDie" data-value="0" title="집중 방어">집중</button>
     {{/if}}
+    {{#if showRandomSubmit}}
+    <button type="button" class="mg-bdd__face mg-bdd__face--random" data-action="randomSubmit" title="랜덤 자동 제출" {{#if randomDisabled}}disabled{{/if}}><i class="fa-solid fa-dice-d6"></i></button>
+    {{/if}}
     {{#if showRandomAdd}}
-    <button type="button" class="mg-bdd__face mg-bdd__face--random" data-action="addRandomDie" {{#if atMax}}disabled{{/if}}>랜덤</button>
+    <button type="button" class="mg-bdd__face mg-bdd__face--random" data-action="addRandomDie" title="랜덤 추가" {{#if atMax}}disabled{{/if}}><i class="fa-solid fa-dice-d6"></i></button>
     {{/if}}
   </div>
   {{#if isFocus}}<div class="mg-bdd__focushint">집중 방어 — 상쇄할 눈 최대 2개(그 눈은 전부 상쇄)</div>{{/if}}
@@ -37,8 +40,5 @@
   {{#unless isFocus}}{{#unless isWitness}}<div class="mg-bdd__count">{{count}} / {{max}}</div>{{/unless}}{{/unless}}
   {{/if}}
 
-  {{#if showRandomSubmit}}
-  <button type="button" class="mg-bdd__random" data-action="randomSubmit" {{#if randomDisabled}}disabled{{/if}}>랜덤</button>
-  {{/if}}
   <button type="button" class="mg-bdd__submit" data-action="submit">확정</button>
 </div>

@@ -53,6 +53,10 @@
       border-style: solid;
     }
   }
+  &__face--random {
+    color: var(--mg-gold);
+    border-color: var(--mg-gold);
+  }
   &__sides {
     display: flex;
     gap: 6px;
