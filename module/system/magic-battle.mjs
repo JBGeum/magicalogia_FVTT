@@ -34,6 +34,16 @@ export function renderBattleDie(v, st, witness = false) {
 }
 
 /**
+ * 입회 가능 액터 판정: 소유 액터 중 전투원이 아닌 첫 1명. 없으면 null.
+ * @param {string[]} combatantIds 현 교전 전투원 액터 id (선공·후공)
+ * @param {{id:string}[]} ownedActors 클릭자 소유 활성 캐릭터 액터
+ */
+export function eligibleWitnessActor(combatantIds, ownedActors) {
+  const inBattle = new Set(combatantIds);
+  return ownedActors.find((a) => !inBattle.has(a.id)) ?? null;
+}
+
+/**
  * 공격/방어 상쇄.
  * 인코딩: defense에 0(집중 마커)이 있으면 0 "앞" 값들=집중 대상 눈(focus, 0~2개, 각 무제한 상쇄),
  *   0 "뒤" 값들=일반 1:1 다이스(방어자 잔여/입회인 가산). 0이 없으면 전부 1:1.

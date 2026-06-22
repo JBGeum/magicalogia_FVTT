@@ -4,6 +4,7 @@ import {
   renderBattleDie,
   buildBattleCard,
   buildBoostCard,
+  eligibleWitnessActor,
 } from "../module/system/magic-battle.mjs";
 
 describe("resolveExchange", () => {
@@ -247,5 +248,24 @@ describe("buildBoostCard", () => {
   it("focus는 struck 항목을 소비하지 않음: dice [4,4], struck [4], focus [4] → 둘 다 focus로 cancel(struck 미소비)", () => {
     const c = buildBoostCard({ who: "x", n: 2, dice: [4, 4], struck: [4], focus: [4] });
     expect(c.dice.map((d) => d.st)).toEqual(["cancel", "cancel"]);
+  });
+});
+
+describe("eligibleWitnessActor", () => {
+  const A = (id) => ({ id });
+  it("전투원 2명 제외하고 첫 비전투 액터 반환", () => {
+    const owned = [A("f1"), A("w1"), A("w2")];
+    expect(eligibleWitnessActor(["f1", "s2"], owned)).toBe(owned[1]);
+  });
+  it("소유 액터가 전부 전투원이면 null", () => {
+    const owned = [A("f1"), A("s2")];
+    expect(eligibleWitnessActor(["f1", "s2"], owned)).toBe(null);
+  });
+  it("빈 소유 목록이면 null", () => {
+    expect(eligibleWitnessActor(["f1", "s2"], [])).toBe(null);
+  });
+  it("비전투 다중 소유면 목록 순서상 첫 1명", () => {
+    const owned = [A("w1"), A("w2")];
+    expect(eligibleWitnessActor([], owned)).toBe(owned[0]);
   });
 });
