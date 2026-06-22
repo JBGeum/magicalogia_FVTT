@@ -10,6 +10,11 @@
   </div>
   {{else}}
   {{#if isWitness}}
+  {{#if showActorSelect}}
+  <select class="mg-bdd__actorsel" data-witness-actor>
+    {{#each actors}}<option value="{{id}}" {{selected (eq id ../witnessActorId)}}>{{name}}</option>{{/each}}
+  </select>
+  {{/if}}
   <div class="mg-bdd__sides">
     <button type="button" class="mg-bdd__side{{#if (eq side "attack")}} is-on{{/if}}" data-action="setSide" data-side="attack">공격</button>
     <button type="button" class="mg-bdd__side{{#if (eq side "defense")}} is-on{{/if}}" data-action="setSide" data-side="defense">방어</button>

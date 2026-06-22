@@ -43,6 +43,8 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
     this.n = 1;
     this.focusMode = false;
     this.side = "defense"; // witness 기본
+    this.actors = options.actors ?? null; // GM 입회: 선택 후보 [{id,name}]
+    this.witnessActorId = this.actors?.[0]?.id ?? null;
   }
 
   get isBoost() {
@@ -62,6 +64,10 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
   }
   get showRandomAdd() {
     return this.isWitness;
+  }
+
+  get showActorSelect() {
+    return this.isWitness && Array.isArray(this.actors) && this.actors.length > 0;
   }
 
   get label() {
@@ -95,12 +101,18 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       n: this.n,
       showRandomSubmit: this.showRandomSubmit,
       randomDisabled: this.randomDisabled,
+      showActorSelect: this.showActorSelect,
+      actors: this.actors,
+      witnessActorId: this.witnessActorId,
     };
   }
 
   _onRender(context, options) {
     super._onRender?.(context, options);
     applyTheme(this.element);
+    // <select> change는 ApplicationV2 click-action으로 안 잡혀 직접 바인딩.
+    const sel = this.element.querySelector("select[data-witness-actor]");
+    if (sel) sel.addEventListener("change", (e) => (this.witnessActorId = e.target.value));
   }
 
   static #onAddDie(_event, target) {
@@ -169,7 +181,7 @@ export class BattleDiceDialog extends HandlebarsApplicationMixin(ApplicationV2) 
       result = roll.dice[0]?.results.map((r) => r.result) ?? [];
     } else if (this.isWitness) {
       result = this.dice;
-      extra = { side: this.side };
+      extra = { side: this.side, actorId: this.witnessActorId };
     } else if (this.focusMode) {
       result = [...this.dice, 0]; // [v1,(v2),0]
     } else {
