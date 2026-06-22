@@ -1,7 +1,7 @@
 import { applyTheme } from "../helpers/theme.mjs";
 import { resolveExchange, postBattleCard, postBoostCard } from "../system/magic-battle.mjs";
 import { BattleDiceDialog } from "./battle-dice-dialog.mjs";
-import { requestPick, requestBoost, requestWitness } from "../system/battle-socket.mjs";
+import { requestPick, requestBoost } from "../system/battle-socket.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -135,7 +135,6 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
     await this._requestPick("defense", this._defender);
     this.witnessReqs = {};
     this.witnessPicks = [];
-    this._requestWitnesses();
   }
 
   async _requestPick(role, actor) {
@@ -162,24 +161,6 @@ export class MagicBattlePanel extends HandlebarsApplicationMixin(ApplicationV2) 
         prompt,
         onSubmit: (dice) => this._setPick(role, dice),
       }).render(true);
-    }
-  }
-
-  _requestWitnesses() {
-    const combatants = new Set([this.firstId, this.secondId]);
-    for (const actor of game.actors) {
-      if (actor.type !== "character" || combatants.has(actor.id)) continue;
-      const owner = this._ownerUser(actor);
-      if (!owner) continue; // 활성 비-GM 소유자 없는 PC/NPC 제외
-      const reqId = foundry.utils.randomID();
-      this.witnessReqs[reqId] = { actorId: actor.id, name: actor.name };
-      requestWitness({
-        reqId,
-        userId: owner.id,
-        actorId: actor.id,
-        name: actor.name,
-        prompt: `${actor.name} 입회`,
-      });
     }
   }
 
