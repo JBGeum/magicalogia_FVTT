@@ -44,6 +44,19 @@ export function eligibleWitnessActor(combatantIds, ownedActors) {
 }
 
 /**
+ * GM 입회 후보: 전투원 아니고 활성 PL 소유자 없는 액터.
+ * @param {string[]} combatantIds 현 교전 전투원 id
+ * @param {{id:string,name:string,hasPlayerOwner:boolean}[]} actors 후보군(type 필터·소유 플래그는 호출부 계산)
+ * @returns {{id:string,name:string}[]}
+ */
+export function npcWitnessCandidates(combatantIds, actors) {
+  const inBattle = new Set(combatantIds);
+  return actors
+    .filter((a) => !inBattle.has(a.id) && !a.hasPlayerOwner)
+    .map((a) => ({ id: a.id, name: a.name }));
+}
+
+/**
  * 공격/방어 상쇄.
  * 인코딩: defense에 0(집중 마커)이 있으면 0 "앞" 값들=집중 대상 눈(focus, 0~2개, 각 무제한 상쇄),
  *   0 "뒤" 값들=일반 1:1 다이스(방어자 잔여/입회인 가산). 0이 없으면 전부 1:1.

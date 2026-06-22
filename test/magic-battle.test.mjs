@@ -5,6 +5,7 @@ import {
   buildBattleCard,
   buildBoostCard,
   eligibleWitnessActor,
+  npcWitnessCandidates,
 } from "../module/system/magic-battle.mjs";
 
 describe("resolveExchange", () => {
@@ -267,5 +268,27 @@ describe("eligibleWitnessActor", () => {
   it("비전투 다중 소유면 목록 순서상 첫 1명", () => {
     const owned = [A("w1"), A("w2")];
     expect(eligibleWitnessActor([], owned)).toBe(owned[0]);
+  });
+});
+
+describe("npcWitnessCandidates", () => {
+  const A = (id, hasPlayerOwner) => ({ id, name: id, hasPlayerOwner });
+  it("전투원·소유자있는 액터 제외, 소유자 없는 비전투만 {id,name}로", () => {
+    const actors = [A("f1", false), A("pc1", true), A("npc1", false), A("npc2", false)];
+    expect(npcWitnessCandidates(["f1", "s2"], actors)).toEqual([
+      { id: "npc1", name: "npc1" },
+      { id: "npc2", name: "npc2" },
+    ]);
+  });
+  it("전부 전투원 또는 소유자 있으면 []", () => {
+    const actors = [A("f1", false), A("pc1", true)];
+    expect(npcWitnessCandidates(["f1", "s2"], actors)).toEqual([]);
+  });
+  it("빈 입력 → []", () => {
+    expect(npcWitnessCandidates(["f1"], [])).toEqual([]);
+  });
+  it("반환 순서 = 입력 순서", () => {
+    const actors = [A("b", false), A("a", false)];
+    expect(npcWitnessCandidates([], actors).map((c) => c.id)).toEqual(["b", "a"]);
   });
 });
