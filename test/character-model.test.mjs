@@ -76,7 +76,6 @@ describe("CharacterDataModel", () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     const s = CharacterDataModel.defineSchema();
     for (const key of [
-      "tempName",
       "career",
       "magicName",
       "organization",

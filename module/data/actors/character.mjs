@@ -32,8 +32,7 @@ export class CharacterDataModel extends BaseActorModel {
       soulSkill: new fields.StringField({ initial: "" }),
       variableSkill: new fields.StringField({ initial: "" }),
 
-      // 시안 헤더 식별 필드
-      tempName: new fields.StringField({ initial: "" }),
+      // 시안 헤더 식별 필드 — '임시 이름'은 문서 name(표시명)으로 직접 편집한다.
       career: new fields.StringField({ initial: "" }),
       magicName: new fields.StringField({ initial: "" }),
       organization: new fields.StringField({ initial: "" }),
