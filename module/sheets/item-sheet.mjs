@@ -57,6 +57,7 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
     if (this.item.type === "spell") {
       context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
       context.costAreas = CONFIG.MAGICALOGIA.COST_AREAS;
+      context.summonAttrs = CONFIG.MAGICALOGIA.attributes;
     } else if (this.item.type === "anchor") {
       context.anchorAttrs = CONFIG.MAGICALOGIA.anchorAttrs;
     }
