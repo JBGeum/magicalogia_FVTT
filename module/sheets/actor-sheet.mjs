@@ -1,6 +1,7 @@
 import { computeTable } from "../system/specialty-table.mjs";
 import { rollSpecialty, rollSoulSkill } from "../system/specialty-roll.mjs";
 import { castSpell } from "../system/spell-cast.mjs";
+import { summonFamiliar } from "../system/familiar-summon.mjs";
 import { postChargeCard } from "../system/spell-charge.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 import { formatCost } from "../helpers/config.mjs";
@@ -236,9 +237,15 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     target.closest(".mg-accordion")?.classList.toggle("is-open", this._accOpen[key]);
   }
 
-  /** 그리모어 행 ✦ 클릭 → 장서 시전 카드 출력. */
+  /** 그리모어 행 ✦ 클릭 → 소환 장서면 원형 소환, 아니면 시전 카드. */
   static async #onCastSpell(_event, target) {
-    await castSpell(this.actor, target.dataset.itemId);
+    const spell = this.actor.items.get(target.dataset.itemId);
+    if (!spell) return;
+    if ((spell.system.familiarUuid ?? "").trim()) {
+      await summonFamiliar(this.actor, spell);
+    } else {
+      await castSpell(this.actor, target.dataset.itemId);
+    }
   }
 
   /** 렌더 후: 장서/관계 행 더블클릭→시트 열기, 우클릭→삭제. */
