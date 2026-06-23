@@ -9,6 +9,9 @@ export class MagicalogiaFamiliarSheet extends HandlebarsApplicationMixin(ActorSh
     classes: ["magicalogia", "sheet", "actor", "familiar"],
     position: { width: 420, height: "auto" },
     window: { resizable: true },
+    actions: {
+      editImg: MagicalogiaFamiliarSheet.#onEditImg,
+    },
     form: {
       handler: MagicalogiaFamiliarSheet.#onSubmit,
       submitOnChange: true,
@@ -49,6 +52,16 @@ export class MagicalogiaFamiliarSheet extends HandlebarsApplicationMixin(ActorSh
   _onRender(context, options) {
     super._onRender?.(context, options);
     applyTheme(this.element);
+  }
+
+  /** 초상화 클릭 → FilePicker로 원형 이미지 교체. */
+  static async #onEditImg() {
+    const fp = new foundry.applications.apps.FilePicker.implementation({
+      type: "image",
+      current: this.actor.img,
+      callback: (path) => this.actor.update({ img: path }),
+    });
+    return fp.browse();
   }
 
   static async #onSubmit(_event, _form, formData) {

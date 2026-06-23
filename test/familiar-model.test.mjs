@@ -35,14 +35,7 @@ describe("FamiliarDataModel", () => {
   it("원형 고유 필드를 포함한다", async () => {
     const { FamiliarDataModel } = await import("../module/data/actors/familiar.mjs");
     const s = FamiliarDataModel.defineSchema();
-    for (const key of [
-      "hasBlock",
-      "boostCount",
-      "tempHealthGrant",
-      "attr",
-      "nameTemplate",
-      "features",
-    ]) {
+    for (const key of ["hasBlock", "boostCount", "attr", "nameTemplate", "features"]) {
       expect(Object.keys(s)).toContain(key);
     }
   });

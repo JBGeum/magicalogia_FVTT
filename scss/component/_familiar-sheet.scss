@@ -1,0 +1,95 @@
+// 원형(familiar) 시트 — 읽기 중심 단순 레이아웃. 신규 색 토큰 없음.
+.mg-familiar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  // 초상화: 200x200 고정, 클릭 시 FilePicker.
+  &__img {
+    flex: 0 0 auto;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  &__head input[name="name"] {
+    flex: 1 1 auto;
+    font-size: 1.1rem;
+  }
+
+  &__stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+  }
+
+  &__hint {
+    font-size: 0.75em;
+    opacity: 0.65;
+  }
+
+  &__features {
+    h3 {
+      margin: 0 0 0.25rem;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// 원형 토큰 hover HUD — 화면 고정 오버레이(요소에 magicalogia.theme-light 동반).
+.mg-fam-hud {
+  position: fixed;
+  z-index: 100;
+  transform: translate(-50%, calc(-100% - 10px));
+  pointer-events: none;
+  max-width: 260px;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  background: var(--mg-paper);
+  color: var(--mg-ink);
+  border: 1px solid var(--mg-line);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+
+  &__name {
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  &__attr {
+    font-weight: 400;
+    opacity: 0.7;
+    font-size: 0.85em;
+  }
+  &__stats {
+    margin-bottom: 0.2rem;
+  }
+  &__features {
+    margin-top: 0.3rem;
+    padding-top: 0.3rem;
+    border-top: 1px solid var(--mg-line);
+
+    p {
+      margin: 0 0 0.2rem;
+    }
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
