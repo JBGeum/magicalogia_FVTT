@@ -16,7 +16,8 @@
   "packs": [],
   "documentTypes": {
     "Actor": {
-      "character": {}
+      "character": {},
+      "familiar": {}
     },
     "Item": {
       "generic": {},

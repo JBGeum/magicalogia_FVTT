@@ -6,6 +6,7 @@ import { MagicalogiaActor } from "./documents/actor.mjs";
 import { MagicalogiaItem } from "./documents/item.mjs";
 // DataModels
 import { CharacterDataModel } from "./data/actors/character.mjs";
+import { FamiliarDataModel } from "./data/actors/familiar.mjs";
 import { GenericItemDataModel } from "./data/items/generic.mjs";
 import { SpellDataModel } from "./data/items/spell.mjs";
 import { AnchorDataModel } from "./data/items/anchor.mjs";
@@ -33,6 +34,7 @@ Hooks.once("init", async function () {
 
   CONFIG.Actor.dataModels = {
     character: CharacterDataModel,
+    familiar: FamiliarDataModel,
   };
   CONFIG.Item.dataModels = {
     generic: GenericItemDataModel,
