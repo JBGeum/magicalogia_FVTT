@@ -46,6 +46,8 @@ describe("SpellDataModel", () => {
       "active",
       "recite",
       "effect",
+      "familiarUuid",
+      "familiarVarAttr",
     ]) {
       expect(Object.keys(s)).toContain(key);
     }
@@ -78,5 +80,23 @@ describe("SpellDataModel", () => {
     const { SpellDataModel } = await import("../module/data/items/spell.mjs");
     const s = SpellDataModel.defineSchema();
     expect(s.tn.options.initial).toBe(5);
+  });
+  it("familiarUuid / familiarVarAttr 필드를 가진다", async () => {
+    const { SpellDataModel } = await import("../module/data/items/spell.mjs");
+    const s = SpellDataModel.defineSchema();
+    expect(Object.keys(s)).toContain("familiarUuid");
+    expect(Object.keys(s)).toContain("familiarVarAttr");
+  });
+  it("familiarVarAttr은 blank + 6속성 choices다", async () => {
+    const { SpellDataModel } = await import("../module/data/items/spell.mjs");
+    expect(SpellDataModel.defineSchema().familiarVarAttr.options.choices).toEqual([
+      "",
+      "star",
+      "beast",
+      "force",
+      "song",
+      "dream",
+      "dark",
+    ]);
   });
 });

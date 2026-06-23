@@ -33,6 +33,14 @@ export class SpellDataModel extends BaseItemModel {
       active: new fields.BooleanField({ initial: false }),
       recite: new fields.BooleanField({ initial: false }),
       effect: new fields.StringField({ initial: "" }),
+      // 소환 장서: 비면 일반 장서, UUID 있으면 원형(familiar) 소환 대상.
+      familiarUuid: new fields.StringField({ initial: "" }),
+      // 가변 특기 소환의 고정 영역(속성 key). 비면 완전 가변(1d6로 영역도 결정).
+      familiarVarAttr: new fields.StringField({
+        initial: "",
+        blank: true,
+        choices: ["", "star", "beast", "force", "song", "dream", "dark"],
+      }),
     };
   }
 }
