@@ -237,14 +237,13 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     target.closest(".mg-accordion")?.classList.toggle("is-open", this._accOpen[key]);
   }
 
-  /** 그리모어 행 ✦ 클릭 → 소환 장서면 원형 소환, 아니면 시전 카드. */
+  /** 그리모어 행 ✦ 클릭 → 시전 카드(항상). 소환 장서는 판정 성공 시에만 원형 소환. */
   static async #onCastSpell(_event, target) {
     const spell = this.actor.items.get(target.dataset.itemId);
     if (!spell) return;
-    if ((spell.system.familiarUuid ?? "").trim()) {
+    const result = await castSpell(this.actor, target.dataset.itemId);
+    if (result?.success && (spell.system.familiarUuid ?? "").trim()) {
       await summonFamiliar(this.actor, spell);
-    } else {
-      await castSpell(this.actor, target.dataset.itemId);
     }
   }
 

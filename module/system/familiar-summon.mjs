@@ -57,8 +57,9 @@ export async function summonFamiliar(caster, spell) {
 
   // 지정특기 확정 (가변이면 자동 굴림).
   let summonSkill = spell.system.skill ?? "";
+  const variable = summonSkill === "가변";
   const rolls = [];
-  if (summonSkill === "가변") {
+  if (variable) {
     const fixed = spell.system.familiarVarAttr || "";
     let attrDie;
     if (!fixed) {
@@ -73,11 +74,14 @@ export async function summonFamiliar(caster, spell) {
 
   const tokenName = buildTokenName(master.name, master.system.nameTemplate, summonSkill);
 
-  // 배치 위치: 소환자 토큰 옆 칸, 없으면 씬 중앙.
+  // 배치 위치: 소환자 토큰 기준 한 칸 간격 띄운 아래(x 정렬), 없으면 씬 중앙.
   const grid = canvas.grid?.size ?? 100;
   const casterToken = caster.getActiveTokens?.()[0] ?? null;
   const pos = casterToken
-    ? { x: casterToken.x + grid, y: casterToken.y }
+    ? {
+        x: casterToken.x,
+        y: casterToken.y + (casterToken.document.height ?? 1) * grid + grid,
+      }
     : { x: (canvas.scene?.width ?? grid) / 2, y: (canvas.scene?.height ?? grid) / 2 };
 
   // 마스터 prototypeToken → TokenDocument(unlinked).
@@ -91,14 +95,38 @@ export async function summonFamiliar(caster, spell) {
   // 귀속 기록 + 소환자 ownership 복제(델타 actor에 반영).
   foundry.utils.setProperty(data, "flags.magicalogia.summonerId", caster.id);
   foundry.utils.setProperty(data, "delta.ownership", foundry.utils.deepClone(caster.ownership));
+  // 블록 보유 원형: 토큰 HP bar(health)를 기본 표시.
+  if (master.system.hasBlock) {
+    foundry.utils.setProperty(data, "bar1.attribute", "health");
+    foundry.utils.setProperty(data, "displayBars", CONST.TOKEN_DISPLAY_MODES.ALWAYS);
+  }
 
   await canvas.scene.createEmbeddedDocuments("Token", [data]);
 
-  if (rolls.length) {
-    await ChatMessage.create({
-      speaker: ChatMessage.getSpeaker({ actor: caster }),
-      content: `<p>원형 소환 — 지정특기 <strong>${summonSkill}</strong></p>`,
-      rolls,
-    });
-  }
+  // 원형 정보 채팅 카드(가변이면 굴림 첨부).
+  await postFamiliarCard(caster, master, tokenName, summonSkill, variable, rolls);
+}
+
+/** 소환된 원형의 정보 채팅 카드를 출력. 라이트 고정. */
+async function postFamiliarCard(caster, master, name, skill, variable, rolls) {
+  const sys = master.system;
+  const attrTitle = sys.attr
+    ? (MAGICALOGIA.attributes.find((a) => a.key === sys.attr)?.title ?? "")
+    : "";
+  const speaker = ChatMessage.getSpeaker({ actor: caster });
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/familiar-card.hbs",
+    {
+      who: speaker.alias,
+      name,
+      skill,
+      variable,
+      attr: attrTitle,
+      hasBlock: sys.hasBlock,
+      health: sys.health,
+      boostCount: sys.boostCount,
+      features: sys.features,
+    },
+  );
+  await ChatMessage.create({ speaker, content, rolls });
 }

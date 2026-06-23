@@ -1,0 +1,30 @@
+<div class="magicalogia theme-light">
+  <div class="mg-card">
+    <div class="mg-card__head">
+      <span class="mg-card__sigil"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 3.6C6.6 2.6 3.7 2.6 2.2 3.1v9.3c1.5-.5 4.4-.5 5.8.5 1.4-1 4.3-1 5.8-.5V3.1C12.3 2.6 9.4 2.6 8 3.6z"/><path d="M8 3.6v9.3"/></svg></span>
+      <span class="mg-card__who">{{who}} · 원형 소환</span>
+    </div>
+    <div class="mg-card__body">
+
+      <div class="mg-spell-head">
+        <span class="mg-spell-name">{{name}}</span>
+        {{#if attr}}<span class="mg-spell-type">{{attr}}</span>{{/if}}
+      </div>
+
+      <dl class="mg-spell-info">
+        <dt>지정특기</dt><dd>{{skill}}{{#if variable}} <em>(가변)</em>{{/if}}</dd>
+        {{#if hasBlock}}<dt>블록(HP·임시체력)</dt><dd><b>{{health.value}}</b> / {{health.max}}</dd>{{/if}}
+        <dt>부스트</dt><dd>{{boostCount}}개</dd>
+      </dl>
+
+      {{#if features}}
+      <div class="mg-cardrule"><span class="mg-cardrule__line"></span><span class="mg-cardrule__dot"></span><span class="mg-cardrule__line"></span></div>
+      <div class="mg-spell-effect">
+        <span class="mg-spell-effect__label">기능</span>
+        <div class="mg-spell-effect__text">{{{features}}}</div>
+      </div>
+      {{/if}}
+
+    </div>
+  </div>
+</div>

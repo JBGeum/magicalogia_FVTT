@@ -23,7 +23,11 @@ export function resolveSpecialtyTn(table, skill, manualTn) {
   return { tn, linked: coord != null };
 }
 
-/** 장서 시전 → .mg-card 시전 카드 출력. 라이트 고정. */
+/**
+ * 장서 시전 → .mg-card 시전 카드 출력. 라이트 고정.
+ * @returns {?{success:boolean, special:boolean, fumble:boolean, doublet:boolean, total:number}}
+ *   판정 결과(소환 장서가 성공 여부로 분기). 시전 불가(미존재/목표치 없음)면 undefined.
+ */
 export async function castSpell(actor, itemId) {
   const spell = actor.items.get(itemId);
   if (!spell || spell.type !== "spell") return;
@@ -73,4 +77,5 @@ export async function castSpell(actor, itemId) {
     },
   );
   await ChatMessage.create({ speaker, content, rolls: [roll] });
+  return result;
 }

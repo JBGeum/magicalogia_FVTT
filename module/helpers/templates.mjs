@@ -21,6 +21,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/magicalogia/templates/item/anchor-sheet.hbs",
     "systems/magicalogia/templates/chat/specialty-roll.hbs",
     "systems/magicalogia/templates/chat/spell-card.hbs",
+    "systems/magicalogia/templates/chat/familiar-card.hbs",
     "systems/magicalogia/templates/chat/charge-card.hbs",
     "systems/magicalogia/templates/chat/battle-card.hbs",
     "systems/magicalogia/templates/chat/witness-card.hbs",
