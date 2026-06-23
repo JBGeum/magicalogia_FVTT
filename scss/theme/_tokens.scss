@@ -38,6 +38,12 @@
   --mg-good: #86d6a3;
   --mg-good-bg: #2f7d4e3d;
   --mg-good-line: #5cae7f8c;
+
+  // 채팅 카드 시맨틱 태그 — 공격(적색)/PC(골드)/성공(보라 틴트).
+  // 테마 비의존(현재 시안): 라이트에서도 같은 값. 분기 필요 시 .theme-light에 오버라이드.
+  --mg-tag-atk: linear-gradient(180deg, #b5454e, #9c343f);
+  --mg-tag-pc: linear-gradient(180deg, #b58a3e, #9c7430);
+  --mg-outcome-success-bg: rgba(36, 21, 68, 0.22);
 }
 
 // 라이트(양피지) 테마 — 다크 토큰을 덮어쓴다. 출처: 시안 example.html .magicalogia.theme-light

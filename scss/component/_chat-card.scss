@@ -243,7 +243,7 @@
     }
 
     &--success .mg-outcome__tag {
-      background: rgba(36, 21, 68, 0.22);
+      background: var(--mg-outcome-success-bg);
       color: var(--mg-head-ink);
     }
   }
@@ -656,10 +656,10 @@
       padding: 3px 0;
 
       &--atk {
-        background: linear-gradient(180deg, #b5454e, #9c343f);
+        background: var(--mg-tag-atk);
       }
       &--pc {
-        background: linear-gradient(180deg, #b58a3e, #9c7430);
+        background: var(--mg-tag-pc);
       }
     }
     &__name {

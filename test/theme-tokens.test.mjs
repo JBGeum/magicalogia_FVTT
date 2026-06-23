@@ -6,7 +6,8 @@ import { fileURLToPath } from "node:url";
 // 라이트 테마가 다크의 모든 "색상" 토큰을 오버라이드하는지 정적 검증.
 // 배경: 컴포넌트 SCSS는 --mg-* 기반이라, 라이트가 어떤 색상 토큰을 빠뜨리면
 // 라이트 모드에서 그 요소만 다크 색으로 남는다(build로는 안 잡힘).
-// 비색상 토큰(radius/row-h/head-h)은 테마 공통이라 오버라이드 대상이 아니다.
+// THEME_COMMON: 테마 공통이라 라이트 오버라이드 대상이 아닌 토큰 —
+// 비색상(radius/row-h/head-h)과 의도적으로 테마 비의존인 색상(태그/성공 틴트).
 
 const tokensPath = join(
   dirname(fileURLToPath(import.meta.url)),
@@ -15,7 +16,14 @@ const tokensPath = join(
   "theme",
   "_tokens.scss",
 );
-const NON_COLOR = new Set(["mg-radius", "mg-row-h", "mg-head-h"]);
+const THEME_COMMON = new Set([
+  "mg-radius",
+  "mg-row-h",
+  "mg-head-h",
+  "mg-tag-atk",
+  "mg-tag-pc",
+  "mg-outcome-success-bg",
+]);
 const tokenKeys = (s) => new Set([...s.matchAll(/--(mg-[\w-]+)\s*:/g)].map((m) => m[1]));
 
 describe("테마 토큰 완전성", () => {
@@ -30,7 +38,7 @@ describe("테마 토큰 완전성", () => {
     const idx = text.indexOf(".magicalogia.theme-light {");
     const darkKeys = tokenKeys(text.slice(0, idx));
     const lightKeys = tokenKeys(text.slice(idx));
-    const missing = [...darkKeys].filter((k) => !NON_COLOR.has(k) && !lightKeys.has(k));
+    const missing = [...darkKeys].filter((k) => !THEME_COMMON.has(k) && !lightKeys.has(k));
     expect(missing).toEqual([]);
   });
 });
