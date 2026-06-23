@@ -20,6 +20,7 @@ import { preloadHandlebarsTemplates, registerHandlebarsHelpers } from "./helpers
 import { registerThemeSetting } from "./helpers/theme.mjs";
 import { bindBattleCardActions, bindWitnessCardActions } from "./system/magic-battle.mjs";
 import { registerBattleSocket } from "./system/battle-socket.mjs";
+import { bindFamiliarHover } from "./system/familiar-hover.mjs";
 import { MagicBattlePanel } from "./apps/magic-battle-panel.mjs";
 
 Hooks.once("init", async function () {
@@ -70,7 +71,10 @@ Hooks.on("renderChatMessageHTML", (message, html) => {
   bindWitnessCardActions(message, html);
 });
 
-Hooks.once("ready", registerBattleSocket);
+Hooks.once("ready", () => {
+  registerBattleSocket();
+  bindFamiliarHover();
+});
 
 // 씬 컨트롤 GM 전용 마법전 버튼. V13: controls/tools는 객체(Record).
 Hooks.on("getSceneControlButtons", (controls) => {
