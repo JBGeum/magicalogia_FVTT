@@ -72,7 +72,7 @@ export async function castSpell(actor, itemId) {
         special: result.special,
         fumble: result.fumble,
         doublet: result.doublet,
-        masoDomain: result.doublet ? CONFIG.MAGICALOGIA.attributes[d1 - 1].title : null,
+        manaDomain: result.doublet ? CONFIG.MAGICALOGIA.attributes[d1 - 1].title : null,
       },
     },
   );
