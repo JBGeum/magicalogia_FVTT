@@ -6,6 +6,7 @@ export const preloadHandlebarsTemplates = async function () {
   const { loadTemplates } = foundry.applications.handlebars;
   return loadTemplates([
     "systems/magicalogia/templates/actor/character-sheet.hbs",
+    "systems/magicalogia/templates/actor/familiar-sheet.hbs",
     "systems/magicalogia/templates/actor/parts/magic-chart.hbs",
     "systems/magicalogia/templates/actor/parts/mg-field.hbs",
     "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs",

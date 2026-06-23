@@ -12,6 +12,7 @@ import { SpellDataModel } from "./data/items/spell.mjs";
 import { AnchorDataModel } from "./data/items/anchor.mjs";
 // Sheets
 import { MagicalogiaActorSheet } from "./sheets/actor-sheet.mjs";
+import { MagicalogiaFamiliarSheet } from "./sheets/familiar-sheet.mjs";
 import { MagicalogiaItemSheet } from "./sheets/item-sheet.mjs";
 // Helpers
 import { MAGICALOGIA } from "./helpers/config.mjs";
@@ -47,7 +48,14 @@ Hooks.once("init", async function () {
   const ItemsCls = foundry.documents.collections.Items;
 
   ActorsCls.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
-  ActorsCls.registerSheet("magicalogia", MagicalogiaActorSheet, { makeDefault: true });
+  ActorsCls.registerSheet("magicalogia", MagicalogiaActorSheet, {
+    types: ["character"],
+    makeDefault: true,
+  });
+  ActorsCls.registerSheet("magicalogia", MagicalogiaFamiliarSheet, {
+    types: ["familiar"],
+    makeDefault: true,
+  });
   ItemsCls.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
   ItemsCls.registerSheet("magicalogia", MagicalogiaItemSheet, { makeDefault: true });
 

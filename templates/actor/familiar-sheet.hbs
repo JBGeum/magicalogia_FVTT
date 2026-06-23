@@ -1,0 +1,44 @@
+<form class="mg-familiar">
+  <header class="mg-familiar__head">
+    <img class="mg-familiar__img" src="{{actor.img}}" alt="{{actor.name}}" />
+    <input type="text" name="name" value="{{actor.name}}" {{#unless editable}}disabled{{/unless}} />
+  </header>
+
+  <div class="mg-familiar__stats">
+    <label>블록(체력)
+      <input type="checkbox" name="system.hasBlock" {{checked system.hasBlock}} {{#unless editable}}disabled{{/unless}} />
+    </label>
+    {{#if system.hasBlock}}
+    <label>체력
+      <input type="number" name="system.health.value" value="{{system.health.value}}" {{#unless editable}}disabled{{/unless}} />
+      / <input type="number" name="system.health.max" value="{{system.health.max}}" {{#unless editable}}disabled{{/unless}} />
+    </label>
+    {{/if}}
+    <label>부스트 수
+      <input type="number" name="system.boostCount" value="{{system.boostCount}}" {{#unless editable}}disabled{{/unless}} />
+    </label>
+    <label>임시 체력 제공
+      <input type="number" name="system.tempHealthGrant" value="{{system.tempHealthGrant}}" {{#unless editable}}disabled{{/unless}} />
+    </label>
+    <label>속성
+      <select name="system.attr" {{#unless editable}}disabled{{/unless}}>
+        <option value="" {{#unless system.attr}}selected{{/unless}}>—</option>
+        {{#each attributes}}
+        <option value="{{this.key}}" {{#if (eq ../system.attr this.key)}}selected{{/if}}>{{this.title}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label>토큰명 템플릿
+      <input type="text" name="system.nameTemplate" value="{{system.nameTemplate}}" placeholder="{skill}의 기사" {{#unless editable}}disabled{{/unless}} />
+    </label>
+  </div>
+
+  <div class="mg-familiar__features">
+    <h3>고유 기능</h3>
+    {{#if editable}}
+    <prose-mirror name="system.features" button="true" editable="{{editable}}" toggled="false" value="{{system.features}}">{{{enrichedFeatures}}}</prose-mirror>
+    {{else}}
+    {{{enrichedFeatures}}}
+    {{/if}}
+  </div>
+</form>
