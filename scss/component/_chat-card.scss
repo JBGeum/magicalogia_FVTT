@@ -761,6 +761,10 @@
     border-style: dotted;
     box-shadow: 0 0 0 2px var(--mg-soft) inset;
   }
+  // 입회 다이스 숫자는 상태색(valid=골드 등) 대신 soft 톤으로 — 일반 다이스와 구분.
+  .mg-die-wrap:has(.mg-die--witness) .mg-die-num {
+    color: var(--mg-soft);
+  }
 
   .mg-battle-witness {
     display: flex;

@@ -103,10 +103,6 @@
     padding: 2px 9px;
     cursor: pointer;
   }
-  &__chip--focus {
-    color: var(--mg-bar-ink);
-    background: var(--mg-bar);
-  }
   &__empty {
     font-size: 11px;
     color: var(--mg-faint);

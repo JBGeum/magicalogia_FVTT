@@ -18,8 +18,8 @@ export function requestPick({ reqId, userId, actorId, role, max, allowFocus, pro
 }
 
 /** GM → PL: 부스트 요청. */
-export function requestBoost({ reqId, userId, side, max, prompt }) {
-  game.socket.emit(CHANNEL, { t: "battle:boost", reqId, userId, side, max, prompt });
+export function requestBoost({ reqId, userId, max, prompt }) {
+  game.socket.emit(CHANNEL, { t: "battle:boost", reqId, userId, max, prompt });
 }
 
 /** PL → GM: 선택 결과. */
