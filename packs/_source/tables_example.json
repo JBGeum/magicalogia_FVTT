@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "mglgTbl00Destiny",
+    "name": "운명변전",
+    "img": "icons/sundries/scrolls/scroll-bound-blue.webp",
+    "description": "<p>예시 표입니다. 결과(name)를 실제 룰 데이터로 교체하세요. 행 수가 바뀌면 formula(예: 1d6)도 맞춰 주세요.</p>",
+    "results": [
+      { "_id": "mglgTblRslt0001a", "type": "text", "name": "결과 1 — 내용을 입력하세요", "weight": 1, "range": [1, 1], "drawn": false },
+      { "_id": "mglgTblRslt0002a", "type": "text", "name": "결과 2 — 내용을 입력하세요", "weight": 1, "range": [2, 2], "drawn": false },
+      { "_id": "mglgTblRslt0003a", "type": "text", "name": "결과 3 — 내용을 입력하세요", "weight": 1, "range": [3, 3], "drawn": false },
+      { "_id": "mglgTblRslt0004a", "type": "text", "name": "결과 4 — 내용을 입력하세요", "weight": 1, "range": [4, 4], "drawn": false },
+      { "_id": "mglgTblRslt0005a", "type": "text", "name": "결과 5 — 내용을 입력하세요", "weight": 1, "range": [5, 5], "drawn": false },
+      { "_id": "mglgTblRslt0006a", "type": "text", "name": "결과 6 — 내용을 입력하세요", "weight": 1, "range": [6, 6], "drawn": false }
+    ],
+    "formula": "1d6",
+    "replacement": true,
+    "displayRoll": true,
+    "ownership": { "default": 0 },
+    "flags": {}
+  }
+]
