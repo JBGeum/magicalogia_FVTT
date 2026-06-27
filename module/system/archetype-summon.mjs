@@ -108,7 +108,7 @@ async function postArchetypeCard(caster, master, name, skill, variable, rolls) {
       attr: attrTitle,
       hasBlock: sys.hasBlock,
       health: sys.health,
-      boostCount: sys.boostCount,
+      level: sys.level,
       features: sys.features,
     },
   );

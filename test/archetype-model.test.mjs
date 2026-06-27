@@ -35,7 +35,7 @@ describe("ArchetypeDataModel", () => {
   it("원형 고유 필드를 포함한다", async () => {
     const { ArchetypeDataModel } = await import("../module/data/actors/archetype.mjs");
     const s = ArchetypeDataModel.defineSchema();
-    for (const key of ["hasBlock", "boostCount", "attr", "nameTemplate", "features"]) {
+    for (const key of ["hasBlock", "level", "attr", "nameTemplate", "features"]) {
       expect(Object.keys(s)).toContain(key);
     }
   });

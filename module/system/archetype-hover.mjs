@@ -1,7 +1,7 @@
 import { MAGICALOGIA } from "../helpers/config.mjs";
 
 /**
- * 원형 hover 툴팁 내부 HTML 생성 (순수). 블록(HP·임시체력)/부스트/기능 표시.
+ * 원형 hover 툴팁 내부 HTML 생성 (순수). 레벨/블록(HP·임시체력)/기능 표시.
  * @param {object} sys   archetype actor.system
  * @param {string} name  토큰 표시명
  * @returns {string} 툴팁 내부 HTML
@@ -12,10 +12,10 @@ export function buildArchetypeTooltip(sys, name) {
     : "";
 
   const stats = [];
+  stats.push(`레벨 <b>${sys.level ?? 0}</b>`);
   if (sys.hasBlock) {
     stats.push(`블록 <b>${sys.health?.value ?? 0}</b>/${sys.health?.max ?? 0}`);
   }
-  stats.push(`부스트 <b>${sys.boostCount ?? 0}</b>`);
 
   const parts = [
     `<div class="mg-fam-hud__name">${name}${attrTitle ? ` <span class="mg-fam-hud__attr">${attrTitle}</span>` : ""}</div>`,
