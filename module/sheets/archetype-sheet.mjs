@@ -57,11 +57,13 @@ export class MagicalogiaArchetypeSheet extends HandlebarsApplicationMixin(ActorS
 
   /** 블록 보유(hasBlock) 토글 — 시안 mg-check 체크박스. */
   static async #onToggleBlock() {
+    if (!this.isEditable) return; // 잠긴 컴펜디움 등 편집 불가 시 차단.
     await this.actor.update({ "system.hasBlock": !this.actor.system.hasBlock });
   }
 
   /** 초상화 클릭 → FilePicker로 원형 이미지 교체. */
   static async #onEditImg() {
+    if (!this.isEditable) return; // 잠긴 컴펜디움 등 편집 불가 시 차단.
     const fp = new foundry.applications.apps.FilePicker.implementation({
       type: "image",
       current: this.actor.img,
