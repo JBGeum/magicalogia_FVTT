@@ -138,8 +138,7 @@ export function formatCost(cost) {
   if (!area) return "—";
   const label = COST_AREA_LABELS[area] ?? area;
   const count = cost?.count ?? 0;
-  // 좁은 카드 셀에서 "label" / "×count"로 끊기도록 × 앞에 ZWSP(U+200B) 삽입.
-  return count ? `${label}${String.fromCharCode(0x200b)}×${count}` : label;
+  return count ? `${label}×${count}` : label;
 }
 
 /**

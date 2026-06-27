@@ -36,13 +36,13 @@ describe("resolveSummonSkill", () => {
     ).toBe("불꽃");
   });
   it("row 경계: 합2 → row0, 합12 → row10", () => {
-    // star 열: chart.star[0]="황금", chart.star[10]="이게"
+    // star 열: chart.star[0]="황금", chart.star[10]="이계"
     expect(
       resolveSummonSkill(spell({ skill: "가변", archetypeVarAttr: "star" }), { skillSum: 2 }),
     ).toBe("황금");
     expect(
       resolveSummonSkill(spell({ skill: "가변", archetypeVarAttr: "star" }), { skillSum: 12 }),
-    ).toBe("이게");
+    ).toBe("이계");
   });
 });
 
