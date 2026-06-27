@@ -340,6 +340,8 @@
     dd {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      word-break: keep-all;
       margin: 0;
       font-size: 15px;
       font-weight: 600;
@@ -637,6 +639,7 @@
   .mg-side {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 9px;
     background: var(--mg-field);
     border: 1px solid var(--mg-line);

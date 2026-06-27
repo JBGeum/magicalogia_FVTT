@@ -89,7 +89,7 @@ MAGICALOGIA.COST_AREAS = [
   { value: "song", label: "노래" },
   { value: "dream", label: "꿈" },
   { value: "dark", label: "어둠" },
-  { value: "all", label: "전(全)" },
+  { value: "all", label: "전" },
   { value: "none", label: "없음" },
 ];
 
@@ -138,7 +138,8 @@ export function formatCost(cost) {
   if (!area) return "—";
   const label = COST_AREA_LABELS[area] ?? area;
   const count = cost?.count ?? 0;
-  return count ? `${label}×${count}` : label;
+  // 좁은 카드 셀에서 "label" / "×count"로 끊기도록 × 앞에 ZWSP(U+200B) 삽입.
+  return count ? `${label}${String.fromCharCode(0x200b)}×${count}` : label;
 }
 
 /**

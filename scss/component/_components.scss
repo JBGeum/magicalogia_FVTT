@@ -415,6 +415,10 @@
       background: var(--mg-hi);
       box-shadow: inset 0 0 0 1px var(--mg-gold);
     }
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
     &__label {
       font-size: 12px;
       font-weight: 700;
