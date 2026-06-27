@@ -17,7 +17,7 @@
           <div class="mg-ifield"><span class="mg-ifield__label">속성</span>
             <select class="mg-select" name="system.attr">
               <option value="" {{selected (eq system.attr "")}}>—</option>
-              {{#each anchorAttrs}}<option value="{{this}}" {{selected (eq ../system.attr this)}}>{{this}}</option>{{/each}}
+              {{#each fateAttr}}<option value="{{this.ko}}" {{selected (eq ../system.attr this.ko)}}>{{this.ko}}</option>{{/each}}
             </select>
           </div>
         </div>

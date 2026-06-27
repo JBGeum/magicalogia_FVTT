@@ -59,7 +59,7 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
       context.costAreas = CONFIG.MAGICALOGIA.COST_AREAS;
       context.summonAttrs = CONFIG.MAGICALOGIA.attributes;
     } else if (this.item.type === "anchor") {
-      context.anchorAttrs = CONFIG.MAGICALOGIA.anchorAttrs;
+      context.fateAttr = CONFIG.MAGICALOGIA.fateAttr;
     }
     return context;
   }

@@ -58,7 +58,7 @@
               <span class="mg-field__label">경력</span>
               <select class="mg-ident-select" name="system.career">
                 <option value="" {{selected (eq system.career "")}}>—</option>
-                {{#each careerOptions}}<option value="{{this}}" {{selected (eq ../system.career this)}}>{{this}}</option>{{/each}}
+                {{#each careerOptions}}<option value="{{this.ko}}" {{selected (eq ../system.career this.ko)}}>{{this.ko}}</option>{{/each}}
               </select>
             </label>
 
@@ -67,7 +67,7 @@
               <span class="mg-field__label">기관</span>
               <select class="mg-ident-select" name="system.organization">
                 <option value="" {{selected (eq system.organization "")}}>—</option>
-                {{#each orgOptions}}<option value="{{this}}" {{selected (eq ../system.organization this)}}>{{this}}</option>{{/each}}
+                {{#each orgOptions}}<option value="{{this.ko}}" {{selected (eq ../system.organization this.ko)}}>{{this.ko}}</option>{{/each}}
               </select>
             </label>
 

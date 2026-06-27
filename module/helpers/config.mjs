@@ -65,18 +65,16 @@ MAGICALOGIA.statuses = [
   { key: "vanish", label: "소멸" },
 ];
 
-// 계제(rank) 등급명 — rankTitle 헬퍼/시트 컨텍스트가 system.rank 값으로 조회.
+// 계제(stage) 등급명 — rankTitle 헬퍼/시트 컨텍스트가 system.rank 값으로 조회.
+// {ko, kana(가타카나 음역), en(로마자)}. 표시는 "ko (kana)", en은 루비/병기용 보존.
 MAGICALOGIA.rankTitles = {
-  1: "입문자 (Neophyte)",
-  2: "열성자 (Zelator)",
-  3: "이론자 (Theoricus)",
-  4: "실천자 (Practicus)",
-  5: "철학자 (Philosophus)",
-  6: "소관문 (Adeptus Minor)",
-  7: "대관문 (Adeptus Major)",
-  8: "면관문 (Adeptus Exemptus)",
-  9: "대사 (Magister)",
-  10: "마도사 (Magus)",
+  1: { ko: "신참", kana: "네오퓌테", en: "Neophyte" },
+  2: { ko: "이론가", kana: "티오리쿠스", en: "Theoricus" },
+  3: { ko: "실천자", kana: "프락티쿠스", en: "Practicus" },
+  4: { ko: "철학자", kana: "필로소푸스", en: "Philosophus" },
+  5: { ko: "달인", kana: "아뎁투스", en: "Adeptus" },
+  6: { ko: "마도사", kana: "마구스", en: "Magus" },
+  7: { ko: "초월자", kana: "입시시무스", en: "Ipsissimus" },
 };
 
 // 장서/관계 select 옵션.
@@ -95,11 +93,35 @@ MAGICALOGIA.COST_AREAS = [
   { value: "none", label: "없음" },
 ];
 
-MAGICALOGIA.anchorAttrs = ["혈연", "연애", "흥미", "존경", "사명", "공포", "열등", "분노"];
+// 운명 속성(fateAttr) — 앵커(관계) attr select 옵션. 영문 명칭 없음(ko만).
+MAGICALOGIA.fateAttr = [
+  { ko: "혈연" },
+  { ko: "지배" },
+  { ko: "숙적" },
+  { ko: "연애" },
+  { ko: "흥미" },
+  { ko: "존경" },
+];
 
-// 헤더 식별 datalist 추천목록(자유 입력 허용 — 목록은 가이드일 뿐).
-MAGICALOGIA.CAREER_OPTIONS = ["서경", "주화", "야행"];
-MAGICALOGIA.ORG_OPTIONS = ["마탑", "결사"];
+// 헤더 식별 select 옵션. {ko, en} — en은 루비/병기용 보존.
+// 경력(career)
+MAGICALOGIA.CAREER_OPTIONS = [
+  { ko: "서경", en: "bookwatch" },
+  { ko: "사서", en: "librian" },
+  { ko: "서공", en: "artisan" },
+  { ko: "방문자", en: "guest" },
+  { ko: "이단자", en: "outsider" },
+  { ko: "외전", en: "apocrypha" },
+];
+// 기관(organon)
+MAGICALOGIA.ORG_OPTIONS = [
+  { ko: "원탁", en: "table of contents" },
+  { ko: "학원", en: "academy" },
+  { ko: "천애", en: "horizon" },
+  { ko: "엽귀", en: "cyclops" },
+  { ko: "아방궁", en: "laboratory" },
+  { ko: "문호", en: "portal" },
+];
 
 // 효과 지속 종류 select(고정 choices). 0번이 기본값.
 MAGICALOGIA.EFFECT_TYPES = ["없음", "지속", "순간", "장면"];
