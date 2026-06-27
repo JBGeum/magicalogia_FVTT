@@ -124,11 +124,11 @@ describe("specialtyGrid 전치", () => {
 });
 
 describe("resolveVariableSkill 가변 특기 결정", () => {
-  it("영역별: 2d6 합으로 행 결정 (force 합10 → 불꽃)", () => {
-    expect(resolveVariableSkill("force", { skillSum: 10 })).toBe("불꽃");
+  it("영역별: 2d6 합으로 행 결정 (force 합10 → 불)", () => {
+    expect(resolveVariableSkill("force", { skillSum: 10 })).toBe("불");
   });
-  it("전체 가변: 1d6로 영역, 2d6로 행 (attrDie3=force, 합10 → 불꽃)", () => {
-    expect(resolveVariableSkill("", { attrDie: 3, skillSum: 10 })).toBe("불꽃");
+  it("전체 가변: 1d6로 영역, 2d6로 행 (attrDie3=force, 합10 → 불)", () => {
+    expect(resolveVariableSkill("", { attrDie: 3, skillSum: 10 })).toBe("불");
   });
   it("행 경계: 합2 → row0, 합12 → row10 (star: 황금/이계)", () => {
     expect(resolveVariableSkill("star", { skillSum: 2 })).toBe("황금");

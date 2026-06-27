@@ -16,7 +16,6 @@
     <nav class="mg-tabs tabs" data-group="primary">
       <a class="mg-tab {{#if tabs.main.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="main">캐릭터 시트</a>
       <a class="mg-tab {{#if tabs.info.active}}active{{/if}}" data-action="tab" data-group="primary" data-tab="info">정보</a>
-      <a class="mg-tab is-disabled" title="준비 중">속성·능력</a>
     </nav>
 
     <section class="mg-tab-content">
@@ -151,10 +150,10 @@
                 {{#each attributes}}<option value="{{this.key}}" {{selected (eq ../system.variableSkill this.key)}}>{{this.title}}</option>{{/each}}
               </select>
             </div>
-            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="운명변전"><span class="mg-toolbtn__label">운명변전</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="운명변전표"><span class="mg-toolbtn__label">운명변전표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
             <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="장면표"><span class="mg-toolbtn__label">장면표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
             <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="펌블표"><span class="mg-toolbtn__label">펌블표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="사건표"><span class="mg-toolbtn__label">사건표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="상태이상표"><span class="mg-toolbtn__label">상태이상표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
           </div>
         </div>
 
