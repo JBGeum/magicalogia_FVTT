@@ -1,7 +1,7 @@
 import { computeTable } from "../system/specialty-table.mjs";
 import { rollSpecialty, rollSoulSkill } from "../system/specialty-roll.mjs";
 import { castSpell } from "../system/spell-cast.mjs";
-import { summonFamiliar } from "../system/familiar-summon.mjs";
+import { summonArchetype } from "../system/archetype-summon.mjs";
 import { postChargeCard } from "../system/spell-charge.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 import { formatCost } from "../helpers/config.mjs";
@@ -243,8 +243,8 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     const spell = this.actor.items.get(target.dataset.itemId);
     if (!spell) return;
     const result = await castSpell(this.actor, target.dataset.itemId);
-    if (result?.success && (spell.system.familiarUuid ?? "").trim()) {
-      await summonFamiliar(this.actor, spell);
+    if (result?.success && (spell.system.archetypeUuid ?? "").trim()) {
+      await summonArchetype(this.actor, spell);
     }
   }
 

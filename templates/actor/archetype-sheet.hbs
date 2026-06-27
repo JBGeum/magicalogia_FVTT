@@ -1,11 +1,11 @@
-<div class="mg-familiar">
-  <header class="mg-familiar__head">
-    <img class="mg-familiar__img" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImg" data-edit="img" title="초상화 변경" />
+<div class="mg-archetype">
+  <header class="mg-archetype__head">
+    <img class="mg-archetype__img" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImg" data-edit="img" title="초상화 변경" />
     <input type="text" name="name" value="{{actor.name}}" {{#unless editable}}disabled{{/unless}} />
   </header>
 
-  <div class="mg-familiar__stats">
-    <label>블록 보유 <span class="mg-familiar__hint">(원형 HP = 캐릭터 임시체력)</span>
+  <div class="mg-archetype__stats">
+    <label>블록 보유 <span class="mg-archetype__hint">(원형 HP = 캐릭터 임시체력)</span>
       <input type="checkbox" name="system.hasBlock" {{checked system.hasBlock}} {{#unless editable}}disabled{{/unless}} />
     </label>
     {{#if system.hasBlock}}
@@ -14,7 +14,7 @@
       / <input type="number" name="system.health.max" value="{{system.health.max}}" {{#unless editable}}disabled{{/unless}} />
     </label>
     {{/if}}
-    <label>부스트 수 <span class="mg-familiar__hint">(다이스 N개 부스트)</span>
+    <label>부스트 수 <span class="mg-archetype__hint">(다이스 N개 부스트)</span>
       <input type="number" name="system.boostCount" value="{{system.boostCount}}" {{#unless editable}}disabled{{/unless}} />
     </label>
     <label>속성
@@ -30,7 +30,7 @@
     </label>
   </div>
 
-  <div class="mg-familiar__features">
+  <div class="mg-archetype__features">
     <h3>고유 기능</h3>
     {{#if editable}}
     <prose-mirror name="system.features" button="true" editable="{{editable}}" toggled="false" value="{{system.features}}">{{{enrichedFeatures}}}</prose-mirror>

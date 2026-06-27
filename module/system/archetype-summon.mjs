@@ -3,10 +3,10 @@ import { MAGICALOGIA } from "../helpers/config.mjs";
 /**
  * 소환 대상 UUID 해석 (순수).
  * @param {object} spell  spell 아이템(또는 {system})
- * @returns {string|null} familiarUuid (빈 값이면 null)
+ * @returns {string|null} archetypeUuid (빈 값이면 null)
  */
-export function resolveFamiliar(spell) {
-  const uuid = (spell?.system?.familiarUuid ?? "").trim();
+export function resolveArchetype(spell) {
+  const uuid = (spell?.system?.archetypeUuid ?? "").trim();
   return uuid || null;
 }
 
@@ -21,7 +21,7 @@ export function resolveFamiliar(spell) {
 export function resolveSummonSkill(spell, rolls) {
   const skill = spell?.system?.skill ?? "";
   if (skill !== "가변") return skill;
-  const fixed = spell?.system?.familiarVarAttr || "";
+  const fixed = spell?.system?.archetypeVarAttr || "";
   const attrKey = fixed || MAGICALOGIA.attributes[rolls.attrDie - 1].key;
   const row = rolls.skillSum - 2;
   return MAGICALOGIA.chart[attrKey][row];
@@ -40,14 +40,14 @@ export function buildTokenName(masterName, nameTemplate, skill) {
 }
 
 /**
- * 원형 소환 — 마스터 familiar의 prototypeToken을 현재 씬에 unlinked 복제.
+ * 원형 소환 — 마스터 archetype의 prototypeToken을 현재 씬에 unlinked 복제.
  * 소환자 옆 칸에 배치, 토큰명에 지정특기(가변이면 자동 굴림) 반영, 소환자 귀속.
  * Foundry 의존(fromUuid/Roll/canvas/ui). 호출은 클릭 핸들러에서만.
  * @param {Actor} caster
  * @param {Item} spell
  */
-export async function summonFamiliar(caster, spell) {
-  const uuid = resolveFamiliar(spell);
+export async function summonArchetype(caster, spell) {
+  const uuid = resolveArchetype(spell);
   if (!uuid) return;
   const master = await fromUuid(uuid);
   if (!master) {
@@ -60,7 +60,7 @@ export async function summonFamiliar(caster, spell) {
   const variable = summonSkill === "가변";
   const rolls = [];
   if (variable) {
-    const fixed = spell.system.familiarVarAttr || "";
+    const fixed = spell.system.archetypeVarAttr || "";
     let attrDie;
     if (!fixed) {
       const r = await new Roll("1d6").evaluate();
@@ -104,18 +104,18 @@ export async function summonFamiliar(caster, spell) {
   await canvas.scene.createEmbeddedDocuments("Token", [data]);
 
   // 원형 정보 채팅 카드(가변이면 굴림 첨부).
-  await postFamiliarCard(caster, master, tokenName, summonSkill, variable, rolls);
+  await postArchetypeCard(caster, master, tokenName, summonSkill, variable, rolls);
 }
 
 /** 소환된 원형의 정보 채팅 카드를 출력. 라이트 고정. */
-async function postFamiliarCard(caster, master, name, skill, variable, rolls) {
+async function postArchetypeCard(caster, master, name, skill, variable, rolls) {
   const sys = master.system;
   const attrTitle = sys.attr
     ? (MAGICALOGIA.attributes.find((a) => a.key === sys.attr)?.title ?? "")
     : "";
   const speaker = ChatMessage.getSpeaker({ actor: caster });
   const content = await foundry.applications.handlebars.renderTemplate(
-    "systems/magicalogia/templates/chat/familiar-card.hbs",
+    "systems/magicalogia/templates/chat/archetype-card.hbs",
     {
       who: speaker.alias,
       name,

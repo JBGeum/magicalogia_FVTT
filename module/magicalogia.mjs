@@ -6,13 +6,13 @@ import { MagicalogiaActor } from "./documents/actor.mjs";
 import { MagicalogiaItem } from "./documents/item.mjs";
 // DataModels
 import { CharacterDataModel } from "./data/actors/character.mjs";
-import { FamiliarDataModel } from "./data/actors/familiar.mjs";
+import { ArchetypeDataModel } from "./data/actors/archetype.mjs";
 import { GenericItemDataModel } from "./data/items/generic.mjs";
 import { SpellDataModel } from "./data/items/spell.mjs";
 import { AnchorDataModel } from "./data/items/anchor.mjs";
 // Sheets
 import { MagicalogiaActorSheet } from "./sheets/actor-sheet.mjs";
-import { MagicalogiaFamiliarSheet } from "./sheets/familiar-sheet.mjs";
+import { MagicalogiaArchetypeSheet } from "./sheets/archetype-sheet.mjs";
 import { MagicalogiaItemSheet } from "./sheets/item-sheet.mjs";
 // Helpers
 import { MAGICALOGIA } from "./helpers/config.mjs";
@@ -20,7 +20,7 @@ import { preloadHandlebarsTemplates, registerHandlebarsHelpers } from "./helpers
 import { registerThemeSetting } from "./helpers/theme.mjs";
 import { bindBattleCardActions, bindWitnessCardActions } from "./system/magic-battle.mjs";
 import { registerBattleSocket } from "./system/battle-socket.mjs";
-import { bindFamiliarHover } from "./system/familiar-hover.mjs";
+import { bindArchetypeHover } from "./system/archetype-hover.mjs";
 import { MagicBattlePanel } from "./apps/magic-battle-panel.mjs";
 
 Hooks.once("init", async function () {
@@ -36,7 +36,7 @@ Hooks.once("init", async function () {
 
   CONFIG.Actor.dataModels = {
     character: CharacterDataModel,
-    familiar: FamiliarDataModel,
+    archetype: ArchetypeDataModel,
   };
   CONFIG.Item.dataModels = {
     generic: GenericItemDataModel,
@@ -53,8 +53,8 @@ Hooks.once("init", async function () {
     types: ["character"],
     makeDefault: true,
   });
-  ActorsCls.registerSheet("magicalogia", MagicalogiaFamiliarSheet, {
-    types: ["familiar"],
+  ActorsCls.registerSheet("magicalogia", MagicalogiaArchetypeSheet, {
+    types: ["archetype"],
     makeDefault: true,
   });
   ItemsCls.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
@@ -73,7 +73,7 @@ Hooks.on("renderChatMessageHTML", (message, html) => {
 
 Hooks.once("ready", () => {
   registerBattleSocket();
-  bindFamiliarHover();
+  bindArchetypeHover();
 });
 
 // 씬 컨트롤 GM 전용 마법전 버튼. V13: controls/tools는 객체(Record).

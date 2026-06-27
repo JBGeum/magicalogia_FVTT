@@ -31,27 +31,27 @@ beforeAll(() => {
   };
 });
 
-describe("FamiliarDataModel", () => {
+describe("ArchetypeDataModel", () => {
   it("원형 고유 필드를 포함한다", async () => {
-    const { FamiliarDataModel } = await import("../module/data/actors/familiar.mjs");
-    const s = FamiliarDataModel.defineSchema();
+    const { ArchetypeDataModel } = await import("../module/data/actors/archetype.mjs");
+    const s = ArchetypeDataModel.defineSchema();
     for (const key of ["hasBlock", "boostCount", "attr", "nameTemplate", "features"]) {
       expect(Object.keys(s)).toContain(key);
     }
   });
   it("base 스키마(health, biography)를 상속한다", async () => {
-    const { FamiliarDataModel } = await import("../module/data/actors/familiar.mjs");
-    const keys = Object.keys(FamiliarDataModel.defineSchema());
+    const { ArchetypeDataModel } = await import("../module/data/actors/archetype.mjs");
+    const keys = Object.keys(ArchetypeDataModel.defineSchema());
     expect(keys).toContain("health");
     expect(keys).toContain("biography");
   });
   it("hasBlock 기본값은 false다", async () => {
-    const { FamiliarDataModel } = await import("../module/data/actors/familiar.mjs");
-    expect(FamiliarDataModel.defineSchema().hasBlock.options.initial).toBe(false);
+    const { ArchetypeDataModel } = await import("../module/data/actors/archetype.mjs");
+    expect(ArchetypeDataModel.defineSchema().hasBlock.options.initial).toBe(false);
   });
   it("attr은 6속성 + blank choices를 가진다", async () => {
-    const { FamiliarDataModel } = await import("../module/data/actors/familiar.mjs");
-    expect(FamiliarDataModel.defineSchema().attr.options.choices).toEqual([
+    const { ArchetypeDataModel } = await import("../module/data/actors/archetype.mjs");
+    expect(ArchetypeDataModel.defineSchema().attr.options.choices).toEqual([
       "",
       "star",
       "beast",

@@ -6,7 +6,7 @@ export const preloadHandlebarsTemplates = async function () {
   const { loadTemplates } = foundry.applications.handlebars;
   return loadTemplates([
     "systems/magicalogia/templates/actor/character-sheet.hbs",
-    "systems/magicalogia/templates/actor/familiar-sheet.hbs",
+    "systems/magicalogia/templates/actor/archetype-sheet.hbs",
     "systems/magicalogia/templates/actor/parts/magic-chart.hbs",
     "systems/magicalogia/templates/actor/parts/mg-field.hbs",
     "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs",
@@ -21,7 +21,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/magicalogia/templates/item/anchor-sheet.hbs",
     "systems/magicalogia/templates/chat/specialty-roll.hbs",
     "systems/magicalogia/templates/chat/spell-card.hbs",
-    "systems/magicalogia/templates/chat/familiar-card.hbs",
+    "systems/magicalogia/templates/chat/archetype-card.hbs",
     "systems/magicalogia/templates/chat/charge-card.hbs",
     "systems/magicalogia/templates/chat/battle-card.hbs",
     "systems/magicalogia/templates/chat/witness-card.hbs",

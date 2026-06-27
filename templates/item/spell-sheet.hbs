@@ -64,13 +64,13 @@
         <fieldset class="mg-spell__summon">
           <legend>원형 소환</legend>
           <label>소환 원형 UUID
-            <input type="text" name="system.familiarUuid" value="{{system.familiarUuid}}" placeholder="Actor.xxxx 또는 Compendium.xxx" />
+            <input type="text" name="system.archetypeUuid" value="{{system.archetypeUuid}}" placeholder="Actor.xxxx 또는 Compendium.xxx" />
           </label>
           <label>가변 영역(가변 특기일 때)
-            <select name="system.familiarVarAttr">
-              <option value="" {{#unless system.familiarVarAttr}}selected{{/unless}}>완전 가변(1d6)</option>
+            <select name="system.archetypeVarAttr">
+              <option value="" {{#unless system.archetypeVarAttr}}selected{{/unless}}>완전 가변(1d6)</option>
               {{#each summonAttrs}}
-              <option value="{{this.key}}" {{#if (eq ../system.familiarVarAttr this.key)}}selected{{/if}}>{{this.title}}</option>
+              <option value="{{this.key}}" {{#if (eq ../system.archetypeVarAttr this.key)}}selected{{/if}}>{{this.title}}</option>
               {{/each}}
             </select>
           </label>

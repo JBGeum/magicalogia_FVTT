@@ -23,7 +23,7 @@
   "TYPES": {
     "Actor": {
       "character": "캐릭터",
-      "familiar": "원형"
+      "archetype": "원형"
     },
     "Item": {
       "generic": "일반 아이템"

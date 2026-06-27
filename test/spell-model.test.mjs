@@ -46,8 +46,8 @@ describe("SpellDataModel", () => {
       "active",
       "recite",
       "effect",
-      "familiarUuid",
-      "familiarVarAttr",
+      "archetypeUuid",
+      "archetypeVarAttr",
     ]) {
       expect(Object.keys(s)).toContain(key);
     }
@@ -81,15 +81,15 @@ describe("SpellDataModel", () => {
     const s = SpellDataModel.defineSchema();
     expect(s.tn.options.initial).toBe(5);
   });
-  it("familiarUuid / familiarVarAttr 필드를 가진다", async () => {
+  it("archetypeUuid / archetypeVarAttr 필드를 가진다", async () => {
     const { SpellDataModel } = await import("../module/data/items/spell.mjs");
     const s = SpellDataModel.defineSchema();
-    expect(Object.keys(s)).toContain("familiarUuid");
-    expect(Object.keys(s)).toContain("familiarVarAttr");
+    expect(Object.keys(s)).toContain("archetypeUuid");
+    expect(Object.keys(s)).toContain("archetypeVarAttr");
   });
-  it("familiarVarAttr은 blank + 6속성 choices다", async () => {
+  it("archetypeVarAttr은 blank + 6속성 choices다", async () => {
     const { SpellDataModel } = await import("../module/data/items/spell.mjs");
-    expect(SpellDataModel.defineSchema().familiarVarAttr.options.choices).toEqual([
+    expect(SpellDataModel.defineSchema().archetypeVarAttr.options.choices).toEqual([
       "",
       "star",
       "beast",

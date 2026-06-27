@@ -3,25 +3,25 @@ import { applyTheme } from "../helpers/theme.mjs";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
 
-/** 원형(familiar) 시트 — 읽기 중심 단순 표시. */
-export class MagicalogiaFamiliarSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
+/** 원형(archetype) 시트 — 읽기 중심 단순 표시. */
+export class MagicalogiaArchetypeSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
-    classes: ["magicalogia", "sheet", "actor", "familiar"],
+    classes: ["magicalogia", "sheet", "actor", "archetype"],
     position: { width: 420, height: "auto" },
     window: { resizable: true },
     actions: {
-      editImg: MagicalogiaFamiliarSheet.#onEditImg,
+      editImg: MagicalogiaArchetypeSheet.#onEditImg,
     },
     form: {
-      handler: MagicalogiaFamiliarSheet.#onSubmit,
+      handler: MagicalogiaArchetypeSheet.#onSubmit,
       submitOnChange: true,
       closeOnSubmit: false,
     },
   };
 
   static PARTS = {
-    familiar: {
-      template: "systems/magicalogia/templates/actor/familiar-sheet.hbs",
+    archetype: {
+      template: "systems/magicalogia/templates/actor/archetype-sheet.hbs",
     },
   };
 
@@ -31,7 +31,7 @@ export class MagicalogiaFamiliarSheet extends HandlebarsApplicationMixin(ActorSh
 
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
-    options.parts = ["familiar"];
+    options.parts = ["archetype"];
   }
 
   async _prepareContext(options) {
