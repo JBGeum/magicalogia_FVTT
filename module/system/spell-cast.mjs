@@ -32,17 +32,19 @@ export function resolveSpecialtyTn(table, skill, manualTn) {
  * @returns {?{success:boolean, special:boolean, fumble:boolean, doublet:boolean, total:number}}
  *   판정 결과(소환 장서가 성공 여부로 분기). 시전 불가(미존재/목표치 없음)면 undefined.
  */
-export async function castSpell(actor, itemId) {
+export async function castSpell(actor, itemId, { skillOverride } = {}) {
   const spell = actor.items.get(itemId);
   if (!spell || spell.type !== "spell") return;
   const sys = spell.system;
+  // 가변 소환은 호출부가 확정한 특기를 주입받아 그 특기의 목표치로 판정한다.
+  const skill = skillOverride ?? sys.skill;
 
   const table = computeTable({
     owned: actor.system.skills,
     domain: actor.system.domain || null,
     wrap: actor.system.horizontalWrap,
   });
-  const { tn } = resolveSpecialtyTn(table, sys.skill, sys.tn);
+  const { tn } = resolveSpecialtyTn(table, skill, sys.tn);
   if (tn == null) {
     ui.notifications.warn("목표치를 계산할 수 없습니다.");
     return;
@@ -71,7 +73,7 @@ export async function castSpell(actor, itemId) {
       who: speaker.alias,
       name: spell.name,
       type: sys.type,
-      skill: sys.skill,
+      skill,
       target: sys.target,
       cost: formatCost(sys.cost),
       effect: sys.effect,

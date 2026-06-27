@@ -46,7 +46,7 @@ export function buildTokenName(masterName, nameTemplate, skill) {
  * @param {Actor} caster
  * @param {Item} spell
  */
-export async function summonArchetype(caster, spell) {
+export async function summonArchetype(caster, spell, { skill, rolls = [] } = {}) {
   const uuid = resolveArchetype(spell);
   if (!uuid) return;
   const master = await fromUuid(uuid);
@@ -55,23 +55,9 @@ export async function summonArchetype(caster, spell) {
     return;
   }
 
-  // 지정특기 확정 (가변이면 자동 굴림).
-  let summonSkill = spell.system.skill ?? "";
-  const variable = summonSkill === "가변";
-  const rolls = [];
-  if (variable) {
-    const fixed = spell.system.archetypeVarAttr || "";
-    let attrDie;
-    if (!fixed) {
-      const r = await new Roll("1d6").evaluate();
-      rolls.push(r);
-      attrDie = r.total;
-    }
-    const sr = await new Roll("2d6").evaluate();
-    rolls.push(sr);
-    summonSkill = resolveSummonSkill(spell, { attrDie, skillSum: sr.total });
-  }
-
+  // 확정특기·특기결정 굴림은 호출부(#onCastSpell)가 영역+굴림으로 정해 전달한다.
+  const summonSkill = skill ?? spell.system.skill ?? "";
+  const variable = spell.system.skill === "가변";
   const tokenName = buildTokenName(master.name, master.system.nameTemplate, summonSkill);
 
   // 배치 위치: 소환자 토큰 기준 한 칸 간격 띄운 아래(x 정렬), 없으면 씬 중앙.

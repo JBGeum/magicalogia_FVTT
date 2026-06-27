@@ -17,6 +17,7 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
     actions: {
       "toggle-field": MagicalogiaItemSheet.#onToggleField,
       "pick-specialty": MagicalogiaItemSheet.#onPickSpecialty,
+      "toggle-variable": MagicalogiaItemSheet.#onToggleVariable,
     },
   };
 
@@ -58,6 +59,7 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
       context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
       context.costAreas = CONFIG.MAGICALOGIA.COST_AREAS;
       context.summonAttrs = CONFIG.MAGICALOGIA.attributes;
+      context.isVariable = itemData.system.skill === "가변";
     } else if (this.item.type === "anchor") {
       context.fateAttr = CONFIG.MAGICALOGIA.fateAttr;
     }
@@ -85,5 +87,11 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
       current: this.item.system.skill,
       onPick: (name) => this.item.update({ "system.skill": name }),
     }).render(true);
+  }
+
+  /** 「가변」 토글 → skill을 "가변"(가변 소환 트리거)과 "" 사이에서 전환. */
+  static async #onToggleVariable() {
+    const next = this.item.system.skill === "가변" ? "" : "가변";
+    await this.item.update({ "system.skill": next });
   }
 }

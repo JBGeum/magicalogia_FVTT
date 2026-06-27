@@ -18,6 +18,12 @@
             </select>
           </div>
           <div class="mg-ifield"><span class="mg-ifield__label">지정특기</span>
+            {{#if isVariable}}
+            <select class="mg-input" name="system.archetypeVarAttr">
+              <option value="" {{#unless system.archetypeVarAttr}}selected{{/unless}}>전체 가변(1d6)</option>
+              {{#each summonAttrs}}<option value="{{this.key}}" {{#if (eq ../system.archetypeVarAttr this.key)}}selected{{/if}}>{{this.title}}</option>{{/each}}
+            </select>
+            {{else}}
             <input
               class="mg-input"
               type="text"
@@ -31,6 +37,13 @@
               data-action="pick-specialty"
               title="표에서 선택"
             >⊞</button>
+            {{/if}}
+            <button
+              type="button"
+              class="mg-pick-btn{{#if isVariable}} is-on{{/if}}"
+              data-action="toggle-variable"
+              title="가변 특기 소환"
+            >가변</button>
           </div>
           <div class="mg-ifield"><span class="mg-ifield__label">목표값</span>
             <input class="mg-input mg-num" type="number" name="system.tn" value="{{system.tn}}" min="2" />
@@ -65,14 +78,6 @@
           <legend>원형 소환</legend>
           <label>소환 원형 UUID
             <input type="text" name="system.archetypeUuid" value="{{system.archetypeUuid}}" placeholder="Actor.xxxx 또는 Compendium.xxx" />
-          </label>
-          <label>가변 영역(가변 특기일 때)
-            <select name="system.archetypeVarAttr">
-              <option value="" {{#unless system.archetypeVarAttr}}selected{{/unless}}>완전 가변(1d6)</option>
-              {{#each summonAttrs}}
-              <option value="{{this.key}}" {{#if (eq ../system.archetypeVarAttr this.key)}}selected{{/if}}>{{this.title}}</option>
-              {{/each}}
-            </select>
           </label>
         </fieldset>
       </div>

@@ -1,7 +1,7 @@
 import { computeTable } from "../system/specialty-table.mjs";
 import { rollSpecialty, rollSoulSkill } from "../system/specialty-roll.mjs";
 import { castSpell } from "../system/spell-cast.mjs";
-import { summonArchetype } from "../system/archetype-summon.mjs";
+import { summonArchetype, resolveSummonSkill } from "../system/archetype-summon.mjs";
 import { postChargeCard } from "../system/spell-charge.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 import { formatCost } from "../helpers/config.mjs";
@@ -242,9 +242,23 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   static async #onCastSpell(_event, target) {
     const spell = this.actor.items.get(target.dataset.itemId);
     if (!spell) return;
-    const result = await castSpell(this.actor, target.dataset.itemId);
+    // 가변 소환: 영역(고정/1d6)+행(2d6)으로 특기를 확정한 뒤 그 특기로 판정.
+    let skillOverride;
+    const summonRolls = [];
+    if (spell.system.skill === "가변") {
+      let attrDie;
+      if (!spell.system.archetypeVarAttr) {
+        const ar = await new Roll("1d6").evaluate();
+        summonRolls.push(ar);
+        attrDie = ar.total;
+      }
+      const sr = await new Roll("2d6").evaluate();
+      summonRolls.push(sr);
+      skillOverride = resolveSummonSkill(spell, { attrDie, skillSum: sr.total });
+    }
+    const result = await castSpell(this.actor, target.dataset.itemId, { skillOverride });
     if (result?.success && (spell.system.archetypeUuid ?? "").trim()) {
-      await summonArchetype(this.actor, spell);
+      await summonArchetype(this.actor, spell, { skill: skillOverride, rolls: summonRolls });
     }
   }
 
