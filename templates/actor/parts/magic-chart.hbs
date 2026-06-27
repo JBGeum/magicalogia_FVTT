@@ -37,5 +37,7 @@
       </select>
     </label>
     <label><span class="mg-flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs"}}</span><span class="mg-rollable" data-action="roll-soul" title="2d6 판정 (목표치 6)">혼의 특기</span> <input class="mg-field__value" type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
+    <span class="mg-chart__spacer"></span>
+    <label class="mg-chart__wrap"><span class="mg-check {{#if system.horizontalWrap}}is-on{{/if}}" data-action="toggle-wrap" title="어둠-별 가로순환">{{#if system.horizontalWrap}}✓{{/if}}</span>순환</label>
   </div>
 </div>

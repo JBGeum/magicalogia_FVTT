@@ -158,6 +158,10 @@
       align-items: center;
       gap: 6px;
     }
+    // 4분할: 소속영역 | 혼의특기 | 여백 | 순환 체크.
+    .mg-chart__spacer {
+      flex: 1;
+    }
     // 혼의특기 input(.mg-field__value 는 식별그리드용 line-height:1.4)을 라벨·드롭다운과
     // 같은 line-height 로 맞춰 세로 정렬을 통일한다.
     .mg-field__value {

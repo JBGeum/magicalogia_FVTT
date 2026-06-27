@@ -30,6 +30,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       editImg: MagicalogiaActorSheet.#onEditImg,
       toggleStatus: MagicalogiaActorSheet.#onToggleStatus,
       toggleTrueForm: MagicalogiaActorSheet.#onToggleTrueForm,
+      "toggle-wrap": MagicalogiaActorSheet.#onToggleWrap,
       "add-spell": MagicalogiaActorSheet.#onAddSpell,
       "toggle-spell-flag": MagicalogiaActorSheet.#onToggleSpellFlag,
       "set-charge": MagicalogiaActorSheet.#onSetCharge,
@@ -229,6 +230,13 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   static async #onToggleTrueForm() {
     await this.actor.update({
       "system.trueFormRevealed": !this.actor.system.trueFormRevealed,
+    });
+  }
+
+  /** 마법표 가로순환(어둠↔별 인접) 토글. */
+  static async #onToggleWrap() {
+    await this.actor.update({
+      "system.horizontalWrap": !this.actor.system.horizontalWrap,
     });
   }
 
