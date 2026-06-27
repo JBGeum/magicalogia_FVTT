@@ -67,19 +67,25 @@
           </div>
         </div>
         <div class="mg-irow">
-          <label class="mg-checkrow"><span class="mg-check {{#if system.active}}is-on{{/if}}" data-action="toggle-field" data-field="system.active">{{#if system.active}}✓{{/if}}</span>장비/유효</label>
-          <label class="mg-checkrow"><span class="mg-check {{#if system.recite}}is-on{{/if}}" data-action="toggle-field" data-field="system.recite">{{#if system.recite}}✓{{/if}}</span>주구</label>
+          <label class="mg-checkrow"><span class="mg-check {{#if system.sealed}}is-on{{/if}}" data-action="toggle-field" data-field="system.sealed">{{#if system.sealed}}✓{{/if}}</span>봉인</label>
+          <label class="mg-checkrow"><span class="mg-check {{#if system.recite}}is-on{{/if}}" data-action="toggle-field" data-field="system.recite">{{#if system.recite}}✓{{/if}}</span>낭독</label>
         </div>
         <div class="mg-ifield mg-ifield--full" style="align-items: flex-start">
           <span class="mg-ifield__label" style="margin-top: 6px">효과</span>
           <textarea class="mg-area" name="system.effect" placeholder="마법 효과 ……">{{system.effect}}</textarea>
         </div>
+        <div class="mg-ifield mg-ifield--full">
+          <span class="mg-ifield__label">주구</span>
+          <input class="mg-input" type="text" name="system.invocation" value="{{system.invocation}}" placeholder="주구 ……" />
+        </div>
+        {{#if (eq system.type "소환")}}
         <fieldset class="mg-spell__summon">
           <legend>원형 소환</legend>
           <label>소환 원형 UUID
             <input type="text" name="system.archetypeUuid" value="{{system.archetypeUuid}}" placeholder="Actor.xxxx 또는 Compendium.xxx" />
           </label>
         </fieldset>
+        {{/if}}
       </div>
       <div class="mg-idiv"><span class="mg-idiv__rule mg-idiv__rule--l"></span><span class="mg-idiv__label">서 술</span><span class="mg-idiv__rule mg-idiv__rule--r"></span></div>
       {{#if editable}}

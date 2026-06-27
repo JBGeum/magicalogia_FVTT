@@ -98,9 +98,9 @@
   }
 
   // 컬럼 템플릿 — □ / 이름 / 타입 / 지정특기 / 코스트 / 충전 / 주구
-  .mg-table--grimoire .mg-table__head,
-  .mg-table--grimoire .mg-table__row {
-    grid-template-columns: 24px 1.55fr 0.95fr 0.85fr 0.6fr 0.95fr 26px;
+  .mg-table--library .mg-table__head,
+  .mg-table--library .mg-table__row {
+    grid-template-columns: 24px 1.55fr 0.95fr 0.85fr 0.6fr 0.95fr 30px;
   }
 
   // 컬럼 템플릿 — □ / 앵커 이름 / 운명 / 속성 / 설정 (패널 폭을 가득 채움)
@@ -129,7 +129,13 @@
     transform: rotate(45deg);
     cursor: pointer;
     &.is-on {
-      background: var(--mg-gold);
+      background: var(--mg-gold); // 충전된 마소(기존 색)
+    }
+    // 장비 활성화(충전≥코스트): 코스트만큼의 링만 활성화 색. 초과 충전은 마소색 유지.
+    // (is-active는 항상 is-on이며, 뒤에 선언돼 골드 배경을 덮어쓴다.)
+    &.is-active {
+      background: var(--mg-good);
+      border-color: var(--mg-good-line);
     }
   }
 

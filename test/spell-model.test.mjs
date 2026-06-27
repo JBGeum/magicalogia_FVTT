@@ -43,14 +43,19 @@ describe("SpellDataModel", () => {
       "cost",
       "charge",
       "mod",
-      "active",
+      "sealed",
       "recite",
       "effect",
+      "invocation",
       "archetypeUuid",
       "archetypeVarAttr",
     ]) {
       expect(Object.keys(s)).toContain(key);
     }
+  });
+  it("active(장비/유효)는 더 이상 스키마에 없다 — sealed(봉인)로 대체", async () => {
+    const { SpellDataModel } = await import("../module/data/items/spell.mjs");
+    expect(Object.keys(SpellDataModel.defineSchema())).not.toContain("active");
   });
   it("base 스키마(description)를 상속한다", async () => {
     const { SpellDataModel } = await import("../module/data/items/spell.mjs");

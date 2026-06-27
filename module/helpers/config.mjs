@@ -123,3 +123,12 @@ export function chargeCostOf(cost) {
   if (area === "" || area === "none") return 0;
   return cost?.count ?? 0;
 }
+
+/**
+ * 장서가 '장비/유효'(시전 준비) 상태인지 — 충전이 코스트를 충족하는가.
+ * 충전 코스트가 0(미선택/없음)이면 충전과 무관하므로 false(충전 칸 강조 불필요).
+ */
+export function isCharged(cost, charge) {
+  const need = chargeCostOf(cost);
+  return need > 0 && (charge ?? 0) >= need;
+}

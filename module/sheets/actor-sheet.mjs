@@ -4,7 +4,7 @@ import { castSpell } from "../system/spell-cast.mjs";
 import { summonArchetype, resolveSummonSkill } from "../system/archetype-summon.mjs";
 import { postChargeCard } from "../system/spell-charge.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
-import { formatCost } from "../helpers/config.mjs";
+import { formatCost, isCharged, chargeCostOf } from "../helpers/config.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -99,15 +99,20 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     // 장서 — spell 아이템 + 충전 슬롯(rings)/코스트 라벨 표시 데이터.
     context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;
     context.spells = this.actor.itemTypes.spell.map((it) => {
+      const charge = it.system.charge ?? 0;
+      const costAmt = chargeCostOf(it.system.cost);
+      const ready = isCharged(it.system.cost, charge); // 충전≥코스트 & 코스트>0
       return {
         id: it.id,
         name: it.name,
         system: it.system,
         costLabel: formatCost(it.system.cost),
-        rings: Array.from({ length: CHARGE_SLOTS }, (_, r) => ({
-          n: r + 1,
-          on: r + 1 <= (it.system.charge ?? 0),
-        })),
+        ready, // 장비/유효(충전 충족) — 링 그룹 title용.
+        rings: Array.from({ length: CHARGE_SLOTS }, (_, r) => {
+          const n = r + 1;
+          // 활성화 시 코스트만큼의 링만 활성화 색, 초과 충전은 기존 마소색 유지.
+          return { n, on: n <= charge, active: ready && n <= costAmt };
+        }),
       };
     });
 
@@ -151,11 +156,11 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     item?.sheet.render(true);
   }
 
-  /** 장서 active/recite boolean 토글. */
+  /** 장서 sealed/recite boolean 토글. */
   static async #onToggleSpellFlag(_event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
     if (!item) return;
-    const flag = target.dataset.flag; // "active" | "recite"
+    const flag = target.dataset.flag; // "sealed" | "recite"
     await item.update({ [`system.${flag}`]: !item.system[flag] });
   }
 
@@ -264,13 +269,13 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
    * 때 _onRender가 복원한다(저장 안 함).
    */
   static #onToggleAccordion(_event, target) {
-    const key = target.dataset.acc; // "grimoire" | "relations"
-    this._accOpen ??= { grimoire: false, relations: false };
+    const key = target.dataset.acc; // "library" | "relations"
+    this._accOpen ??= { library: false, relations: false };
     this._accOpen[key] = !this._accOpen[key];
     target.closest(".mg-accordion")?.classList.toggle("is-open", this._accOpen[key]);
   }
 
-  /** 그리모어 행 ✦ 클릭 → 시전 카드(항상). 소환 장서는 판정 성공 시에만 원형 소환. */
+  /** 장서 행 ✦ 클릭 → 시전 카드(항상). 소환 장서는 판정 성공 시에만 원형 소환. */
   static async #onCastSpell(_event, target) {
     const spell = this.actor.items.get(target.dataset.itemId);
     if (!spell) return;
@@ -299,7 +304,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     super._onRender?.(context, options);
     const open = (el) => this.actor.items.get(el.dataset.itemId)?.sheet.render(true);
     const del = (el) => this.actor.items.get(el.dataset.itemId)?.delete();
-    for (const sel of [".mg-grimoire .mg-table__row", ".mg-relations .mg-table__row"]) {
+    for (const sel of [".mg-library .mg-table__row", ".mg-relations .mg-table__row"]) {
       this.element.querySelectorAll(sel).forEach((row) => {
         row.addEventListener("dblclick", () => open(row));
       });
@@ -310,8 +315,8 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
         { jQuery: false },
       );
     }
-    this._accOpen ??= { grimoire: false, relations: false };
-    for (const key of ["grimoire", "relations"]) {
+    this._accOpen ??= { library: false, relations: false };
+    for (const key of ["library", "relations"]) {
       this.element
         .querySelector(`[data-acc="${key}"]`)
         ?.closest(".mg-accordion")

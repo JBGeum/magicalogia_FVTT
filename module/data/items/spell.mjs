@@ -30,9 +30,11 @@ export class SpellDataModel extends BaseItemModel {
       }),
       charge: new fields.NumberField({ initial: 0, min: 0, max: 6, integer: true }),
       mod: new fields.NumberField({ initial: 0, integer: true }),
-      active: new fields.BooleanField({ initial: false }),
+      sealed: new fields.BooleanField({ initial: false }),
       recite: new fields.BooleanField({ initial: false }),
       effect: new fields.StringField({ initial: "" }),
+      // 주구(呪具) — 마법에 결부된 주구 명/메모(자유 텍스트).
+      invocation: new fields.StringField({ initial: "" }),
       // 소환 장서: 비면 일반 장서, UUID 있으면 원형(archetype) 소환 대상.
       archetypeUuid: new fields.StringField({ initial: "" }),
       // 가변 특기 소환의 고정 영역(속성 key). 비면 완전 가변(1d6로 영역도 결정).

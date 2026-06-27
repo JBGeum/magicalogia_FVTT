@@ -1,27 +1,27 @@
-<div class="mg-table mg-table--grimoire mg-grimoire">
+<div class="mg-table mg-table--library mg-library">
   <div class="mg-table__head">
     <span>□</span><span class="col-name">마법 이름</span><span>타입</span><span>지정특기</span>
-    <span>코스트</span><span>충전</span><span>주구</span>
+    <span>코스트</span><span>충전</span><span>낭독</span>
   </div>
   {{#each spells}}
   <div>
     <div class="mg-table__row" data-item-id="{{this.id}}">
       <span class="col-check">
-        <span class="mg-check {{#if this.system.active}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="active" data-item-id="{{this.id}}">{{#if this.system.active}}✓{{/if}}</span>
+        <span class="mg-check {{#if this.system.sealed}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="sealed" data-item-id="{{this.id}}" title="봉인">{{#if this.system.sealed}}✓{{/if}}</span>
       </span>
       <span class="col-name {{#unless this.name}}col-empty{{/unless}}"><span class="mg-spell-cast" data-action="cast-spell" data-item-id="{{this.id}}" title="시전">✦</span>{{#if this.name}}{{this.name}}{{else}}—{{/if}}</span>
       <span class="col-faint">{{this.system.type}}</span>
       <span>{{this.system.skill}}</span>
       <span>{{this.costLabel}}</span>
       <span>
-        <span class="mg-rings">
+        <span class="mg-rings" title="{{#if this.ready}}장비/유효 (충전 충족){{/if}}">
           {{#each this.rings}}
-          <span class="mg-ring {{#if this.on}}is-on{{/if}}" data-action="set-charge" data-item-id="{{../id}}" data-ring="{{this.n}}"></span>
+          <span class="mg-ring {{#if this.on}}is-on{{/if}}{{#if this.active}} is-active{{/if}}" data-action="set-charge" data-item-id="{{../id}}" data-ring="{{this.n}}"></span>
           {{/each}}
         </span>
       </span>
       <span class="col-check">
-        <span class="mg-check {{#if this.system.recite}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="recite" data-item-id="{{this.id}}">{{#if this.system.recite}}✓{{/if}}</span>
+        <span class="mg-check {{#if this.system.recite}}is-on{{/if}}" data-action="toggle-spell-flag" data-flag="recite" data-item-id="{{this.id}}" title="낭독">{{#if this.system.recite}}✓{{/if}}</span>
       </span>
     </div>
     <div class="mg-table__note">{{#if this.system.effect}}{{this.system.effect}}{{else}}—{{/if}}</div>
