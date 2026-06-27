@@ -78,7 +78,7 @@ describe("CharacterDataModel", () => {
     for (const key of [
       "career",
       "magicName",
-      "organization",
+      "organon",
       "player",
       "socialStatus",
       "gender",
@@ -129,6 +129,33 @@ describe("CharacterDataModel", () => {
     const out = CharacterDataModel.migrateData({ genderAge: "남", gender: "여" });
     expect(out.gender).toBe("여");
     expect(out.genderAge).toBeUndefined();
+  });
+  it("organization을 organon으로, rank를 stage로 마이그레이션하고 옛 키를 제거한다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const out = CharacterDataModel.migrateData({ organization: "원탁", rank: 3 });
+    expect(out.organon).toBe("원탁");
+    expect(out.stage).toBe(3);
+    expect(out.organization).toBeUndefined();
+    expect(out.rank).toBeUndefined();
+  });
+  it("organon/stage가 이미 있으면 옛 키로 덮어쓰지 않는다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const out = CharacterDataModel.migrateData({
+      organization: "원탁",
+      organon: "학원",
+      rank: 3,
+      stage: 5,
+    });
+    expect(out.organon).toBe("학원");
+    expect(out.stage).toBe(5);
+  });
+  it("organization/rank는 더 이상 스키마에 없다(organon/stage로 이관)", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const keys = Object.keys(CharacterDataModel.defineSchema());
+    expect(keys).not.toContain("organization");
+    expect(keys).not.toContain("rank");
+    expect(keys).toContain("organon");
+    expect(keys).toContain("stage");
   });
   it("spells/anchors는 더 이상 액터 스키마에 없다(Item으로 이관)", async () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");

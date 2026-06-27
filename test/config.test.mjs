@@ -34,7 +34,7 @@ describe("MAGICALOGIA config", () => {
   it("경력/기관 datalist 추천목록을 제공한다", () => {
     expect(Array.isArray(MAGICALOGIA.CAREER_OPTIONS)).toBe(true);
     expect(MAGICALOGIA.CAREER_OPTIONS.length).toBeGreaterThan(0);
-    expect(Array.isArray(MAGICALOGIA.ORG_OPTIONS)).toBe(true);
-    expect(MAGICALOGIA.ORG_OPTIONS.length).toBeGreaterThan(0);
+    expect(Array.isArray(MAGICALOGIA.ORGANON_OPTIONS)).toBe(true);
+    expect(MAGICALOGIA.ORGANON_OPTIONS.length).toBeGreaterThan(0);
   });
 });

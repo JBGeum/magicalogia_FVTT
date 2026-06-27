@@ -65,9 +65,9 @@ MAGICALOGIA.statuses = [
   { key: "vanish", label: "소멸" },
 ];
 
-// 계제(stage) 등급명 — rankTitle 헬퍼/시트 컨텍스트가 system.rank 값으로 조회.
+// 계제(stage) 등급명 — stageTitle 헬퍼/시트 컨텍스트가 system.stage 값으로 조회.
 // {ko, kana(가타카나 음역), en(로마자)}. 표시는 "ko (kana)", en은 루비/병기용 보존.
-MAGICALOGIA.rankTitles = {
+MAGICALOGIA.stageTitles = {
   1: { ko: "신참", kana: "네오퓌테", en: "Neophyte" },
   2: { ko: "이론가", kana: "티오리쿠스", en: "Theoricus" },
   3: { ko: "실천자", kana: "프락티쿠스", en: "Practicus" },
@@ -114,7 +114,7 @@ MAGICALOGIA.CAREER_OPTIONS = [
   { ko: "외전", en: "apocrypha" },
 ];
 // 기관(organon)
-MAGICALOGIA.ORG_OPTIONS = [
+MAGICALOGIA.ORGANON_OPTIONS = [
   { ko: "원탁", en: "table of contents" },
   { ko: "학원", en: "academy" },
   { ko: "천애", en: "horizon" },

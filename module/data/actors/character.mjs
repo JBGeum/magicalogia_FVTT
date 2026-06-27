@@ -35,7 +35,7 @@ export class CharacterDataModel extends BaseActorModel {
       // 시안 헤더 식별 필드 — '임시 이름'은 문서 name(표시명)으로 직접 편집한다.
       career: new fields.StringField({ initial: "" }),
       magicName: new fields.StringField({ initial: "" }),
-      organization: new fields.StringField({ initial: "" }),
+      organon: new fields.StringField({ initial: "" }),
       player: new fields.StringField({ initial: "" }),
       socialStatus: new fields.StringField({ initial: "" }),
       gender: new fields.StringField({ initial: "" }),
@@ -52,7 +52,7 @@ export class CharacterDataModel extends BaseActorModel {
         defense: new fields.NumberField({ initial: 0, integer: true }),
         source: new fields.NumberField({ initial: 0, integer: true }),
       }),
-      rank: new fields.NumberField({ initial: 1, integer: true }),
+      stage: new fields.NumberField({ initial: 1, integer: true }),
 
       // 마력/카운터
       mp: new fields.SchemaField({
@@ -84,6 +84,14 @@ export class CharacterDataModel extends BaseActorModel {
       source.gender = source.genderAge;
     }
     delete source.genderAge;
+    if (source.organization !== undefined && source.organon === undefined) {
+      source.organon = source.organization;
+    }
+    delete source.organization;
+    if (source.rank !== undefined && source.stage === undefined) {
+      source.stage = source.rank;
+    }
+    delete source.rank;
     return super.migrateData(source);
   }
 }

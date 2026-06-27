@@ -65,9 +65,9 @@
             <label class="mg-field">
               <span class="mg-field__mark">❖</span>
               <span class="mg-field__label">기관</span>
-              <select class="mg-ident-select" name="system.organization">
-                <option value="" {{selected (eq system.organization "")}}>—</option>
-                {{#each orgOptions}}<option value="{{this.ko}}" {{selected (eq ../system.organization this.ko)}}>{{this.ko}}</option>{{/each}}
+              <select class="mg-ident-select" name="system.organon">
+                <option value="" {{selected (eq system.organon "")}}>—</option>
+                {{#each organonOptions}}<option value="{{this.ko}}" {{selected (eq ../system.organon this.ko)}}>{{this.ko}}</option>{{/each}}
               </select>
             </label>
 
@@ -126,8 +126,8 @@
               <div class="mg-rank__label"><span class="mg-lbl-fl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span>계제<span class="mg-lbl-fl mg-lbl-fl--r">{{> "systems/magicalogia/templates/actor/parts/mg-svg-fleur.hbs"}}</span></div>
               <div class="mg-rank__body">
                 <div class="mg-rank__flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-rankflr.hbs"}}</div>
-                <input class="mg-rank__value" name="system.rank" value="{{system.rank}}" />
-                <div class="mg-rank__sub">{{rankTitle}}</div>
+                <input class="mg-rank__value" name="system.stage" value="{{system.stage}}" />
+                <div class="mg-rank__sub">{{stageTitle}}</div>
               </div>
             </div>
           </div>
