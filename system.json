@@ -13,7 +13,15 @@
   "styles": ["magicalogia.css"],
   "scripts": [],
   "socket": true,
-  "packs": [],
+  "packs": [
+    {
+      "name": "tables",
+      "label": "마기카로기아 표",
+      "path": "packs/tables",
+      "type": "RollTable",
+      "system": "magicalogia"
+    }
+  ],
   "documentTypes": {
     "Actor": {
       "character": {},

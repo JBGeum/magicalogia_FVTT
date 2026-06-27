@@ -5,18 +5,20 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 
 /**
- * packs/_source/<pack> (JSON) → dist/packs/<pack> (LevelDB) 컴파일.
- * PACKS가 비어 있으면 no-op. 팩 추가 시 PACKS에 이름을 더하고 system.json packs에도 등록한다.
+ * packs/_source/<name>.json (문서 배열) → dist/packs/<name> (LevelDB) 컴파일.
+ *
+ * 각 문서엔 16자 _id가 있어야 한다(Foundry randomID 형식). collection은 LevelDB 키
+ * 접두사 — RollTable→"tables", Item→"items", Actor→"actors". system.json packs[].path
+ * (= "packs/<name>")·type 과 정합해야 한다. PACKS가 비면 no-op.
  */
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-/** Item 팩 이름 목록. system.json의 packs[].path 와 정합. 현재 없음. */
-const ITEM_PACKS: string[] = [];
+const PACKS: { name: string; collection: string }[] = [{ name: "tables", collection: "tables" }];
 
-for (const pack of ITEM_PACKS) {
-  const srcFile = path.join(ROOT, "packs", "_source", `${pack}.json`);
-  const dest = path.join(ROOT, "dist", "packs", pack);
-  const staging = path.join(ROOT, "dist", ".pack-staging", pack);
+for (const { name, collection } of PACKS) {
+  const srcFile = path.join(ROOT, "packs", "_source", `${name}.json`);
+  const dest = path.join(ROOT, "dist", "packs", name);
+  const staging = path.join(ROOT, "dist", ".pack-staging", name);
 
   await rm(dest, { recursive: true, force: true });
   await rm(staging, { recursive: true, force: true });
@@ -24,17 +26,21 @@ for (const pack of ITEM_PACKS) {
 
   let count = 0;
   if (existsSync(srcFile)) {
-    const items = JSON.parse(await readFile(srcFile, "utf8"));
-    for (const item of items) {
-      item._key = `!items!${item._id}`;
-      await writeFile(path.join(staging, `${item._id}.json`), JSON.stringify(item));
+    const docs = JSON.parse(await readFile(srcFile, "utf8"));
+    for (const doc of docs) {
+      doc._key = `!${collection}!${doc._id}`;
+      // RollTable 등 embedded(results)도 각자 별도 키가 필요하다.
+      if (Array.isArray(doc.results)) {
+        for (const r of doc.results) r._key = `!${collection}.results!${doc._id}.${r._id}`;
+      }
+      await writeFile(path.join(staging, `${doc._id}.json`), JSON.stringify(doc));
       count++;
     }
   }
 
   await compilePack(staging, dest, { log: true });
   await rm(staging, { recursive: true, force: true });
-  console.log(`[build] ${pack}: ${count}개 아이템`);
+  console.log(`[build] ${name}: ${count}개`);
 }
 
-console.log(`[build:packs] 완료 — 팩 ${ITEM_PACKS.length}개`);
+console.log(`[build:packs] 완료 — 팩 ${PACKS.length}개`);

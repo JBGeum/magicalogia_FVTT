@@ -35,3 +35,6 @@ docs/design/
 # 스펙/플랜 문서 (룰이 평문으로 담김 — 외부 유출 방지, 로컬만 보관)
 docs/superpowers/specs/
 docs/superpowers/plans/
+
+# 컴펜디움 표 소스 (실제 표 데이터는 저작권 보호 — JSON 소스 미커밋, 빌드 시 LevelDB 생성)
+packs/_source/*.json
