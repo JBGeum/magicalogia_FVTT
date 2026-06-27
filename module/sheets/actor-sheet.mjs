@@ -1,5 +1,5 @@
 import { computeTable } from "../system/specialty-table.mjs";
-import { rollSpecialty, rollSoulSkill } from "../system/specialty-roll.mjs";
+import { rollSpecialty, rollSoulSkill, rollVariableSkill } from "../system/specialty-roll.mjs";
 import { castSpell } from "../system/spell-cast.mjs";
 import { summonArchetype, resolveSummonSkill } from "../system/archetype-summon.mjs";
 import { postChargeCard } from "../system/spell-charge.mjs";
@@ -26,6 +26,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       toggleSkill: MagicalogiaActorSheet.#onToggleSkill,
       rollSpecialty: MagicalogiaActorSheet.#onRollSpecialty,
       "roll-soul": MagicalogiaActorSheet.#onRollSoul,
+      "roll-variable": MagicalogiaActorSheet.#onRollVariable,
       editImg: MagicalogiaActorSheet.#onEditImg,
       toggleStatus: MagicalogiaActorSheet.#onToggleStatus,
       toggleTrueForm: MagicalogiaActorSheet.#onToggleTrueForm,
@@ -201,6 +202,11 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   /** 혼의 특기 클릭 → 목표치 6 고정의 2d6 판정. */
   static async #onRollSoul() {
     await rollSoulSkill(this.actor);
+  }
+
+  /** 가변특기 라벨 클릭 → 선택 영역에서 굴려 특기 결정·채팅 표시(판정은 별도). */
+  static async #onRollVariable() {
+    await rollVariableSkill(this.actor);
   }
 
   /** 초상화 클릭 → FilePicker로 액터 이미지 교체. */

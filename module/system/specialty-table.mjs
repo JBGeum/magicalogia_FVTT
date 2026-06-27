@@ -99,6 +99,17 @@ export function findSpecialtyCoord(name) {
   return SPECIALTY_INDEX[name] ?? null;
 }
 
+/**
+ * 가변 특기 결정 (순수). 영역 + 굴림 → chart 특기.
+ * @param {string} area 영역 key. ""=전체 가변(attrDie로 영역 결정), "star".."dark"=고정 영역
+ * @param {{attrDie?:number, skillSum:number}} rolls attrDie 1..6(전체 가변만), skillSum 2..12
+ * @returns {string}
+ */
+export function resolveVariableSkill(area, { attrDie, skillSum }) {
+  const attrKey = area || MAGICALOGIA.attributes[attrDie - 1].key;
+  return MAGICALOGIA.chart[attrKey][skillSum - 2];
+}
+
 /** 차트 전체 특기명 평면 배열(시트 datalist용). */
 export const SPECIALTY_NAMES = MAGICALOGIA.attributes.flatMap((a) => MAGICALOGIA.chart[a.key]);
 

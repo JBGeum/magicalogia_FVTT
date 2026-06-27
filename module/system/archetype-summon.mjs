@@ -1,4 +1,5 @@
 import { MAGICALOGIA } from "../helpers/config.mjs";
+import { resolveVariableSkill } from "./specialty-table.mjs";
 
 /**
  * 소환 대상 UUID 해석 (순수).
@@ -21,10 +22,7 @@ export function resolveArchetype(spell) {
 export function resolveSummonSkill(spell, rolls) {
   const skill = spell?.system?.skill ?? "";
   if (skill !== "가변") return skill;
-  const fixed = spell?.system?.archetypeVarAttr || "";
-  const attrKey = fixed || MAGICALOGIA.attributes[rolls.attrDie - 1].key;
-  const row = rolls.skillSum - 2;
-  return MAGICALOGIA.chart[attrKey][row];
+  return resolveVariableSkill(spell?.system?.archetypeVarAttr || "", rolls);
 }
 
 /**

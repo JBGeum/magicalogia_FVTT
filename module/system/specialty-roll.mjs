@@ -1,4 +1,4 @@
-import { computeTable } from "./specialty-table.mjs";
+import { computeTable, resolveVariableSkill } from "./specialty-table.mjs";
 
 // d6 pip 배치(0..8 = 3×3 셀 인덱스).
 const PIPS = {
@@ -103,4 +103,32 @@ export async function rollSpecialty(actor, colKey, rowIndex) {
 export async function rollSoulSkill(actor) {
   const skill = actor.system.soulSkill?.trim() || "혼의 특기";
   await postRollCard(actor, { domain: "혼의 특기", skill, tn: 6 });
+}
+
+/**
+ * 가변특기 — 선택 영역(system.variableSkill)에서 굴려 특기를 정하고 채팅 카드 출력.
+ * 전체(""): 1d6로 영역 + 2d6로 행. 영역별: 2d6로 행. 판정은 하지 않는다(결정만).
+ * @param {Actor} actor
+ */
+export async function rollVariableSkill(actor) {
+  const area = actor.system.variableSkill || "";
+  const rolls = [];
+  let attrDie;
+  if (!area) {
+    const ar = await new Roll("1d6").evaluate();
+    rolls.push(ar);
+    attrDie = ar.total;
+  }
+  const sr = await new Roll("2d6").evaluate();
+  rolls.push(sr);
+  const skill = resolveVariableSkill(area, { attrDie, skillSum: sr.total });
+  const areaTitle = area
+    ? (CONFIG.MAGICALOGIA.attributes.find((a) => a.key === area)?.title ?? "")
+    : "전체";
+  const speaker = ChatMessage.getSpeaker({ actor });
+  const content = await foundry.applications.handlebars.renderTemplate(
+    "systems/magicalogia/templates/chat/variable-skill-card.hbs",
+    { who: speaker.alias, area: areaTitle, skill },
+  );
+  await ChatMessage.create({ speaker, content, rolls });
 }

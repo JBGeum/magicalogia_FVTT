@@ -382,7 +382,6 @@
     gap: 8px;
 
     > .mg-status {
-      flex: 1;
       min-width: 0;
     }
   }
@@ -429,6 +428,17 @@
     }
     &__val--icon {
       font-size: 13px;
+    }
+    // 가변특기 toolbtn: 라벨(클릭→굴림) + 영역 select.
+    &__sel {
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--mg-gold);
+      background: transparent;
+      border: 0;
+      text-align: center;
+      cursor: pointer;
     }
   }
 

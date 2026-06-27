@@ -73,8 +73,8 @@
 
             <label class="mg-field mg-field--wide">
               <span class="mg-field__mark">❖</span>
-              <span class="mg-check {{#if system.trueFormRevealed}}is-on{{/if}}" data-action="toggleTrueForm">{{#if system.trueFormRevealed}}✓{{/if}}</span>
               <span class="mg-field__label">진정한 모습</span>
+              <span class="mg-check {{#if system.trueFormRevealed}}is-on{{/if}}" data-action="toggleTrueForm">{{#if system.trueFormRevealed}}✓{{/if}}</span>
               <input class="mg-field__value {{#unless system.trueForm}}mg-field__value--empty{{/unless}}" type="text" name="system.trueForm" value="{{system.trueForm}}" placeholder="—" />
             </label>
 
@@ -145,12 +145,17 @@
             </span>
           </div>
           <div class="mg-toolbar">
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">가변특기</span><span class="mg-toolbtn__val">{{#if system.variableSkill}}{{system.variableSkill}}{{else}}노래{{/if}}</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">운명 변전</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">장면 표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">펌블 표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">사건 표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">주사위</span><span class="mg-toolbtn__val">{{#if system.dice}}{{system.dice}}{{else}}D6{{/if}}</span></button>
+            <div class="mg-toolbtn mg-toolbtn--variable">
+              <span class="mg-toolbtn__label" data-action="roll-variable" role="button" title="가변특기 굴림">가변특기</span>
+              <select class="mg-toolbtn__sel" name="system.variableSkill">
+                <option value="" {{selected (eq system.variableSkill "")}}>전체</option>
+                {{#each attributes}}<option value="{{this.key}}" {{selected (eq ../system.variableSkill this.key)}}>{{this.title}}</option>{{/each}}
+              </select>
+            </div>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">운명변전</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">장면표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">펌블표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">사건표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
           </div>
         </div>
 
