@@ -325,9 +325,11 @@ export function bindWitnessCardActions(message, html) {
         mode: "witness",
         prompt: "NPC 입회",
         actors: candidates,
-        onSubmit: (dice, extra) => {
+        onSubmit: async (dice, extra) => {
           const a = candidates.find((c) => c.id === extra?.actorId) ?? candidates[0];
-          sendWitnessResult({
+          // GM 입회는 자기 패널에 직접 반영 — socket emit은 발신 클라 자신에게 오지 않음.
+          const { MagicBattlePanel } = await import("../apps/magic-battle-panel.mjs");
+          MagicBattlePanel.deliverWitness({
             round: f.round,
             exchange: f.exchange,
             actorId: a.id,
