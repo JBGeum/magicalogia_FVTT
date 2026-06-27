@@ -27,6 +27,13 @@
       "path": "packs/archetypes",
       "type": "Actor",
       "system": "magicalogia"
+    },
+    {
+      "name": "library",
+      "label": "장서",
+      "path": "packs/library",
+      "type": "Item",
+      "system": "magicalogia"
     }
   ],
   "documentTypes": {

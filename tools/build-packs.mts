@@ -16,6 +16,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PACKS: { name: string; collection: string }[] = [
   { name: "tables", collection: "tables" },
   { name: "archetypes", collection: "actors" },
+  { name: "library", collection: "items" },
 ];
 
 for (const { name, collection } of PACKS) {
