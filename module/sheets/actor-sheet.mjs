@@ -31,6 +31,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       toggleStatus: MagicalogiaActorSheet.#onToggleStatus,
       toggleTrueForm: MagicalogiaActorSheet.#onToggleTrueForm,
       "toggle-wrap": MagicalogiaActorSheet.#onToggleWrap,
+      "roll-table": MagicalogiaActorSheet.#onRollTable,
       "add-spell": MagicalogiaActorSheet.#onAddSpell,
       "toggle-spell-flag": MagicalogiaActorSheet.#onToggleSpellFlag,
       "set-charge": MagicalogiaActorSheet.#onSetCharge,
@@ -238,6 +239,27 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     await this.actor.update({
       "system.horizontalWrap": !this.actor.system.horizontalWrap,
     });
+  }
+
+  /** 표 버튼(⚙) — world에서 동명 RollTable 검색 → 없으면 compendium fallback → 굴림. */
+  static async #onRollTable(_event, target) {
+    const name = target.dataset.table;
+    let table = game.tables.getName(name);
+    if (!table) {
+      for (const pack of game.packs) {
+        if (pack.documentName !== "RollTable") continue;
+        const entry = pack.index.find((e) => e.name === name);
+        if (entry) {
+          table = await pack.getDocument(entry._id);
+          break;
+        }
+      }
+    }
+    if (!table) {
+      ui.notifications.warn(`'${name}' 표를 찾을 수 없습니다.`);
+      return;
+    }
+    await table.draw();
   }
 
   /**

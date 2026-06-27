@@ -152,10 +152,10 @@
                 {{#each attributes}}<option value="{{this.key}}" {{selected (eq ../system.variableSkill this.key)}}>{{this.title}}</option>{{/each}}
               </select>
             </div>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">운명변전</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">장면표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">펌블표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
-            <button type="button" class="mg-toolbtn"><span class="mg-toolbtn__label">사건표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="운명변전"><span class="mg-toolbtn__label">운명변전</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="장면표"><span class="mg-toolbtn__label">장면표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="펌블표"><span class="mg-toolbtn__label">펌블표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
+            <button type="button" class="mg-toolbtn" data-action="roll-table" data-table="사건표"><span class="mg-toolbtn__label">사건표</span><span class="mg-toolbtn__val mg-toolbtn__val--icon">⚙</span></button>
           </div>
         </div>
 
