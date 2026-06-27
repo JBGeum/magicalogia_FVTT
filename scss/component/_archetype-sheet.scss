@@ -1,54 +1,334 @@
-// 원형(archetype) 시트 — 읽기 중심 단순 레이아웃. 신규 색 토큰 없음.
-.mg-archetype {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 0.5rem;
+@use "../theme/vars" as *;
 
-  &__head {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
+// 원형(archetype) 액터 시트 — 시안 "마기카로기아 원형 시트 미리보기" 이식.
+// 시안 클래스(mg-item·mg-check·mg-input 등)가 전역과 충돌하므로 .magicalogia.archetype
+// scope로 격리한다(토큰 --mg-* 는 공유).
+.magicalogia.archetype {
+  .mg-item {
+    position: relative;
+    background: var(--mg-paper);
+    border: 2px solid var(--mg-gold);
+    border-radius: 4px;
+    overflow: hidden;
 
-  // 초상화: 200x200 고정, 클릭 시 FilePicker.
-  &__img {
-    flex: 0 0 auto;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-
-  &__head input[name="name"] {
-    flex: 1 1 auto;
-    font-size: 1.32rem;
-  }
-
-  &__stats {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-
-    label {
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 1px solid var(--mg-gold);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 5;
+    }
+    &__bar {
+      position: relative;
+      z-index: 2;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
+      gap: 9px;
+      background: var(--mg-bar);
+      border-bottom: 2px solid var(--mg-gold);
+      padding: 8px 12px;
+    }
+    &__sigil {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid var(--mg-gold);
+      background: rgba(0, 0, 0, 0.16);
+      color: var(--mg-bar-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 14px;
+        height: 14px;
+        display: block;
+      }
+    }
+    &__title {
+      flex: 1;
+      min-width: 0;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--mg-bar-ink);
     }
   }
 
-  &__hint {
-    font-size: 0.9em;
-    opacity: 0.65;
+  // ---- 초상화 + 이름 ----
+  .mg-fam-hero {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    padding: 16px 15px 10px;
+  }
+  .mg-fam-portrait {
+    flex: none;
+    width: 178px;
+    height: 178px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+
+    &__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+    &__glyph {
+      width: 100%;
+      height: 100%;
+      color: var(--mg-soft);
+      opacity: 0.92;
+    }
+    .mg-pcorner {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      color: var(--mg-gold);
+
+      svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+    .mg-pcorner--tl {
+      top: 0;
+      left: 0;
+    }
+    .mg-pcorner--tr {
+      top: 0;
+      right: 0;
+      transform: scaleX(-1);
+    }
+    .mg-pcorner--bl {
+      bottom: 0;
+      left: 0;
+      transform: scaleY(-1);
+    }
+    .mg-pcorner--br {
+      bottom: 0;
+      right: 0;
+      transform: scale(-1);
+    }
+  }
+  .mg-fam-nameblock {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 8px;
+
+    &__cap {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--mg-gold);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
+  .mg-name-input {
+    width: 100%;
+    background: var(--mg-field);
+    border: 1px solid var(--mg-gold);
+    border-radius: 3px;
+    color: var(--mg-gold);
+    font-size: 22px;
+    font-weight: 800;
+    padding: 8px 12px;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--mg-hi);
+    }
   }
 
-  &__features {
-    h3 {
-      margin: 0 0 0.25rem;
-      font-size: 1.08rem;
+  // ---- 폼 ----
+  .mg-fam-body {
+    position: relative;
+    z-index: 2;
+    padding: 4px 15px 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  .mg-frow {
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-top: 1px solid var(--mg-line);
+
+    &:first-child {
+      border-top: 0;
     }
+    &__label {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mg-soft);
+      line-height: 1.2;
+    }
+    &__hint {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--mg-faint);
+    }
+    &__ctrl {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+  }
+
+  .mg-input,
+  .mg-select {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    background: var(--mg-field);
+    border: 1px solid var(--mg-line);
+    border-radius: 3px;
+    color: var(--mg-field-ink);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 10px;
+    transition:
+      border-color 0.12s,
+      box-shadow 0.12s;
+
+    &::placeholder {
+      color: var(--mg-faint);
+      font-weight: 500;
+    }
+    &:focus {
+      outline: none;
+      border-color: var(--mg-gold);
+      box-shadow: 0 0 0 2px var(--mg-hi);
+    }
+  }
+  .mg-select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6'%3E%3Cpath fill='%23e0c074' d='M0 0h8L4 6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+
+    option {
+      background: var(--mg-panel);
+      color: var(--mg-ink);
+    }
+  }
+  &.theme-light .mg-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6'%3E%3Cpath fill='%239a7430' d='M0 0h8L4 6z'/%3E%3C/svg%3E");
+  }
+
+  // HP cur/max
+  .mg-hp {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex: 1;
+
+    .mg-input {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--mg-ink);
+    }
+    &__sep {
+      flex: none;
+      color: var(--mg-gold);
+      font-weight: 800;
+      font-size: 16px;
+    }
+  }
+
+  // 체크박스
+  .mg-check {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--mg-gold);
+    border-radius: 4px;
+    background: var(--mg-field);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: transparent;
+    cursor: pointer;
+    transition:
+      background 0.12s,
+      color 0.12s;
+
+    &.is-on {
+      background: var(--mg-check);
+      color: var(--mg-panel);
+    }
+  }
+  .mg-checkwrap {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .mg-checkwrap__hint {
+    font-size: 11px;
+    color: var(--mg-faint);
+    font-weight: 500;
+  }
+
+  // 고유 기능 섹션
+  .mg-section {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 10px 0 8px;
+
+    &__rule {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--mg-gold), transparent);
+
+      &--l {
+        background: linear-gradient(90deg, transparent, var(--mg-gold));
+      }
+    }
+    &__title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--mg-bar-ink);
+      background: var(--mg-bar);
+      border: 1px solid var(--mg-gold);
+      border-radius: 2px;
+      padding: 3px 14px;
+    }
+  }
+  .mg-ability-edit,
+  .mg-ability-view {
+    border: 1px dashed var(--mg-line);
+    border-radius: 4px;
+    background: var(--mg-field);
+    padding: 10px 12px;
+    color: var(--mg-ink);
+    font-size: 12px;
+    min-height: 54px;
   }
 }
 

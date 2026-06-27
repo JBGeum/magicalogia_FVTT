@@ -7,10 +7,11 @@ const { ActorSheetV2 } = foundry.applications.sheets;
 export class MagicalogiaArchetypeSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["magicalogia", "sheet", "actor", "archetype"],
-    position: { width: 420, height: "auto" },
+    position: { width: 430, height: "auto" },
     window: { resizable: true },
     actions: {
       editImg: MagicalogiaArchetypeSheet.#onEditImg,
+      "toggle-block": MagicalogiaArchetypeSheet.#onToggleBlock,
     },
     form: {
       handler: MagicalogiaArchetypeSheet.#onSubmit,
@@ -52,6 +53,11 @@ export class MagicalogiaArchetypeSheet extends HandlebarsApplicationMixin(ActorS
   _onRender(context, options) {
     super._onRender?.(context, options);
     applyTheme(this.element);
+  }
+
+  /** 블록 보유(hasBlock) 토글 — 시안 mg-check 체크박스. */
+  static async #onToggleBlock() {
+    await this.actor.update({ "system.hasBlock": !this.actor.system.hasBlock });
   }
 
   /** 초상화 클릭 → FilePicker로 원형 이미지 교체. */

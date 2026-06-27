@@ -1,41 +1,59 @@
-<div class="mg-archetype">
-  <header class="mg-archetype__head">
-    <img class="mg-archetype__img" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImg" data-edit="img" title="초상화 변경" />
-    <input type="text" name="name" value="{{actor.name}}" {{#unless editable}}disabled{{/unless}} />
-  </header>
+<div class="mg-item">
+  <div class="mg-item__bar">
+    <span class="mg-item__sigil"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 1.5C5 1.5 3 4 3 7.5c0 3 2 5.5 5 6.5 3-1 5-3.5 5-6.5C13 4 11 1.5 8 1.5z"/><path d="M6.2 7.2c.6-.5 1.3-.5 1.8 0M8 7.2c.5-.5 1.2-.5 1.8 0"/></svg></span>
+    <span class="mg-item__title">원형</span>
+  </div>
 
-  <div class="mg-archetype__stats">
-    <label>블록 보유 <span class="mg-archetype__hint">(원형 HP = 캐릭터 임시체력)</span>
-      <input type="checkbox" name="system.hasBlock" {{checked system.hasBlock}} {{#unless editable}}disabled{{/unless}} />
-    </label>
+  <div class="mg-fam-hero">
+    <div class="mg-fam-portrait" data-action="editImg" title="초상화 변경">
+      <span class="mg-pcorner mg-pcorner--tl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
+      <span class="mg-pcorner mg-pcorner--tr">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
+      <span class="mg-pcorner mg-pcorner--bl">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
+      <span class="mg-pcorner mg-pcorner--br">{{> "systems/magicalogia/templates/actor/parts/mg-svg-pcorner.hbs"}}</span>
+      {{#if actor.img}}
+      <img class="mg-fam-portrait__img" src="{{actor.img}}" alt="{{actor.name}}" />
+      {{else}}
+      <svg class="mg-fam-portrait__glyph" viewBox="0 0 200 200" fill="currentColor"><path d="M100 18c-30 0-52 24-58 56-3 17-2 36 4 60 2 8 12 10 12 2 0-10 1-16 4-16s4 5 4 14c0 6 8 6 8 0v-14c0-3 4-3 4 0v14c0 6 8 6 8 0 0-9 1-14 4-14s4 6 4 16c0 8 10 6 12-2 6-24 7-43 4-60-6-32-28-56-58-56z" opacity=".22"/><path d="M100 30c-26 0-45 21-50 49-2 12-1 25 2 41 1 5 7 5 8 0 2-12 8-19 18-22-6-5-10-12-10-21 0-2 2-3 4-2 6 5 13 7 20 7s14-2 20-7c2-1 4 0 4 2 0 9-4 16-10 21 10 3 16 10 18 22 1 5 7 5 8 0 3-16 4-29 2-41-5-28-24-49-50-49z"/><ellipse cx="84" cy="98" rx="7" ry="9" fill="var(--mg-paper)"/><ellipse cx="116" cy="98" rx="7" ry="9" fill="var(--mg-paper)"/></svg>
+      {{/if}}
+    </div>
+    <div class="mg-fam-nameblock">
+      <span class="mg-fam-nameblock__cap">원형 이름</span>
+      <input class="mg-name-input" type="text" name="name" value="{{actor.name}}" placeholder="원형 이름" {{#unless editable}}disabled{{/unless}} />
+    </div>
+  </div>
+
+  <div class="mg-fam-body">
+    <div class="mg-frow">
+      <span class="mg-frow__label">레벨<span class="mg-frow__hint">(원형 레벨)</span></span>
+      <span class="mg-frow__ctrl"><input class="mg-input" type="number" name="system.level" value="{{system.level}}" placeholder="—" {{#unless editable}}disabled{{/unless}} /></span>
+    </div>
+    <div class="mg-frow">
+      <span class="mg-frow__label">블록 보유</span>
+      <span class="mg-frow__ctrl mg-checkwrap"><span class="mg-check {{#if system.hasBlock}}is-on{{/if}}" data-action="toggle-block" role="button" title="블록 보유 토글">{{#if system.hasBlock}}✓{{/if}}</span><span class="mg-checkwrap__hint">(원형 HP = 캐릭터 임시체력)</span></span>
+    </div>
     {{#if system.hasBlock}}
-    <label>블록(HP)
-      <input type="number" name="system.health.value" value="{{system.health.value}}" {{#unless editable}}disabled{{/unless}} />
-      / <input type="number" name="system.health.max" value="{{system.health.max}}" {{#unless editable}}disabled{{/unless}} />
-    </label>
+    <div class="mg-frow">
+      <span class="mg-frow__label">블록<span class="mg-frow__hint">(HP)</span></span>
+      <span class="mg-frow__ctrl mg-hp"><input class="mg-input" type="number" name="system.health.value" value="{{system.health.value}}" {{#unless editable}}disabled{{/unless}} /><span class="mg-hp__sep">/</span><input class="mg-input" type="number" name="system.health.max" value="{{system.health.max}}" {{#unless editable}}disabled{{/unless}} /></span>
+    </div>
     {{/if}}
-    <label>부스트 수 <span class="mg-archetype__hint">(다이스 N개 부스트)</span>
-      <input type="number" name="system.boostCount" value="{{system.boostCount}}" {{#unless editable}}disabled{{/unless}} />
-    </label>
-    <label>속성
-      <select name="system.attr" {{#unless editable}}disabled{{/unless}}>
-        <option value="" {{#unless system.attr}}selected{{/unless}}>—</option>
-        {{#each attributes}}
-        <option value="{{this.key}}" {{#if (eq ../system.attr this.key)}}selected{{/if}}>{{this.title}}</option>
-        {{/each}}
-      </select>
-    </label>
-    <label>토큰명 템플릿
-      <input type="text" name="system.nameTemplate" value="{{system.nameTemplate}}" placeholder="{skill}의 기사" {{#unless editable}}disabled{{/unless}} />
-    </label>
-  </div>
+    <div class="mg-frow">
+      <span class="mg-frow__label">속성</span>
+      <span class="mg-frow__ctrl"><select class="mg-select" name="system.attr" {{#unless editable}}disabled{{/unless}}>
+          <option value="" {{#unless system.attr}}selected{{/unless}}>—</option>
+          {{#each attributes}}<option value="{{this.key}}" {{#if (eq ../system.attr this.key)}}selected{{/if}}>{{this.title}}</option>{{/each}}
+        </select></span>
+    </div>
+    <div class="mg-frow">
+      <span class="mg-frow__label">토큰명 템플릿</span>
+      <span class="mg-frow__ctrl"><input class="mg-input" type="text" name="system.nameTemplate" value="{{system.nameTemplate}}" placeholder="{skill}의 …" {{#unless editable}}disabled{{/unless}} /></span>
+    </div>
 
-  <div class="mg-archetype__features">
-    <h3>고유 기능</h3>
+    <div class="mg-section"><span class="mg-section__rule mg-section__rule--l"></span><span class="mg-section__title">고유 기능</span><span class="mg-section__rule"></span></div>
     {{#if editable}}
-    <prose-mirror name="system.features" button="true" editable="{{editable}}" toggled="false" value="{{system.features}}">{{{enrichedFeatures}}}</prose-mirror>
+    <prose-mirror class="mg-ability-edit" name="system.features" button="true" editable="{{editable}}" toggled="false" value="{{system.features}}">{{{enrichedFeatures}}}</prose-mirror>
     {{else}}
-    {{{enrichedFeatures}}}
+    <div class="mg-ability-view">{{{enrichedFeatures}}}</div>
     {{/if}}
   </div>
-</form>
+</div>
