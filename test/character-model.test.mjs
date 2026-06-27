@@ -86,7 +86,8 @@ describe("CharacterDataModel", () => {
       "trueForm",
       "trueFormRevealed",
       "effect",
-      "effectType",
+      "readingCircle",
+      "memo",
     ]) {
       expect(Object.keys(s)).toContain(key);
     }
@@ -105,12 +106,9 @@ describe("CharacterDataModel", () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
     expect(Object.keys(CharacterDataModel.defineSchema())).not.toContain("genderAge");
   });
-  it("effectType은 EFFECT_TYPES choices와 '없음' 기본값을 가진다", async () => {
+  it("effectType은 더 이상 스키마에 없다(텍스트 효과로 단순화)", async () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
-    const { MAGICALOGIA } = await import("../module/helpers/config.mjs");
-    const s = CharacterDataModel.defineSchema();
-    expect(s.effectType.options.choices).toEqual(MAGICALOGIA.EFFECT_TYPES);
-    expect(s.effectType.options.initial).toBe("없음");
+    expect(Object.keys(CharacterDataModel.defineSchema())).not.toContain("effectType");
   });
   it("trueFormRevealed는 BooleanField이며 기본 false", async () => {
     const { CharacterDataModel } = await import("../module/data/actors/character.mjs");

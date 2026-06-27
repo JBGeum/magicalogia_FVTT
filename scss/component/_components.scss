@@ -52,6 +52,16 @@
       color: var(--mg-ink);
       font-weight: 700;
     }
+    // 우측 끝 고정폭 입력(효과) — 한글 약 4글자.
+    &__value--w4 {
+      flex: none;
+      width: 4.5em;
+    }
+    // 우측 끝 고정폭 입력(메모) — 한글 약 8글자.
+    &__value--w8 {
+      flex: none;
+      width: 9em;
+    }
     // 강조 텍스트 필드(임시이름/마법명) — 값만 크게, 라벨은 통일 크기 유지.
     &--lg .mg-field__value {
       font-size: 18px;

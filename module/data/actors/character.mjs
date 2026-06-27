@@ -1,5 +1,4 @@
 import { BaseActorModel } from "../base-actor.mjs";
-import { MAGICALOGIA } from "../../helpers/config.mjs";
 
 const fields = foundry.data.fields;
 
@@ -43,8 +42,8 @@ export class CharacterDataModel extends BaseActorModel {
       trueForm: new fields.StringField({ initial: "" }),
       trueFormRevealed: new fields.BooleanField({ initial: false }),
       effect: new fields.StringField({ initial: "" }),
-      // choices에 "없음"이 포함되므로 blank:true 불필요(initial이 choices 내).
-      effectType: new fields.StringField({ initial: "없음", choices: MAGICALOGIA.EFFECT_TYPES }),
+      readingCircle: new fields.StringField({ initial: "" }),
+      memo: new fields.StringField({ initial: "" }),
 
       // 능력치 (슬라이스에선 표시만)
       abilities: new fields.SchemaField({

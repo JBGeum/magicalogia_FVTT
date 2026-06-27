@@ -95,10 +95,6 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     // 계제 등급명(범위 밖이면 빈 문자열). "ko (kana)" 형식.
     const st = CONFIG.MAGICALOGIA.stageTitles[Number(sys.stage)];
     context.stageTitle = st ? `${st.ko} (${st.kana})` : "";
-    context.effectTypes = CONFIG.MAGICALOGIA.EFFECT_TYPES.map((t) => ({
-      value: t,
-      selected: t === sys.effectType,
-    }));
 
     // 장서 — spell 아이템 + 충전 슬롯(rings)/코스트 라벨 표시 데이터.
     context.spellTypes = CONFIG.MAGICALOGIA.spellTypes;

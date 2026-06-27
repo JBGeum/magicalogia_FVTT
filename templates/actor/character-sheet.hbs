@@ -76,15 +76,14 @@
               <span class="mg-field__label">진정한 모습</span>
               <span class="mg-check {{#if system.trueFormRevealed}}is-on{{/if}}" data-action="toggleTrueForm">{{#if system.trueFormRevealed}}✓{{/if}}</span>
               <input class="mg-field__value {{#unless system.trueForm}}mg-field__value--empty{{/unless}}" type="text" name="system.trueForm" value="{{system.trueForm}}" placeholder="—" />
+              <input class="mg-field__value mg-field__value--w4 {{#unless system.effect}}mg-field__value--empty{{/unless}}" type="text" name="system.effect" value="{{system.effect}}" placeholder="효과" />
             </label>
 
             <label class="mg-field mg-field--wide">
               <span class="mg-field__mark">❖</span>
-              <span class="mg-field__label">효과</span>
-              <input class="mg-field__value {{#unless system.effect}}mg-field__value--empty{{/unless}}" type="text" name="system.effect" value="{{system.effect}}" placeholder="—" />
-              <select class="mg-ident-select mg-ident-select--tag" name="system.effectType">
-                {{#each effectTypes}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{value}}</option>{{/each}}
-              </select>
+              <span class="mg-field__label">분과회</span>
+              <input class="mg-field__value {{#unless system.readingCircle}}mg-field__value--empty{{/unless}}" type="text" name="system.readingCircle" value="{{system.readingCircle}}" placeholder="—" />
+              <input class="mg-field__value mg-field__value--w8 {{#unless system.memo}}mg-field__value--empty{{/unless}}" type="text" name="system.memo" value="{{system.memo}}" placeholder="메모" />
             </label>
           </div>
 

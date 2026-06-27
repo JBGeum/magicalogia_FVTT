@@ -123,9 +123,6 @@ MAGICALOGIA.ORGANON_OPTIONS = [
   { ko: "문호", en: "portal" },
 ];
 
-// 효과 지속 종류 select(고정 choices). 0번이 기본값.
-MAGICALOGIA.EFFECT_TYPES = ["없음", "지속", "순간", "장면"];
-
 // 테마 루트 클래스 (클라이언트 설정으로 선택).
 MAGICALOGIA.themes = { dark: "theme-dark", light: "theme-light" };
 
