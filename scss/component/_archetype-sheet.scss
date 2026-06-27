@@ -23,7 +23,7 @@
 
   &__head input[name="name"] {
     flex: 1 1 auto;
-    font-size: 1.1rem;
+    font-size: 1.32rem;
   }
 
   &__stats {
@@ -40,14 +40,14 @@
   }
 
   &__hint {
-    font-size: 0.75em;
+    font-size: 0.9em;
     opacity: 0.65;
   }
 
   &__features {
     h3 {
       margin: 0 0 0.25rem;
-      font-size: 0.9rem;
+      font-size: 1.08rem;
     }
   }
 }
@@ -61,7 +61,7 @@
   max-width: 260px;
   padding: 0.5rem 0.7rem;
   border-radius: 6px;
-  font-size: 0.78rem;
+  font-size: 0.936rem;
   line-height: 1.45;
   background: var(--mg-paper);
   color: var(--mg-ink);
@@ -75,7 +75,7 @@
   &__attr {
     font-weight: 400;
     opacity: 0.7;
-    font-size: 0.85em;
+    font-size: 1.02em;
   }
   &__stats {
     margin-bottom: 0.2rem;

@@ -15,7 +15,7 @@ const CHARGE_SLOTS = 6;
 export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["magicalogia", "sheet", "actor"],
-    position: { width: 720, height: 920 },
+    position: { width: 864, height: 920 },
     window: { resizable: true },
     form: {
       handler: MagicalogiaActorSheet.#onSubmit,

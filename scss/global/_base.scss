@@ -130,27 +130,27 @@
     border-bottom: 2px solid var(--mg-gold);
 
     &__eyebrow {
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 0.34em;
       color: var(--mg-gold);
       margin-bottom: 3px;
     }
     &__title {
       font-family: $mg-font-display;
-      font-size: 28px;
+      font-size: 34px;
       font-weight: 700;
       letter-spacing: 0.07em;
       color: var(--mg-bar-ink);
     }
     &__latin {
       font-family: $mg-font-latin;
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 0.32em;
       color: var(--mg-gold);
       margin-left: 11px;
     }
     &__sigil {
-      font-size: 30px;
+      font-size: 36px;
       line-height: 1;
       color: var(--mg-gold);
       opacity: 0.55;
@@ -169,7 +169,7 @@
 
     .mg-tab {
       padding: 9px 15px;
-      font-size: 13px;
+      font-size: 16px;
       letter-spacing: 0.04em;
       white-space: nowrap;
       color: var(--mg-soft);

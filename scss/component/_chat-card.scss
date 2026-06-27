@@ -64,7 +64,7 @@
     &__who {
       flex: 1;
       min-width: 0;
-      font-size: 12.5px;
+      font-size: 15px;
       font-weight: 800;
       letter-spacing: 0.02em;
       color: var(--mg-bar-ink);
@@ -90,7 +90,7 @@
     flex-wrap: wrap;
 
     &__skill {
-      font-size: 14px;
+      font-size: 17px;
       font-weight: 800;
       color: var(--mg-ink);
 
@@ -104,7 +104,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--mg-soft);
       background: var(--mg-field);
@@ -115,7 +115,7 @@
       b {
         color: var(--mg-gold);
         font-weight: 800;
-        font-size: 12px;
+        font-size: 14px;
       }
     }
   }
@@ -165,14 +165,14 @@
   }
 
   .mg-roll-eq {
-    font-size: 13px;
+    font-size: 16px;
     color: var(--mg-faint);
     font-weight: 700;
   }
 
   .mg-roll-sum {
     font-family: "Pretendard", sans-serif;
-    font-size: 21px;
+    font-size: 25px;
     font-weight: 800;
     color: var(--mg-ink);
     line-height: 1;
@@ -181,7 +181,7 @@
 
   .mg-roll-detail {
     margin-left: auto;
-    font-size: 11px;
+    font-size: 13px;
     color: var(--mg-faint);
     font-weight: 600;
     white-space: nowrap;
@@ -203,12 +203,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
+      font-size: 13px;
       line-height: 1;
     }
 
     &__text {
-      font-size: 13.5px;
+      font-size: 16px;
       letter-spacing: 0.04em;
     }
 
@@ -229,7 +229,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 10.5px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.06em;
       padding: 1px 8px;
@@ -253,7 +253,7 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    font-size: 11.5px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--mg-soft);
     background: var(--mg-hi);
@@ -289,14 +289,14 @@
     gap: 8px;
   }
   .mg-spell-name {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 800;
     color: var(--mg-gold);
     line-height: 1.15;
     letter-spacing: 0.01em;
 
     rt {
-      font-size: 9px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--mg-soft);
       letter-spacing: 0.04em;
@@ -305,7 +305,7 @@
   .mg-spell-type {
     flex: none;
     align-self: center;
-    font-size: 10.5px;
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.06em;
     color: var(--mg-head-ink);
@@ -327,8 +327,9 @@
     dt {
       display: flex;
       align-items: center;
+      margin: 0;
       gap: 5px;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
       color: var(--mg-head-ink);
       background: var(--mg-head-bg);
@@ -340,7 +341,7 @@
       display: flex;
       align-items: center;
       margin: 0;
-      font-size: 12.5px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--mg-ink);
       padding: 5px 10px;
@@ -371,14 +372,14 @@
 
     &__label {
       display: block;
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.1em;
       color: var(--mg-soft);
       margin-bottom: 3px;
     }
     &__text {
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1.55;
       color: var(--mg-ink);
     }
@@ -417,12 +418,12 @@
     padding: 6px 10px;
 
     &__label {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.04em;
     }
     &__formula {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--mg-faint);
     }
@@ -432,13 +433,13 @@
       gap: 6px;
     }
     &__sum {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 800;
       line-height: 1;
     }
     &__detail {
       margin-left: auto;
-      font-size: 11px;
+      font-size: 13px;
       color: var(--mg-faint);
       font-weight: 600;
       white-space: nowrap;
@@ -458,7 +459,7 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-size: 11.5px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--mg-head-ink);
     background: var(--mg-head-bg);
@@ -530,7 +531,7 @@
 
   .mg-cc__who {
     flex: none;
-    font-size: 12.5px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--mg-ink);
     white-space: nowrap;
@@ -538,7 +539,7 @@
 
   .mg-cc__spell {
     flex: none;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 800;
     color: var(--mg-gold);
     white-space: nowrap;
@@ -556,20 +557,20 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--mg-soft);
     white-space: nowrap;
 
     .lbl {
       color: var(--mg-faint);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
     }
   }
 
   .mg-cc__n {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 800;
     color: var(--mg-soft);
     font-variant-numeric: tabular-nums;
@@ -586,7 +587,7 @@
 
   .mg-cc__max {
     color: var(--mg-faint);
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
   }
 
@@ -596,7 +597,7 @@
     display: inline-flex;
     align-items: center;
     gap: 3px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 800;
     border-radius: 999px;
     padding: 2px 9px;
@@ -620,7 +621,7 @@
     display: inline-flex;
     align-items: center;
     gap: 3px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 800;
     color: var(--mg-good);
     white-space: nowrap;
@@ -646,7 +647,7 @@
       flex: none;
       width: 42px;
       text-align: center;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.04em;
       color: var(--mg-bar-ink);
@@ -664,7 +665,7 @@
     }
     &__name {
       flex: none;
-      font-size: 11.5px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--mg-soft);
       white-space: nowrap;
@@ -684,7 +685,7 @@
     gap: 2px;
   }
   .mg-die-num {
-    font-size: 10.5px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--mg-faint);
     line-height: 1;
@@ -747,7 +748,7 @@
   }
   .mg-side__focus {
     flex: none;
-    font-size: 10.5px;
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.04em;
     color: var(--mg-bar-ink);
@@ -771,7 +772,7 @@
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
-    font-size: 11px;
+    font-size: 13px;
     color: var(--mg-soft);
     border-top: 1px dashed var(--mg-line);
     padding-top: 6px;
@@ -801,7 +802,7 @@
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--mg-soft);
     background: var(--mg-good-bg);
@@ -830,7 +831,7 @@
   .mg-apply {
     margin-left: auto;
     flex: none;
-    font-size: 11.5px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--mg-bar-ink);
     background: var(--mg-bar);
@@ -883,7 +884,7 @@
 
   .mg-mpd__text {
     flex: none;
-    font-size: 12.5px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--mg-soft);
   }
@@ -901,7 +902,7 @@
   .mg-mpd__range {
     flex: none;
     margin-left: auto;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--mg-faint);
     font-variant-numeric: tabular-nums;

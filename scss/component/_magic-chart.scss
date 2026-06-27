@@ -77,14 +77,14 @@
       }
     }
     .num {
-      font-size: 9px;
+      font-size: 15px;
       color: var(--mg-soft);
     }
     .title {
-      font-size: 14px;
+      font-size: 17px;
       font-weight: 700;
       letter-spacing: 0.05em;
-      color: var(--mg-bar-ink);
+      color: var(--mg-dark-ink);
     }
   }
 
@@ -96,7 +96,7 @@
     gap: 5px;
     padding: 0 7px;
     border-top: 1px solid var(--mg-line);
-    font-size: 12px;
+    font-size: 14px;
   }
 
   // 출목 인덱스 셀 — 중앙정렬·굵게·소프트·등폭 숫자
@@ -113,6 +113,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: center;
   }
   // 비용(목표치) — 골드, 우측정렬, 등폭 숫자
   .mg-chart__cell .tn {
@@ -148,7 +149,7 @@
     padding: 6px 14px;
     background: var(--mg-panel-2);
     border-top: 2px solid var(--mg-gold);
-    font-size: 12.5px;
+    font-size: 15px;
 
     // 각 라벨: 플로리시 + 텍스트 + 컨트롤(select/input)을 한 줄에 가로 배치.
     label {

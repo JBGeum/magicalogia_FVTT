@@ -7,7 +7,7 @@ const { ItemSheetV2 } = foundry.applications.sheets;
 export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["magicalogia", "sheet", "item"],
-    position: { width: 480, height: "auto" },
+    position: { width: 576, height: "auto" },
     window: { resizable: true },
     form: {
       handler: MagicalogiaItemSheet.#onSubmit,
