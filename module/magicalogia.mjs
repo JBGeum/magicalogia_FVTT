@@ -21,6 +21,7 @@ import { registerThemeSetting } from "./helpers/theme.mjs";
 import { bindBattleCardActions, bindWitnessCardActions } from "./system/magic-battle.mjs";
 import { registerBattleSocket } from "./system/battle-socket.mjs";
 import { bindArchetypeHover } from "./system/archetype-hover.mjs";
+import { registerSummonSocket, cleanupSummonedActor } from "./system/archetype-summon.mjs";
 import { decorateRollCard } from "./system/roll-card.mjs";
 import { MagicBattlePanel } from "./apps/magic-battle-panel.mjs";
 
@@ -75,8 +76,12 @@ Hooks.on("renderChatMessageHTML", (message, html) => {
 
 Hooks.once("ready", () => {
   registerBattleSocket();
+  registerSummonSocket();
   bindArchetypeHover();
 });
+
+// per-summon 임시 소환 액터 정리(activeGM, 잔여 토큰 0).
+Hooks.on("deleteToken", cleanupSummonedActor);
 
 // 씬 컨트롤 GM 전용 마법전 버튼. V13: controls/tools는 객체(Record).
 Hooks.on("getSceneControlButtons", (controls) => {

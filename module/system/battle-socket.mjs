@@ -1,7 +1,6 @@
 import { BattleDiceDialog } from "../apps/battle-dice-dialog.mjs";
 import { MagicBattlePanel } from "../apps/magic-battle-panel.mjs";
-
-export const CHANNEL = "system.magicalogia";
+import { CHANNEL } from "./socket-channel.mjs";
 
 /** GM → PL: 다이스 선택 요청. */
 export function requestPick({ reqId, userId, actorId, role, max, allowFocus, prompt }) {

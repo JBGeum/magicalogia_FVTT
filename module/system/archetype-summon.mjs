@@ -1,5 +1,6 @@
 import { MAGICALOGIA } from "../helpers/config.mjs";
 import { resolveVariableSkill } from "./specialty-table.mjs";
+import { CHANNEL } from "./socket-channel.mjs";
 
 /**
  * 소환 대상 UUID 해석 (순수).
@@ -37,10 +38,18 @@ export function buildTokenName(masterName, nameTemplate, skill) {
   return nameTemplate.replaceAll("{skill}", skill);
 }
 
+/** 소환 배치 위치 — 소환자 토큰 한 칸 아래, 없으면 씬 중앙. (Foundry 의존) */
+function summonPosition(caster) {
+  const grid = canvas.grid?.size ?? 100;
+  const t = caster.getActiveTokens?.()[0] ?? null;
+  if (t) return { x: t.x, y: t.y + (t.document.height ?? 1) * grid + grid };
+  return { x: (canvas.scene?.width ?? grid) / 2, y: (canvas.scene?.height ?? grid) / 2 };
+}
+
 /**
- * 원형 소환 — 마스터 archetype의 prototypeToken을 현재 씬에 unlinked 복제.
- * 소환자 옆 칸에 배치, 토큰명에 지정특기(가변이면 자동 굴림) 반영, 소환자 귀속.
- * Foundry 의존(fromUuid/Roll/canvas/ui). 호출은 클릭 핸들러에서만.
+ * 원형 소환 — 컴펜디움/월드 원형을 per-summon 임시 월드 액터로 만들어 토큰 배치.
+ * 토큰은 월드 액터를 참조해야 하므로 GM이 생성을 담당한다(플레이어는 GM에 위임).
+ * 채팅 카드는 시전자 클라이언트에서 발행(가변이면 굴림 첨부).
  * @param {Actor} caster
  * @param {Item} spell
  */
@@ -57,38 +66,96 @@ export async function summonArchetype(caster, spell, { skill, rolls = [] } = {})
   const summonSkill = skill ?? spell.system.skill ?? "";
   const variable = spell.system.skill === "가변";
   const tokenName = buildTokenName(master.name, master.system.nameTemplate, summonSkill);
-
-  // 배치 위치: 소환자 토큰 기준 한 칸 간격 띄운 아래(x 정렬), 없으면 씬 중앙.
-  const grid = canvas.grid?.size ?? 100;
-  const casterToken = caster.getActiveTokens?.()[0] ?? null;
-  const pos = casterToken
-    ? {
-        x: casterToken.x,
-        y: casterToken.y + (casterToken.document.height ?? 1) * grid + grid,
-      }
-    : { x: (canvas.scene?.width ?? grid) / 2, y: (canvas.scene?.height ?? grid) / 2 };
-
-  // 마스터 prototypeToken → TokenDocument(unlinked).
-  const tokenDoc = await master.getTokenDocument({
-    name: tokenName,
+  const pos = summonPosition(caster);
+  const payload = {
+    uuid,
+    tokenName,
+    sceneId: canvas.scene?.id ?? null,
     x: pos.x,
     y: pos.y,
-    actorLink: false,
-  });
+    casterId: caster.id,
+    casterUserId: game.user.id,
+    hasBlock: !!master.system.hasBlock,
+  };
+
+  // 생성은 GM 권한 필요 — GM이면 직접, 플레이어면 activeGM에 소켓 위임.
+  if (game.user.isGM) {
+    await createSummon(payload);
+  } else if (game.users.activeGM) {
+    game.socket.emit(CHANNEL, { t: "summon:request", payload });
+  } else {
+    ui.notifications.warn("소환을 처리할 GM이 접속해 있지 않습니다.");
+    return;
+  }
+
+  await postArchetypeCard(caster, master, tokenName, summonSkill, variable, rolls);
+}
+
+/** 임시 소환 액터를 모아둘 'Actor' 폴더 '원형'(없으면 생성). GM 전용 경로에서 호출. */
+async function ensureArchetypeFolder() {
+  const existing = game.folders.find((f) => f.type === "Actor" && f.name === "원형");
+  return existing ?? Folder.implementation.create({ name: "원형", type: "Actor" });
+}
+
+/**
+ * 원형 마스터를 폴더 '원형'에 per-summon 임시 월드 액터로 복제하고, 그 액터의 토큰을
+ * 씬에 배치(actorLink). 시전자를 OWNER로, summonedFrom 플래그로 표시 → 토큰 삭제 시
+ * cleanupSummonedActor가 제거. GM(activeGM)에서만 호출된다.
+ */
+export async function createSummon({
+  uuid,
+  tokenName,
+  sceneId,
+  x,
+  y,
+  casterId,
+  casterUserId,
+  hasBlock,
+}) {
+  const master = await fromUuid(uuid);
+  if (!master) return;
+  const folder = await ensureArchetypeFolder();
+
+  const adata = master.toObject();
+  delete adata._id;
+  adata.folder = folder?.id ?? null;
+  foundry.utils.setProperty(adata, "flags.magicalogia.summonedFrom", uuid);
+  const ownership = { default: 0 };
+  if (casterUserId) ownership[casterUserId] = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER;
+  adata.ownership = ownership;
+  const ephemeral = await Actor.implementation.create(adata);
+  if (!ephemeral) return;
+
+  const tokenDoc = await ephemeral.getTokenDocument({ name: tokenName, x, y, actorLink: true });
   const data = tokenDoc.toObject();
-  // 귀속 기록 + 소환자 ownership 복제(델타 actor에 반영).
-  foundry.utils.setProperty(data, "flags.magicalogia.summonerId", caster.id);
-  foundry.utils.setProperty(data, "delta.ownership", foundry.utils.deepClone(caster.ownership));
-  // 블록 보유 원형: 토큰 HP bar(health)를 기본 표시.
-  if (master.system.hasBlock) {
+  foundry.utils.setProperty(data, "flags.magicalogia.summonerId", casterId);
+  if (hasBlock) {
     foundry.utils.setProperty(data, "bar1.attribute", "health");
     foundry.utils.setProperty(data, "displayBars", CONST.TOKEN_DISPLAY_MODES.ALWAYS);
   }
+  const scene = game.scenes.get(sceneId) ?? canvas.scene;
+  await scene?.createEmbeddedDocuments("Token", [data]);
+}
 
-  await canvas.scene.createEmbeddedDocuments("Token", [data]);
+/** PL→GM 소환 요청 수신(activeGM만 처리). ready 훅에서 등록. */
+export function registerSummonSocket() {
+  game.socket.on(CHANNEL, (msg) => {
+    if (msg?.t !== "summon:request") return;
+    if (game.users.activeGM !== game.user) return;
+    createSummon(msg.payload);
+  });
+}
 
-  // 원형 정보 채팅 카드(가변이면 굴림 첨부).
-  await postArchetypeCard(caster, master, tokenName, summonSkill, variable, rolls);
+/**
+ * 토큰 삭제 시 per-summon 임시 액터를 정리한다(activeGM, 잔여 토큰 0일 때만).
+ * deleteToken 훅에 연결. 누가 토큰을 지웠든 activeGM이 액터를 삭제한다.
+ */
+export async function cleanupSummonedActor(tokenDoc) {
+  if (game.users.activeGM !== game.user) return;
+  const actor = game.actors.get(tokenDoc.actorId);
+  if (!actor?.getFlag("magicalogia", "summonedFrom")) return;
+  const stillUsed = game.scenes.some((s) => s.tokens.some((t) => t.actorId === actor.id));
+  if (!stillUsed) await actor.delete();
 }
 
 /** 소환된 원형의 정보 채팅 카드를 출력. 라이트 고정. */

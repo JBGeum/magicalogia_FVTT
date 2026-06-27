@@ -37,6 +37,7 @@ export default tseslint.config(
         Macro: "readonly",
         Item: "readonly",
         Actor: "readonly",
+        Folder: "readonly",
         Handlebars: "readonly",
         fromUuid: "readonly",
         $: "readonly",
