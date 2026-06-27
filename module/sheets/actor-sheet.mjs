@@ -3,6 +3,7 @@ import { rollSpecialty, rollSoulSkill, rollVariableSkill } from "../system/speci
 import { castSpell } from "../system/spell-cast.mjs";
 import { summonArchetype, resolveSummonSkill } from "../system/archetype-summon.mjs";
 import { postChargeCard } from "../system/spell-charge.mjs";
+import { postTableCard } from "../system/table-card.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 import { formatCost, isCharged, chargeCostOf } from "../helpers/config.mjs";
 
@@ -260,7 +261,9 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       ui.notifications.warn(`'${name}' 표를 찾을 수 없습니다.`);
       return;
     }
-    await table.draw();
+    // 네이티브 카드 대신 시스템 .mg-card 양식으로 발행.
+    const { roll, results } = await table.draw({ displayChat: false });
+    await postTableCard(table, roll, results, this.actor);
   }
 
   /**

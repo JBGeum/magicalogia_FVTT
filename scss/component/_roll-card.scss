@@ -1,0 +1,121 @@
+// =============================================================
+//  전역 롤(/roll) 챗 카드 — 네이티브 다이스 렌더를 .mg-card 양식으로 재구성.
+//  셸(.mg-card/__head/__sigil/__who/__body)은 _chat-card.scss 재사용. 여기선 롤 전용만.
+//  출처: docs 미리보기 "마기카로기아 전역 롤 챗 카드".
+// =============================================================
+@use "../theme/vars" as *;
+
+.magicalogia {
+  // _chat-card.scss에서 제외됐던 시각 표시(롤 카드 헤더용).
+  .mg-card__time {
+    flex: none;
+    font-size: 10.5px;
+    color: var(--mg-bar-ink);
+    opacity: 0.62;
+    white-space: nowrap;
+  }
+
+  // 전체 식 바
+  .mg-roll-formula {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--mg-soft);
+    background: var(--mg-field);
+    border: 1px solid var(--mg-line);
+    border-radius: 4px;
+    padding: 6px 10px;
+    letter-spacing: 0.02em;
+  }
+
+  // 부분식 행(식 ── 소계)
+  .mg-roll-part {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--mg-faint);
+
+    &__f {
+      flex: none;
+    }
+    &__rule {
+      flex: 1;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, var(--mg-line) 0 4px, transparent 4px 8px);
+    }
+    &__sub {
+      flex: none;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--mg-gold);
+      background: var(--mg-hi);
+      border: 1px solid var(--mg-line);
+      border-radius: 4px;
+      padding: 1px 9px;
+      min-width: 26px;
+      text-align: center;
+    }
+  }
+
+  // 다이스 면 분해
+  .mg-roll-faces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .mg-face {
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12.5px;
+    font-weight: 800;
+    border-radius: 5px;
+    border: 1.5px solid var(--mg-line);
+    background: var(--mg-field);
+    color: var(--mg-ink);
+
+    &--max {
+      border-color: var(--mg-gold);
+      background: var(--mg-hi);
+      color: var(--mg-gold);
+    }
+    &--min {
+      border-color: #b6788a;
+      background: #b6788a26;
+      color: #9c4a5e;
+    }
+  }
+
+  // 합계
+  .mg-roll-total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--mg-head-bg);
+    border: 1px solid var(--mg-gold);
+    border-radius: 4px;
+    padding: 7px 12px;
+
+    &__cap {
+      flex: none;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--mg-head-ink);
+      opacity: 0.78;
+      text-transform: uppercase;
+    }
+    &__n {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--mg-head-ink);
+      line-height: 1;
+    }
+  }
+}
