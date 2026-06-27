@@ -1,6 +1,10 @@
 import { computeTable, findSpecialtyCoord } from "./specialty-table.mjs";
 import { renderDie, classifyRoll } from "./specialty-roll.mjs";
-import { formatCost } from "../helpers/config.mjs";
+import { formatCost, chargeCostOf } from "../helpers/config.mjs";
+import { postChargeCard } from "./spell-charge.mjs";
+
+// 충전 슬롯 최대치(액터 시트 CHARGE_SLOTS, spell 모델 charge.max와 동일).
+const CHARGE_MAX = 6;
 
 /**
  * 지정특기 명중 판정 목표치(TN) 해석 (순수).
@@ -44,6 +48,14 @@ export async function castSpell(actor, itemId) {
     return;
   }
 
+  // 충전 게이트 — 코스트만큼 충전이 없으면 발동 불가(판정·차감 없음).
+  const chargeCost = chargeCostOf(sys.cost);
+  const chargeBefore = spell.system.charge ?? 0;
+  if (chargeCost > 0 && chargeBefore < chargeCost) {
+    ui.notifications.warn("충전이 부족합니다.");
+    return;
+  }
+
   const roll = await new Roll("2d6").evaluate();
   const [d1, d2] = roll.dice[0].results.map((r) => r.result);
   const result = classifyRoll(d1, d2, tn);
@@ -77,5 +89,12 @@ export async function castSpell(actor, itemId) {
     },
   );
   await ChatMessage.create({ speaker, content, rolls: [roll] });
+
+  // 발동 확정 — 코스트만큼 충전 차감(판정 실패해도 소비). 변동 시 충전 카드 발행.
+  if (chargeCost > 0) {
+    const chargeAfter = chargeBefore - chargeCost;
+    await spell.update({ "system.charge": chargeAfter });
+    await postChargeCard(actor, spell, chargeBefore, chargeAfter, CHARGE_MAX);
+  }
   return result;
 }

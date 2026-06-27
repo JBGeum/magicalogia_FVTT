@@ -140,3 +140,13 @@ export function formatCost(cost) {
   const count = cost?.count ?? 0;
   return count ? `${label}×${count}` : label;
 }
+
+/**
+ * 장서 발동 시 차감할 충전(charge) 소비량. charge는 속성 구분 없는 단일 게이지이므로
+ * area는 "0이냐 아니냐"만 가르고(미선택/없음 → 0), 실제 양은 count가 정한다.
+ */
+export function chargeCostOf(cost) {
+  const area = cost?.area ?? "";
+  if (area === "" || area === "none") return 0;
+  return cost?.count ?? 0;
+}
