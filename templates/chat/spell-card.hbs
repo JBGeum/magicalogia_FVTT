@@ -7,7 +7,7 @@
     <div class="mg-card__body">
 
       <div class="mg-spell-head">
-        <span class="mg-spell-name">{{#if nameRt}}<ruby>{{name}}<rt>{{nameRt}}</rt></ruby>{{else}}{{name}}{{/if}}</span>
+        <span class="mg-spell-name">{{#if ruby}}<span class="mg-spell-name__ruby">{{ruby}}</span>{{/if}}<span class="mg-spell-name__main">{{name}}</span></span>
         {{#if type}}<span class="mg-spell-type">{{type}}</span>{{/if}}
       </div>
 

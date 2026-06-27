@@ -289,17 +289,25 @@
     gap: 8px;
   }
   .mg-spell-name {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--mg-gold);
-    line-height: 1.15;
-    letter-spacing: 0.01em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
 
-    rt {
-      font-size: 11px;
+    // 병기(루비) — name 위, 가운데 정렬, name보다 작은 폰트.
+    &__ruby {
+      font-size: 12px;
       font-weight: 700;
       color: var(--mg-soft);
       letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+    &__main {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--mg-gold);
+      line-height: 1.15;
+      letter-spacing: 0.01em;
     }
   }
   .mg-spell-type {

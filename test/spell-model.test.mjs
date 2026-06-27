@@ -47,6 +47,7 @@ describe("SpellDataModel", () => {
       "recite",
       "effect",
       "invocation",
+      "ruby",
       "archetypeUuid",
       "archetypeVarAttr",
     ]) {

@@ -72,6 +72,7 @@ export async function castSpell(actor, itemId, { skillOverride } = {}) {
     {
       who: speaker.alias,
       name: spell.name,
+      ruby: sys.ruby,
       type: sys.type,
       skill,
       target: sys.target,

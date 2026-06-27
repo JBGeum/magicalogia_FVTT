@@ -11,6 +11,8 @@ export class SpellDataModel extends BaseItemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
+      // 병기(루비) — 이름에 나란히 표기하는 다른 표기/외래어 음역(예: "분신 소환 / 서몬 아니마").
+      ruby: new fields.StringField({ initial: "" }),
       type: new fields.StringField({
         initial: "",
         blank: true,

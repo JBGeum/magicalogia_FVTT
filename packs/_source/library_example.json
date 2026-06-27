@@ -5,6 +5,7 @@
     "type": "spell",
     "img": "icons/skills/melee/weapons-crossed-swords-yellow.webp",
     "system": {
+      "ruby": "서몬 나이트",
       "description": "<p>예시 소환 장서입니다. 판정에 성공하면 원형 '기사'를 소환합니다. 실제 데이터로 교체하세요.</p>",
       "type": "소환",
       "skill": "불",
