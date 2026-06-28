@@ -1,8 +1,8 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: ["v*"]
 
 permissions:
   contents: write
@@ -11,10 +11,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the released tag
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
@@ -24,7 +21,7 @@ jobs:
       - name: Resolve version from tag
         id: ver
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ github.ref_name }}
         run: |
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
@@ -38,7 +35,17 @@ jobs:
       - name: Package dist into magicalogia.zip
         run: cd dist && zip -r ../magicalogia.zip .
 
-      - name: Upload release assets
+      - name: Extract changelog notes for this version
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          awk -v ver="$VERSION" '
+            /^## / { if (p) exit; if ($2 == ver) { p=1; next } }
+            p { print }
+          ' CHANGELOG.md > release-notes.md
+          echo "release notes: $(wc -l < release-notes.md) lines"
+
+      - name: Create release with assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "${{ steps.ver.outputs.tag }}" dist/system.json magicalogia.zip --clobber
+        run: gh release create "${{ steps.ver.outputs.tag }}" dist/system.json magicalogia.zip --title "${{ steps.ver.outputs.tag }}" --notes-file release-notes.md
