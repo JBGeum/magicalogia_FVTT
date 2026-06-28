@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the released tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Resolve version from tag
+        id: ver
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Patch system.json with release metadata
+        run: node tools/patch-manifest.mjs "${{ steps.ver.outputs.version }}" "${{ github.repository }}" "${{ steps.ver.outputs.tag }}"
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Package dist into magicalogia.zip
+        run: cd dist && zip -r ../magicalogia.zip . && cd ..
+
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ steps.ver.outputs.tag }}" dist/system.json magicalogia.zip --clobber
