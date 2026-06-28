@@ -23,8 +23,9 @@ jobs:
 
       - name: Resolve version from tag
         id: ver
+        env:
+          TAG: ${{ github.event.release.tag_name }}
         run: |
-          TAG="${{ github.event.release.tag_name }}"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
 
@@ -35,7 +36,7 @@ jobs:
       - run: npm run build
 
       - name: Package dist into magicalogia.zip
-        run: cd dist && zip -r ../magicalogia.zip . && cd ..
+        run: cd dist && zip -r ../magicalogia.zip .
 
       - name: Upload release assets
         env:

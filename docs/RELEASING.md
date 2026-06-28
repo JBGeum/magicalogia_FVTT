@@ -22,6 +22,10 @@
 https://github.com/JBGeum/magicalogia_FVTT/releases/latest/download/system.json
 ```
 
+## 공개 릴리스와 컴펜디움 데이터
+
+공개 릴리스에 포함되는 컴펜디움 팩은 `*_example.json` 예시 데이터로 패키징된다(실제 표 데이터는 저작권 보호로 gitignore·로컬 전용).
+
 ## 버전 규약
 
 - 태그 `vX.Y.Z` → `system.json` version `X.Y.Z`.
