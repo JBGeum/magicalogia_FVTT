@@ -1,0 +1,29 @@
+# 릴리스 절차
+
+릴리스는 GitHub Release 발행으로 자동화되어 있다(`.github/workflows/release.yml`).
+
+## 새 버전 릴리스하기
+
+1. `CHANGELOG.md`에 새 버전 항목 추가 → 커밋/푸시.
+2. GitHub → **Releases** → **Draft a new release**.
+3. **Tag**: `vX.Y.Z` 형식으로 새로 생성(예: `v0.2.0`). 태그가 버전의 단일 원천이다.
+4. 릴리스 노트 작성 후 **Publish**.
+5. `Release` 워크플로가 자동으로:
+   - 태그에서 버전을 추출해 `system.json`에 주입,
+   - `npm run build`로 `dist/` 생성,
+   - `dist/`를 `magicalogia.zip`으로 압축,
+   - 릴리스에 `system.json`과 `magicalogia.zip`을 첨부.
+
+## Foundry에 설치 (사용자 안내)
+
+최초 1회만 아래 manifest URL을 Foundry의 "Install System"에 입력한다. 이후 업데이트는 자동 감지된다.
+
+```
+https://github.com/JBGeum/magicalogia_FVTT/releases/latest/download/system.json
+```
+
+## 버전 규약
+
+- 태그 `vX.Y.Z` → `system.json` version `X.Y.Z`.
+- 레포의 `system.json` version 필드는 워크플로가 덮어쓰므로 수동 동기화 불필요.
+- `manifest`는 항상 `releases/latest/...`(고정), `download`는 해당 태그의 zip을 가리킨다.
