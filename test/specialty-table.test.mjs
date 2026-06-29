@@ -135,3 +135,27 @@ describe("resolveVariableSkill 가변 특기 결정", () => {
     expect(resolveVariableSkill("star", { skillSum: 12 })).toBe("이계");
   });
 });
+
+describe("computeTable misfortune", () => {
+  it("misfortune을 셀에 패스스루하고 tn 계산에는 영향을 주지 않는다", () => {
+    const owned = { star: [true, ...Array(10).fill(false)] }; // star[0] 습득 → anchor
+    const misfortune = { star: [false, true, ...Array(9).fill(false)] }; // star[1] 불운
+    const withM = computeTable({ owned, misfortune, domain: null, wrap: false });
+    const withoutM = computeTable({ owned, domain: null, wrap: false });
+    const starWith = withM.find((c) => c.key === "star").cells;
+    const starWithout = withoutM.find((c) => c.key === "star").cells;
+    expect(starWith[1].misfortune).toBe(true);
+    expect(starWith[0].misfortune).toBe(false);
+    // tn은 misfortune 유무와 무관하게 동일.
+    expect(starWith.map((c) => c.tn)).toEqual(starWithout.map((c) => c.tn));
+  });
+
+  it("misfortune 인자가 없으면 모든 셀 misfortune=false", () => {
+    const table = computeTable({
+      owned: { star: [true, ...Array(10).fill(false)] },
+      domain: null,
+      wrap: false,
+    });
+    expect(table.every((col) => col.cells.every((c) => c.misfortune === false))).toBe(true);
+  });
+});

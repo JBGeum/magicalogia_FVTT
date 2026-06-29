@@ -135,6 +135,47 @@
     text-align: center;
     color: var(--mg-check);
   }
+
+  // 불운 마킹된 체크 — 채워진 상태(습득 셀 배경과 톤 구분).
+  .mg-chart__cell .mg-check.is-on {
+    background: var(--mg-check);
+    border-color: var(--mg-check);
+    color: var(--mg-panel);
+  }
+
+  // 습득 편집 모드 — 표 강조 + 특기명을 클릭 대상으로.
+  .mg-chart.is-editing {
+    outline: 1px dashed var(--mg-gold);
+    outline-offset: 2px;
+
+    .mg-chart__cell .name {
+      cursor: pointer;
+    }
+  }
+
+  // 습득 편집 잠금 버튼 — compact. ON이면 자물쇠 열림 + 골드 배경으로 모드 표시.
+  .mg-chart__lock {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 18px;
+    padding: 0;
+    border: 1px solid var(--mg-line);
+    border-radius: 2px;
+    background: var(--mg-field);
+    color: var(--mg-ink);
+    font-size: 11px;
+    cursor: pointer;
+
+    &.is-on {
+      background: var(--mg-gold);
+      border-color: var(--mg-gold);
+      color: var(--mg-panel);
+    }
+  }
+
   .mg-rollable {
     cursor: pointer;
   }

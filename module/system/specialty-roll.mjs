@@ -25,9 +25,10 @@ export function renderDie(value, match) {
  * @param {number} d1
  * @param {number} d2
  * @param {number} tn  목표치
+ * @param {number} [penalty=0] 불운 등 합 차감(성공 판정에만 적용)
  * @returns {{total:number, success:boolean, special:boolean, fumble:boolean, doublet:boolean}}
  */
-export function classifyRoll(d1, d2, tn) {
+export function classifyRoll(d1, d2, tn, penalty = 0) {
   const total = d1 + d2;
   const doublet = d1 === d2;
   const fumble = d1 === 1 && d2 === 1;
@@ -35,15 +36,15 @@ export function classifyRoll(d1, d2, tn) {
   let success;
   if (fumble) success = false;
   else if (special) success = true;
-  else success = total >= tn;
+  else success = total - penalty >= tn;
   return { total, success, special, fumble, doublet };
 }
 
 /** 2d6 판정 후 .mg-card 채팅 카드 출력(특기·혼의특기 공용). 라이트 테마 고정. */
-async function postRollCard(actor, { domain, skill, tn }) {
+async function postRollCard(actor, { domain, skill, tn, penalty = 0 }) {
   const roll = await new Roll("2d6").evaluate();
   const [d1, d2] = roll.dice[0].results.map((r) => r.result);
-  const result = classifyRoll(d1, d2, tn);
+  const result = classifyRoll(d1, d2, tn, penalty);
   const dieHtml =
     renderDie(d1, result.doublet) +
     '<span class="mg-roll-eq">+</span>' +
@@ -57,6 +58,9 @@ async function postRollCard(actor, { domain, skill, tn }) {
       target: tn,
       dice: [d1, d2],
       sum: result.total,
+      // 스페셜(6,6)/펌블(1,1)은 주사위 눈으로 자동 판정 → 보정이 무의미하므로 불운 표기를 숨긴다.
+      showPenalty: penalty > 0 && !result.special && !result.fumble,
+      penalty,
       success: result.success,
       special: result.special,
       fumble: result.fumble,
@@ -78,6 +82,7 @@ export async function rollSpecialty(actor, colKey, rowIndex) {
   const sys = actor.system;
   const table = computeTable({
     owned: sys.skills,
+    misfortune: sys.misfortune,
     domain: sys.domain || null,
     wrap: sys.horizontalWrap,
   });
@@ -93,7 +98,12 @@ export async function rollSpecialty(actor, colKey, rowIndex) {
     return;
   }
 
-  await postRollCard(actor, { domain: column.title, skill: cell.name, tn: cell.tn });
+  await postRollCard(actor, {
+    domain: column.title,
+    skill: cell.name,
+    tn: cell.tn,
+    penalty: cell.misfortune ? 1 : 0,
+  });
 }
 
 /**

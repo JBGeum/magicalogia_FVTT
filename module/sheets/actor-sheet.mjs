@@ -25,7 +25,8 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       closeOnSubmit: false,
     },
     actions: {
-      toggleSkill: MagicalogiaActorSheet.#onToggleSkill,
+      "toggle-misfortune": MagicalogiaActorSheet.#onToggleMisfortune,
+      "toggle-skill-edit": MagicalogiaActorSheet.#onToggleSkillEdit,
       rollSpecialty: MagicalogiaActorSheet.#onRollSpecialty,
       "roll-soul": MagicalogiaActorSheet.#onRollSoul,
       "roll-variable": MagicalogiaActorSheet.#onRollVariable,
@@ -84,6 +85,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     context.chartRows = CONFIG.MAGICALOGIA.rows;
     context.chart = computeTable({
       owned: sys.skills,
+      misfortune: sys.misfortune,
       domain: sys.domain || null,
       wrap: sys.horizontalWrap,
     });
@@ -141,14 +143,23 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     return context;
   }
 
-  /** 특기 보유 토글 — ArrayField라 배열 전체를 갱신(폼 인덱스 바인딩 회피). */
-  static async #onToggleSkill(_event, target) {
+  /** mg-check 클릭 → 특기 불운 마킹 토글. ArrayField라 배열 전체 갱신. */
+  static async #onToggleMisfortune(_event, target) {
     const col = target.dataset.col;
     const index = Number(target.dataset.index);
-    const arr = foundry.utils.deepClone(this.actor.system.skills[col] ?? []);
+    const arr = foundry.utils.deepClone(this.actor.system.misfortune[col] ?? []);
     while (arr.length < 11) arr.push(false);
     arr[index] = !arr[index];
-    await this.actor.update({ [`system.skills.${col}`]: arr });
+    await this.actor.update({ [`system.misfortune.${col}`]: arr });
+  }
+
+  /** 습득 편집 모드 토글 — 휘발성(저장 안 함). 리렌더 없이 DOM 클래스만 토글. */
+  static #onToggleSkillEdit(_event, target) {
+    this._skillEdit = !this._skillEdit;
+    this.element.querySelector(".mg-chart")?.classList.toggle("is-editing", this._skillEdit);
+    target.classList.toggle("is-on", this._skillEdit);
+    const icon = target.querySelector("i");
+    if (icon) icon.className = this._skillEdit ? "fa-solid fa-lock-open" : "fa-solid fa-lock";
   }
 
   /** 장서 추가 — spell 아이템 생성 후 시트를 연다. */
@@ -201,8 +212,18 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     await item.update({ "system.scar": !item.system.scar });
   }
 
+  /** 특기명 클릭 → 평소 2d6 판정. 습득 편집 모드 ON이면 대신 습득(owned) 토글. */
   static async #onRollSpecialty(_event, target) {
-    await rollSpecialty(this.actor, target.dataset.col, Number(target.dataset.index));
+    const col = target.dataset.col;
+    const index = Number(target.dataset.index);
+    if (this._skillEdit) {
+      const arr = foundry.utils.deepClone(this.actor.system.skills[col] ?? []);
+      while (arr.length < 11) arr.push(false);
+      arr[index] = !arr[index];
+      await this.actor.update({ [`system.skills.${col}`]: arr });
+      return;
+    }
+    await rollSpecialty(this.actor, col, index);
   }
 
   /** 혼의 특기 클릭 → 목표치 6 고정의 2d6 판정. */
@@ -319,6 +340,16 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   /** 렌더 후: 장서/관계 행 더블클릭→시트 열기, 우클릭→삭제. */
   _onRender(context, options) {
     super._onRender?.(context, options);
+
+    const editOn = !!this._skillEdit;
+    this.element.querySelector(".mg-chart")?.classList.toggle("is-editing", editOn);
+    const editBtn = this.element.querySelector('[data-action="toggle-skill-edit"]');
+    if (editBtn) {
+      editBtn.classList.toggle("is-on", editOn);
+      const icon = editBtn.querySelector("i");
+      if (icon) icon.className = editOn ? "fa-solid fa-lock-open" : "fa-solid fa-lock";
+    }
+
     const open = (el) => this.actor.items.get(el.dataset.itemId)?.sheet.render(true);
     const del = (el) => this.actor.items.get(el.dataset.itemId)?.delete();
     for (const sel of [".mg-library .mg-table__row", ".mg-relations .mg-table__row"]) {
@@ -354,6 +385,11 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     }
 
     applyTheme(this.element);
+  }
+
+  _onClose(options) {
+    this._skillEdit = false;
+    return super._onClose?.(options);
   }
 
   static async #onSubmit(_event, _form, formData) {

@@ -161,4 +161,21 @@ describe("CharacterDataModel", () => {
     expect(keys).not.toContain("spells");
     expect(keys).not.toContain("anchors");
   });
+  it("misfortune은 skills와 동일한 6속성 boolean 배열 구조다", async () => {
+    const { CharacterDataModel } = await import("../module/data/actors/character.mjs");
+    const s = CharacterDataModel.defineSchema();
+    expect(Object.keys(s)).toContain("misfortune");
+    expect(Object.keys(s.misfortune.fields)).toEqual([
+      "star",
+      "beast",
+      "force",
+      "song",
+      "dream",
+      "dark",
+    ]);
+    const ArrayField = foundry.data.fields.ArrayField;
+    for (const key of ["star", "beast", "force", "song", "dream", "dark"]) {
+      expect(s.misfortune.fields[key]).toBeInstanceOf(ArrayField);
+    }
+  });
 });

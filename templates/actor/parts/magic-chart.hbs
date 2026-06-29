@@ -18,7 +18,7 @@
       </div>
       {{#each this.cells}}
       <div class="mg-chart__cell {{#if this.owned}}is-on{{/if}}">
-        <span class="mg-check" data-action="toggleSkill" data-col="{{../key}}" data-index="{{this.index}}">{{#if this.owned}}✓{{/if}}</span>
+        <span class="mg-check {{#if this.misfortune}}is-on{{/if}}" data-action="toggle-misfortune" data-col="{{../key}}" data-index="{{this.index}}">{{#if this.misfortune}}✓{{/if}}</span>
         <span class="name mg-rollable" data-action="rollSpecialty" data-col="{{../key}}" data-index="{{this.index}}">{{this.name}}</span>
         <span class="tn">{{#if this.tn}}{{this.tn}}{{else}}—{{/if}}</span>
       </div>
@@ -39,5 +39,6 @@
     <label><span class="mg-flourish">{{> "systems/magicalogia/templates/actor/parts/mg-svg-miniflr.hbs"}}</span><span class="mg-rollable" data-action="roll-soul" title="2d6 판정 (목표치 6)">혼의 특기</span> <input class="mg-field__value" type="text" name="system.soulSkill" value="{{system.soulSkill}}" /></label>
     <span class="mg-chart__spacer"></span>
     <label class="mg-chart__wrap"><span class="mg-check {{#if system.horizontalWrap}}is-on{{/if}}" data-action="toggle-wrap" title="어둠-별 가로순환">{{#if system.horizontalWrap}}✓{{/if}}</span>순환</label>
+    <button type="button" class="mg-chart__lock" data-action="toggle-skill-edit" title="습득 편집 모드 — 켜면 특기명 클릭으로 습득 토글"><i class="fa-solid fa-lock"></i></button>
   </div>
 </div>

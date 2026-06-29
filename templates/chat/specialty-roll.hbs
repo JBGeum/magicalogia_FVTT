@@ -10,11 +10,13 @@
       <div class="mg-roll-title">
         <span class="mg-roll-title__skill"><span class="dom">{{domain}}</span> · {{skill}}</span>
         <span class="mg-roll-title__target">목표 <b>{{target}}</b></span>
+        {{#if showPenalty}}<span class="mg-roll-title__chip">불운</span>{{/if}}
       </div>
       <div class="mg-roll-dice">
         {{{dieHtml}}}
         <span class="mg-roll-eq">=</span>
         <span class="mg-roll-sum">{{sum}}</span>
+        {{#if showPenalty}}<span class="mg-roll-penalty">(-{{penalty}})</span>{{/if}}
         <span class="mg-roll-detail">2D6 · {{dice.[0]}} + {{dice.[1]}}</span>
       </div>
       {{#if success}}

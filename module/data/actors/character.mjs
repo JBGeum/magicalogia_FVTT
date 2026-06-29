@@ -25,6 +25,8 @@ export class CharacterDataModel extends BaseActorModel {
 
       // 특기표
       skills: attrSchema(skillColumn),
+      // 특기표 불운 마킹(상태이상 statuses.misfortune과 별개). skills와 독립 — 한 칸에 습득·불운 동시 가능.
+      misfortune: attrSchema(skillColumn),
       // choices를 주면 Foundry StringField가 blank를 기본 거부하므로 blank:true로 "" (영역 미선택) 허용.
       domain: new fields.StringField({ initial: "", blank: true, choices: ["", ...ATTR_KEYS] }),
       horizontalWrap: new fields.BooleanField({ initial: false }),

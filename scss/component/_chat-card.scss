@@ -118,6 +118,18 @@
         font-size: 14px;
       }
     }
+
+    // 불운 특기 판정 표시 — 목표치 옆 compact pill.
+    &__chip {
+      flex: none;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--mg-soft);
+      background: var(--mg-field);
+      border: 1px solid var(--mg-line);
+      border-radius: 999px;
+      padding: 1px 9px;
+    }
   }
 
   // ---- Dice row ----
@@ -184,6 +196,13 @@
     font-size: 13px;
     color: var(--mg-faint);
     font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .mg-roll-penalty {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--mg-faint);
     white-space: nowrap;
   }
 

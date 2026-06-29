@@ -30,6 +30,22 @@ describe("classifyRoll", () => {
   it("total은 두 눈의 합", () => {
     expect(classifyRoll(2, 5, 5).total).toBe(7);
   });
+  it("penalty는 합 비교에서 차감된다 (불운 -1)", () => {
+    // (3,4)=7, tn=7: penalty 없으면 성공, penalty=1이면 6<7 실패.
+    expect(classifyRoll(3, 4, 7).success).toBe(true);
+    expect(classifyRoll(3, 4, 7, 1).success).toBe(false);
+  });
+  it("penalty는 total(raw 합)을 바꾸지 않는다", () => {
+    expect(classifyRoll(3, 4, 7, 1).total).toBe(7);
+  });
+  it("penalty가 있어도 (6,6) 스페셜은 자동 성공", () => {
+    expect(classifyRoll(6, 6, 12, 1).success).toBe(true);
+    expect(classifyRoll(6, 6, 12, 1).special).toBe(true);
+  });
+  it("penalty가 있어도 (1,1) 펌블은 자동 실패", () => {
+    expect(classifyRoll(1, 1, 5, 1).success).toBe(false);
+    expect(classifyRoll(1, 1, 5, 1).fumble).toBe(true);
+  });
 });
 
 describe("renderDie", () => {
