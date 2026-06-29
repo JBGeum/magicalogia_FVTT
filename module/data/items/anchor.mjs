@@ -14,6 +14,10 @@ export class AnchorDataModel extends BaseItemModel {
       attr: new fields.StringField({ initial: "" }),
       encumbrance: new fields.BooleanField({ initial: false }),
       scar: new fields.BooleanField({ initial: false }),
+      // 상흔이 침식하는 영역(속성 key). select UI가 값을 6속성+""로 제한. scar=true일 때만 의미.
+      scarAttr: new fields.StringField({ initial: "", blank: true }),
+      // 관계 메모(관계 목록 행에 한 줄 표시, anchor 시트에서 편집).
+      memo: new fields.StringField({ initial: "" }),
     };
   }
 }

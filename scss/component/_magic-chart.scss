@@ -53,6 +53,11 @@
     background: var(--mg-hi-strong);
   }
 
+  // 상흔 영역 — 열 배경에 경고 틴트(라이트 진한 붉은 / 다크 연한 붉은). 소속영역(골드 gap)과 구분.
+  .mg-chart__col.is-scar {
+    background: var(--mg-bad-bg);
+  }
+
   // 열 헤더 (출목 번호 + 속성명)
   .mg-chart__head {
     height: var(--mg-head-h);

@@ -22,6 +22,18 @@
           </div>
         </div>
         <div class="mg-irow">
+          <div class="mg-ifield"><span class="mg-ifield__label mg-ifield__label--wide">상흔 영역</span>
+            <select class="mg-select" name="system.scarAttr">
+              <option value="" {{selected (eq system.scarAttr "")}}>—</option>
+              {{#each attributes}}<option value="{{this.key}}" {{selected (eq ../system.scarAttr this.key)}}>{{this.title}}</option>{{/each}}
+            </select>
+          </div>
+        </div>
+        <div class="mg-ifield mg-ifield--full">
+          <span class="mg-ifield__label">메모</span>
+          <input class="mg-input" type="text" name="system.memo" value="{{system.memo}}" placeholder="메모" />
+        </div>
+        <div class="mg-irow">
           <label class="mg-checkrow"><span class="mg-check {{#if system.encumbrance}}is-on{{/if}}" data-action="toggle-field" data-field="system.encumbrance">{{#if system.encumbrance}}✓{{/if}}</span>중하</label>
           <label class="mg-checkrow"><span class="mg-check {{#if system.scar}}is-on{{/if}}" data-action="toggle-field" data-field="system.scar">{{#if system.scar}}✓{{/if}}</span>상흔</label>
         </div>

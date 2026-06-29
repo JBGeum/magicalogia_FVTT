@@ -1,6 +1,6 @@
 <div class="mg-table mg-table--relations mg-relations">
   <div class="mg-table__head">
-    <span>□</span><span class="col-name">앵커 이름</span><span>운명점</span><span>속성</span><span>상흔</span>
+    <span>□</span><span class="col-name">앵커 이름</span><span>운명점</span><span>속성</span><span>상흔</span><span>메모</span>
   </div>
   {{#each anchors}}
   <div class="mg-table__row" data-item-id="{{this.id}}">
@@ -13,6 +13,7 @@
     <span class="col-check">
       <span class="mg-check {{#if this.system.scar}}is-on{{/if}}" data-action="toggle-scar" data-item-id="{{this.id}}">{{#if this.system.scar}}✓{{/if}}</span>
     </span>
+    <span class="col-memo {{#unless this.system.memo}}col-empty{{/unless}}">{{#if this.system.memo}}{{this.system.memo}}{{else}}—{{/if}}</span>
   </div>
   {{/each}}
   <div class="mg-table__add" data-action="add-anchor">＋</div>

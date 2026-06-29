@@ -53,4 +53,18 @@ describe("AnchorDataModel", () => {
     expect(s.encumbrance.options.initial).toBe(false);
     expect(s.scar.options.initial).toBe(false);
   });
+  it("scarAttr는 상흔 영역 — StringField 기본 빈 문자열", async () => {
+    const { AnchorDataModel } = await import("../module/data/items/anchor.mjs");
+    const s = AnchorDataModel.defineSchema();
+    expect(Object.keys(s)).toContain("scarAttr");
+    expect(s.scarAttr).toBeInstanceOf(foundry.data.fields.StringField);
+    expect(s.scarAttr.options.initial).toBe("");
+  });
+  it("memo는 StringField 기본 빈 문자열", async () => {
+    const { AnchorDataModel } = await import("../module/data/items/anchor.mjs");
+    const s = AnchorDataModel.defineSchema();
+    expect(Object.keys(s)).toContain("memo");
+    expect(s.memo).toBeInstanceOf(foundry.data.fields.StringField);
+    expect(s.memo.options.initial).toBe("");
+  });
 });

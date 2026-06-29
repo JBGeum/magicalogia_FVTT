@@ -62,6 +62,7 @@ export class MagicalogiaItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
       context.isVariable = itemData.system.skill === "가변";
     } else if (this.item.type === "anchor") {
       context.fateAttr = CONFIG.MAGICALOGIA.fateAttr;
+      context.attributes = CONFIG.MAGICALOGIA.attributes;
     }
     return context;
   }

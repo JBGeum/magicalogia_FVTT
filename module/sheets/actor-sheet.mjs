@@ -84,9 +84,14 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
 
     context.attributes = CONFIG.MAGICALOGIA.attributes;
     context.chartRows = CONFIG.MAGICALOGIA.rows;
+    const anchorItems = this.actor.itemTypes.anchor;
+    const scarAttrs = anchorItems
+      .filter((it) => it.system.scar && it.system.scarAttr)
+      .map((it) => it.system.scarAttr);
     context.chart = computeTable({
       owned: sys.skills,
       misfortune: sys.misfortune,
+      scarAttrs,
       domain: sys.domain || null,
       wrap: sys.horizontalWrap,
     });
@@ -123,7 +128,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
     });
 
     // 관계 — anchor 아이템.
-    context.anchors = this.actor.itemTypes.anchor.map((it) => ({
+    context.anchors = anchorItems.map((it) => ({
       id: it.id,
       name: it.name,
       system: it.system,

@@ -13,8 +13,8 @@ import { MAGICALOGIA } from "../helpers/config.mjs";
  * 모든 속성 열은 동등(어둠도 이름만 어둠인 일반 속성). 상흔(scar)은 특기 사용·거리와 무관한
  * 별도 룰이라 여기서 다루지 않는다. TN이 있는 셀은 모두 판정 대상이다.
  *
- * @param {{owned:Object, misfortune?:Object, domain:?string, wrap:boolean}} state
- * @returns {Array} 열별 { key,num,title,domainActive, cells:[{name,index,value,tn,owned,misfortune}] }
+ * @param {{owned:Object, misfortune?:Object, scarAttrs?:Array, domain:?string, wrap:boolean}} state
+ * @returns {Array} 열별 { key,num,title,domainActive,scarActive, cells:[{name,index,value,tn,owned,misfortune}] }
  */
 export function computeTable(state) {
   const attrs = MAGICALOGIA.attributes;
@@ -28,6 +28,7 @@ export function computeTable(state) {
   const isOwned = (key, i) => Boolean(owned[key]?.[i]);
   const misfortune = state.misfortune ?? {};
   const isMisfortune = (key, i) => Boolean(misfortune[key]?.[i]);
+  const scarSet = new Set(state.scarAttrs ?? []);
 
   // 보유 특기 좌표 목록 (anchor) — 어둠/상흔 포함.
   const anchors = [];
@@ -81,6 +82,7 @@ export function computeTable(state) {
       num: a.num,
       title: a.title,
       domainActive: domainIdx === c,
+      scarActive: scarSet.has(a.key),
       cells,
     };
   });

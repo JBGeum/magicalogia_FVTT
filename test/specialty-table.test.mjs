@@ -159,3 +159,27 @@ describe("computeTable misfortune", () => {
     expect(table.every((col) => col.cells.every((c) => c.misfortune === false))).toBe(true);
   });
 });
+
+describe("computeTable scarActive", () => {
+  it("scarAttrs에 포함된 열만 scarActive=true", () => {
+    const t = computeTable({ owned: {}, scarAttrs: ["beast", "dark"], domain: null, wrap: false });
+    const map = Object.fromEntries(t.map((c) => [c.key, c.scarActive]));
+    expect(map.beast).toBe(true);
+    expect(map.dark).toBe(true);
+    expect(map.star).toBe(false);
+  });
+
+  it("scarAttrs가 없으면 모든 열 scarActive=false", () => {
+    const t = computeTable({ owned: {}, domain: null, wrap: false });
+    expect(t.every((c) => c.scarActive === false)).toBe(true);
+  });
+
+  it("scarAttrs는 tn 계산에 영향을 주지 않는다", () => {
+    const owned = { star: [true, ...Array(10).fill(false)] };
+    const withS = computeTable({ owned, scarAttrs: ["star"], domain: null, wrap: false });
+    const withoutS = computeTable({ owned, domain: null, wrap: false });
+    const starWith = withS.find((c) => c.key === "star").cells.map((c) => c.tn);
+    const starWithout = withoutS.find((c) => c.key === "star").cells.map((c) => c.tn);
+    expect(starWith).toEqual(starWithout);
+  });
+});

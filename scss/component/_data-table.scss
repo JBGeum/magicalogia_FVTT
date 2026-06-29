@@ -42,6 +42,7 @@
     &__row > .col-check {
       border-left: 0;
       display: flex;
+      align-items: center;
       justify-content: center;
     }
     // 타입 등 흐린 보조 컬럼
@@ -54,6 +55,12 @@
       padding-left: 8px;
       color: var(--mg-field-ink);
       font-size: 15px;
+    }
+    &__row .col-memo {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--mg-soft);
     }
     &__row .col-empty {
       color: var(--mg-faint);
@@ -103,10 +110,10 @@
     grid-template-columns: 24px 1.55fr 0.95fr 0.85fr 0.6fr 0.95fr 30px;
   }
 
-  // 컬럼 템플릿 — □ / 앵커 이름 / 운명 / 속성 / 설정 (패널 폭을 가득 채움)
+  // 컬럼 템플릿 — □ / 앵커 이름 / 운명 / 속성 / 상흔 / 메모 (패널 폭을 가득 채움)
   .mg-table--relations .mg-table__head,
   .mg-table--relations .mg-table__row {
-    grid-template-columns: 24px 1.3fr 0.6fr 0.85fr 1.9fr;
+    grid-template-columns: 24px 1.3fr 0.55fr 0.75fr 0.5fr 1.4fr;
   }
   // 설정 — 좌측정렬 넓은 컬럼(줄바꿈 허용)
   .mg-table--relations .col-setting {
