@@ -7,6 +7,7 @@ import { postTableCard } from "../system/table-card.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 import { formatCost, isCharged, chargeCostOf } from "../helpers/config.mjs";
 import { adjustStatValue } from "../system/stat-adjust.mjs";
+import { postStatCard } from "../system/stat-card.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -250,12 +251,27 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
   static async #onAdjustStat(_event, target) {
     const field = target.dataset.field;
     const delta = Number(target.dataset.delta);
-    const next = adjustStatValue(foundry.utils.getProperty(this.actor, field), delta);
+    const before = foundry.utils.getProperty(this.actor, field);
+    const next = adjustStatValue(before, delta);
     // 시트 전체 리렌더는 hover 오버레이를 깜빡이게 한다. 해당 input만 DOM에서 직접 갱신하고
     // 저장은 render:false로 처리한다(다른 표시에 영향 없는 독립 수치).
     const input = target.closest(".mg-stat, .mg-gauge")?.querySelector(`input[name="${field}"]`);
     if (input) input.value = next;
     await this.actor.update({ [field]: next }, { render: false });
+    this.#queueStatCard(field, before);
+  }
+
+  /** 마력/임시마력 증감을 0.8초 디바운스로 모아 카드 1장 발행(연타 합산). */
+  #queueStatCard(field, before) {
+    if (field !== "system.mp.value" && field !== "system.tempMp") return;
+    this._statCardPending ??= {};
+    const pending = (this._statCardPending[field] ??= { before });
+    clearTimeout(pending.timer);
+    pending.timer = setTimeout(() => {
+      const after = foundry.utils.getProperty(this.actor, field);
+      delete this._statCardPending[field];
+      if (after !== pending.before) postStatCard(this.actor, field, pending.before, after);
+    }, 800);
   }
 
   /** 상태이상 칩 클릭 → 해당 status boolean 토글. */
@@ -389,6 +405,8 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
 
   _onClose(options) {
     this._skillEdit = false;
+    for (const k in this._statCardPending) clearTimeout(this._statCardPending[k].timer);
+    this._statCardPending = {};
     return super._onClose?.(options);
   }
 

@@ -581,6 +581,14 @@
     }
   }
 
+  .mg-cc__stat-label {
+    flex: none;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--mg-gold);
+    white-space: nowrap;
+  }
+
   .mg-cc__charge {
     flex: none;
     display: inline-flex;

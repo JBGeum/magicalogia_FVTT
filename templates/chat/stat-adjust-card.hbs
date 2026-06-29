@@ -1,0 +1,23 @@
+{{!--
+  마력/일시적 마력 증감 챗 카드 (컴팩트 · 라이트 고정).
+  PC명 │ 라벨 before→after [/ max] · 증감 칩. 데이터: buildStatCard()
+  줄바꿈은 PC명 │ 증감 경계에서만 — __head / __detail 그룹.
+--}}
+<div class="magicalogia theme-light">
+  <div class="mg-cc">
+    <span class="mg-cc__head">
+      <span class="mg-cc__sigil">◈</span>
+      <span class="mg-cc__who">{{who}}</span>
+    </span>
+    <span class="mg-cc__detail">
+      <span class="mg-cc__stat-label">{{label}}</span>
+      <span class="mg-cc__charge">
+        <span class="mg-cc__n">{{before}}</span>
+        <span class="mg-cc__arrow">→</span>
+        <span class="mg-cc__n mg-cc__n--after">{{after}}</span>
+        {{#if hasMax}}<span class="mg-cc__max">/ {{max}}</span>{{/if}}
+      </span>
+      <span class="mg-cc__delta mg-cc__delta--{{#if up}}up{{else}}down{{/if}}">{{deltaText}}</span>
+    </span>
+  </div>
+</div>
