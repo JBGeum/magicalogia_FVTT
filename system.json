@@ -20,20 +20,6 @@
       "path": "packs/tables",
       "type": "RollTable",
       "system": "magicalogia"
-    },
-    {
-      "name": "archetypes",
-      "label": "원형",
-      "path": "packs/archetypes",
-      "type": "Actor",
-      "system": "magicalogia"
-    },
-    {
-      "name": "library",
-      "label": "장서",
-      "path": "packs/library",
-      "type": "Item",
-      "system": "magicalogia"
     }
   ],
   "documentTypes": {

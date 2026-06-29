@@ -13,11 +13,7 @@ import path from "node:path";
  */
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-const PACKS: { name: string; collection: string }[] = [
-  { name: "tables", collection: "tables" },
-  { name: "archetypes", collection: "actors" },
-  { name: "library", collection: "items" },
-];
+const PACKS: { name: string; collection: string }[] = [{ name: "tables", collection: "tables" }];
 
 for (const { name, collection } of PACKS) {
   const srcFile = path.join(ROOT, "packs", "_source", `${name}.json`);
