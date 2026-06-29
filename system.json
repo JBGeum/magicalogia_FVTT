@@ -59,9 +59,9 @@
     "units": "m"
   },
   "primaryTokenAttribute": "health",
-  "url": "",
-  "manifest": "",
-  "download": "",
+  "url": "https://github.com/JBGeum/magicalogia_FVTT",
+  "manifest": "https://github.com/JBGeum/magicalogia_FVTT/releases/latest/download/system.json",
+  "download": "https://github.com/JBGeum/magicalogia_FVTT/releases/latest/download/magicalogia.zip",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }
