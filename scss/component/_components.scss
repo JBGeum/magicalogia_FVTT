@@ -159,6 +159,55 @@
     text-align: center;
     white-space: nowrap;
     padding: 0 6px;
+    position: relative;
+  }
+
+  // 헤더 hover 오버레이 — 평소 숨김, 타일 hover 시 골드 배경으로 라벨을 덮고 −/+ 노출.
+  .mg-adjust {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    background: var(--mg-head-bg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+  }
+
+  // 마력: 헤더 왼쪽 절반(현재치 위쪽)만 덮는다.
+  .mg-adjust--half {
+    right: 50%;
+  }
+
+  .mg-adjust__btn {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: var(--mg-head-ink);
+    font-family: $mg-font-body;
+    font-size: $mg-tile-head-fz;
+    font-weight: $mg-tile-head-fw;
+    line-height: 1;
+    cursor: pointer;
+
+    // 클릭 시 받는 focus의 기본 outline/box-shadow 제거 — tabindex=-1이라 키보드론
+    // 도달하지 않는 마우스 전용 버튼이므로 focus 표시가 불필요(클릭 순간 border 깜빡임 방지).
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.14);
+    }
+  }
+
+  // 타일 hover 시 오버레이 노출(라벨 완전 교체).
+  .mg-stat:hover .mg-adjust,
+  .mg-gauge:hover .mg-adjust {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   // 값 본문 — 3종 통일 높이

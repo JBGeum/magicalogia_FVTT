@@ -6,6 +6,7 @@ import { postChargeCard } from "../system/spell-charge.mjs";
 import { postTableCard } from "../system/table-card.mjs";
 import { applyTheme } from "../helpers/theme.mjs";
 import { formatCost, isCharged, chargeCostOf } from "../helpers/config.mjs";
+import { adjustStatValue } from "../system/stat-adjust.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -41,6 +42,7 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       "toggle-scar": MagicalogiaActorSheet.#onToggleScar,
       "toggle-accordion": MagicalogiaActorSheet.#onToggleAccordion,
       "cast-spell": MagicalogiaActorSheet.#onCastSpell,
+      "adjust-stat": MagicalogiaActorSheet.#onAdjustStat,
     },
   };
 
@@ -221,6 +223,18 @@ export class MagicalogiaActorSheet extends HandlebarsApplicationMixin(ActorSheet
       callback: (path) => this.actor.update({ img: path }),
     });
     return fp.browse();
+  }
+
+  /** 헤더 hover 오버레이의 −/+ 클릭 → 해당 수치를 ±1(하한 0)로 갱신. */
+  static async #onAdjustStat(_event, target) {
+    const field = target.dataset.field;
+    const delta = Number(target.dataset.delta);
+    const next = adjustStatValue(foundry.utils.getProperty(this.actor, field), delta);
+    // 시트 전체 리렌더는 hover 오버레이를 깜빡이게 한다. 해당 input만 DOM에서 직접 갱신하고
+    // 저장은 render:false로 처리한다(다른 표시에 영향 없는 독립 수치).
+    const input = target.closest(".mg-stat, .mg-gauge")?.querySelector(`input[name="${field}"]`);
+    if (input) input.value = next;
+    await this.actor.update({ [field]: next }, { render: false });
   }
 
   /** 상태이상 칩 클릭 → 해당 status boolean 토글. */

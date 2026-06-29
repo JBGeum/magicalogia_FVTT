@@ -88,17 +88,17 @@
 
           <div class="mg-statrail">
             <div class="mg-stat-row">
-              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-khanda"></i></span>공격력</span><input
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-khanda"></i></span>공격력<span class="mg-adjust" aria-hidden="true"><button type="button" class="mg-adjust__btn mg-adjust__btn--minus" tabindex="-1" data-action="adjust-stat" data-field="system.abilities.attack" data-delta="-1">–</button><button type="button" class="mg-adjust__btn mg-adjust__btn--plus" tabindex="-1" data-action="adjust-stat" data-field="system.abilities.attack" data-delta="1">+</button></span></span><input
                   class="mg-stat__value"
                   name="system.abilities.attack"
                   value="{{system.abilities.attack}}"
                 /></label>
-              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-shield-halved"></i></span>방어력</span><input
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-shield-halved"></i></span>방어력<span class="mg-adjust" aria-hidden="true"><button type="button" class="mg-adjust__btn mg-adjust__btn--minus" tabindex="-1" data-action="adjust-stat" data-field="system.abilities.defense" data-delta="-1">–</button><button type="button" class="mg-adjust__btn mg-adjust__btn--plus" tabindex="-1" data-action="adjust-stat" data-field="system.abilities.defense" data-delta="1">+</button></span></span><input
                   class="mg-stat__value"
                   name="system.abilities.defense"
                   value="{{system.abilities.defense}}"
                 /></label>
-              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-hourglass-half"></i></span>근원력</span><input
+              <label class="mg-stat mg-stat--key"><span class="mg-stat__label"><span class="mg-lbl-ico"><i class="fa-solid fa-hourglass-half"></i></span>근원력<span class="mg-adjust" aria-hidden="true"><button type="button" class="mg-adjust__btn mg-adjust__btn--minus" tabindex="-1" data-action="adjust-stat" data-field="system.abilities.source" data-delta="-1">–</button><button type="button" class="mg-adjust__btn mg-adjust__btn--plus" tabindex="-1" data-action="adjust-stat" data-field="system.abilities.source" data-delta="1">+</button></span></span><input
                   class="mg-stat__value"
                   name="system.abilities.source"
                   value="{{system.abilities.source}}"
@@ -106,7 +106,7 @@
             </div>
             <div class="mg-gauge-row">
               <div class="mg-gauge">
-                <div class="mg-gauge__head"><span class="mg-gauge__icon">◈</span>마력</div>
+                <div class="mg-gauge__head"><span class="mg-gauge__icon">◈</span>마력<span class="mg-adjust mg-adjust--half" aria-hidden="true"><button type="button" class="mg-adjust__btn mg-adjust__btn--minus" tabindex="-1" data-action="adjust-stat" data-field="system.mp.value" data-delta="-1">–</button><button type="button" class="mg-adjust__btn mg-adjust__btn--plus" tabindex="-1" data-action="adjust-stat" data-field="system.mp.value" data-delta="1">+</button></span></div>
                 <div class="mg-gauge__body">
                   <input class="mg-gauge__value" name="system.mp.value" value="{{system.mp.value}}" />
                   <span class="mg-gauge__sep">/</span>
@@ -114,7 +114,7 @@
                 </div>
               </div>
               <div class="mg-gauge">
-                <div class="mg-gauge__head">일시적 마력</div>
+                <div class="mg-gauge__head">일시적 마력<span class="mg-adjust" aria-hidden="true"><button type="button" class="mg-adjust__btn mg-adjust__btn--minus" tabindex="-1" data-action="adjust-stat" data-field="system.tempMp" data-delta="-1">–</button><button type="button" class="mg-adjust__btn mg-adjust__btn--plus" tabindex="-1" data-action="adjust-stat" data-field="system.tempMp" data-delta="1">+</button></span></div>
                 <div class="mg-gauge__body">
                   <input class="mg-gauge__value" name="system.tempMp" value="{{system.tempMp}}" />
                 </div>
