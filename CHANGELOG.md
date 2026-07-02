@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.1.2 - 2026-07-02
+
+사소한 용어·설정 정리.
+
+### 변경사항
+
+- beast 특기명 "육체" → "살"로 정정
+- anchor 시트 부담 체크 라벨 "중하" → "부담"으로 정정
+- 스펙/플랜 문서 gitignore 범위를 `docs/` 전체로 확대
+
+### Changes
+
+- Fix beast specialty label "육체" → "살"
+- Fix anchor sheet encumbrance checkbox label "중하" → "부담"
+- Broaden gitignore to cover the entire `docs/` directory
+
 ## 1.1.1 - 2026-06-29
 
 컴펜디움 정리.
